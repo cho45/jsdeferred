@@ -13,7 +13,7 @@
 
 		<style type="text/css">
 			body {
-				padding: 0 10%;
+				padding: 0 10% 10em;
 				margin: 0;
 				color: #333;
 				line-height: 1.5;
@@ -29,12 +29,30 @@
 				padding: 1em;
 				line-height: 1.33;
 			}
+
+			#footer {
+				margin: 2em 0;
+				text-align: right;
+				font-size: 80%;
+			}
 		</style>
 	</head>
 	<body>
 		<div id="whole">
 			<h1 id="top">jQuery Deferred Sample</h1>
 			<p>click to execute the code.</p>
+
+			<pre>
+// export functions to global;
+$.deferred.define();
+
+// export to aObj
+// $.deferred.define(aObj);
+
+// export specic functions
+// var global = (function () { return this })();
+// $.deferred.define(global, ["next"]);
+</pre>
 
 			<div id="content">
 				<div class="section">
