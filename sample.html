@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>jQuery Deferred Sample</title>
+		
+		<script type="text/javascript" src="http://coderepos.org/share/htdocs/lib/jquery-1.2.1.min.js"></script>
+		<script type="text/javascript" src="jquery-deferred.js"></script>
+		<script type="text/javascript">
+			// <![CDATA[
+			$.deferred.define();
+			// ]]>
+		</script>
+
+		<style type="text/css">
+			body {
+				padding: 0 10%;
+				margin: 0;
+				color: #333;
+				line-height: 1.5;
+			}
+
+			h2 {
+				margin: 3em 0 1.5em 0;
+			}
+
+			pre {
+				background: #efefef;
+				border: 1px solid #ddd;
+				padding: 1em;
+				line-height: 1.33;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="whole">
+			<h1 id="top">jQuery Deferred Sample</h1>
+			<p>click to execute the code.</p>
+
+			<div id="content">
+				<div class="section">
+					<h2>Basic Chain</h2>
+					<pre id="basic-code" onclick="eval($(this).text());">
+next(function () {
+	print("start");
+}).
+next(function () {
+	function pow (x, n) {
+		function _pow (n, r) {
+			print([n, r]);
+			if (n == 0) return r;
+			return call(_pow, n - 1, x * r);
+		}
+		return call(_pow, n, 1);
+	}
+	return call(pow, 2, 10);
+}).
+next(function (r) {
+	print([r, "end"]);
+}).
+error(function (e) {
+	alert(e);
+})
+
+function print (m) { $("#basic-code").append("\n// "+m) }
+</pre>
+				</div>
+
+				<div clsss="section">
+					<h2>Deferred Ajax</h2>
+					<pre id="ajax-code" onclick="eval($(this).text());">
+$.get("sample.html").next(function (data) {
+	$("#ajax-code").append("\n// "+data.length);
+});
+</pre>
+				</div>
+
+				<div class="section">
+					<h2>Parallel Deferred</h2>
+					<p>DeferredList</p>
+					<pre id="parallel-code" onclick="eval($(this).text());">
+$("#parallel-code").append("\n// start. wait 3 sec.");
+parallel([wait(1), wait(2), wait(3)]).next(function (values) {
+	$("#parallel-code").append("\n// " + values.join(", "));
+});
+</pre>
+				</div>
+
+				<div clsss="section">
+					<h2>Divided Loop</h2>
+					<pre id="loop-code" onclick="eval($(this).text());">
+next(function () {
+	var hoge = 0;
+	return loop({end:1000, step:100}, function (n, step) {
+		print("Processing devided loop:" + n);
+		for (var i = 0; i < step; i++) {
+			hoge += n+i;
+		}
+		return hoge;
+	});
+}).
+next(function (e) {
+	print(e);
+	print("end");
+}).
+error(function (e) {
+	print(e);
+});
+
+
+function print (m) { $("#loop-code").append("\n// "+m) }
+</pre>
+				</div>
+			</div>
+
+			<div id="footer">
+				<address>2007 <a href="mailto:cho45@lowreal.net">cho45@lowreal.net</a></address>
+			</div>
+		</div>
+	</body>
+</html>
