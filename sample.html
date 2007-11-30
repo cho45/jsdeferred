@@ -127,17 +127,17 @@ parallel([wait(1), wait(2), wait(3)]).next(function (values) {
 					<h2>Divided Loop</h2>
 					<pre id="loop-code" onclick="eval($(this).text());">
 next(function () {
-	var hoge = 0;
-	return loop({end:1000, step:100}, function (n, o) {
-		print("Processing devided loop:" + n);
+	var sum = 0;
+	return loop({end:100000, step:1000}, function (n, o) {
+		print(["Processing devided loop:n=", n, ", sum=", sum].join(""));
 		for (var i = 0; i < o.step; i++) {
-			hoge += n+i;
+			sum += i + n;
 		}
-		return hoge;
+		return sum;
 	});
 }).
 next(function (e) {
-	print(e);
+	print("Result:"+e);
 	print("end");
 }).
 error(function (e) {

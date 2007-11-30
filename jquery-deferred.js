@@ -144,13 +144,13 @@ function call (f, args) {
 function loop (n, fun) {
 	var o = {};
 	o.begin = n.begin || 0;
-	o.end   = n.end   || n;
+	o.end   = n.end   || (n - 1);
 	o.step  = n.step  || 1;
 	o.last  = false;
 	var ret;
 	return next(function () {
 		function _loop (i) {
-			if (i < o.end) {
+			if (i <= o.end) {
 				if ((i + o.step) >= o.end) o.last = true;
 				ret = fun.call(this, i, o);
 				if (ret instanceof Deferred) {
