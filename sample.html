@@ -84,6 +84,15 @@ function print (m) { $("#basic-code").append("\n// "+m) }
 				</div>
 
 				<div clsss="section">
+					<h2>Basic Loop</h2>
+					<p>This loop is slow but not blocking browsing.</p>
+					<pre id="basic-loop-code" onclick="eval($(this).text());">
+loop(10, function (i) { print(i) });
+function print (m) { $("#basic-loop-code").append("\n// "+m) }
+</pre>
+				</div>
+
+				<div clsss="section">
 					<h2>Deferred Ajax</h2>
 					<pre id="ajax-code" onclick="eval($(this).text());">
 $.get("sample.html").next(function (data) {

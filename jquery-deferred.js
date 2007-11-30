@@ -139,10 +139,12 @@ function call (f, args) {
 	});
 }
 
+// loop({end:100,step:10}, fun);
+// loop(10, fun);
 function loop (o, fun) {
 	var begin = o.begin || 0;
-	var end   = o.end;
-	var step  = o.step || 1;
+	var end   = o.end   || o;
+	var step  = o.step  || 1;
 	var ret;
 	return next(function () {
 		function _loop (i) {
