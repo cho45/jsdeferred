@@ -110,6 +110,32 @@ error(function (e) {
 function print (m) { $("#loop-code").append("\n// "+m) }
 </pre>
 				</div>
+
+				<div clsss="section">
+					<h2>Delay Loop</h2>
+					<pre id="delay-loop-code" onclick="eval($(this).text());">
+next(function (i) {
+	function delayloop (i) {
+		print(i++);
+		if (i < 5) {
+			return wait(1).next(function () {
+				return call(delayloop, i);
+			});
+		}
+	}
+	return call(delayloop, 0);
+}).
+next(function (e) {
+	print("end");
+}).
+error(function (e) {
+	print(e);
+});
+
+
+function print (m) { $("#delay-loop-code").append("\n// "+m) }
+</pre>
+				</div>
 			</div>
 
 			<div id="footer">
