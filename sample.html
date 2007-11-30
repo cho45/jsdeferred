@@ -40,9 +40,17 @@
 	<body>
 		<div id="whole">
 			<h1 id="top">jQuery Deferred Sample</h1>
+			<p>About Deferred: <a href="http://mochikit.com/doc/html/MochiKit/Async.html">MochiKit.Async</a></p>
+			<p>Deferred is able to write async code cleanly.</p>
+
+			<hr />
+
 			<p>click to execute the code.</p>
 
-			<pre>
+			<div id="content">
+				<div class="section">
+					<h2>Export deferred functions.</h2>
+					<pre>
 // export functions to global;
 $.deferred.define();
 
@@ -52,9 +60,12 @@ $.deferred.define();
 // export specic functions
 // var global = (function () { return this })();
 // $.deferred.define(global, ["next"]);
-</pre>
 
-			<div id="content">
+// full name
+$.deferred.next(fun);
+</pre>
+				</div>
+
 				<div class="section">
 					<h2>Basic Chain</h2>
 					<pre id="basic-code" onclick="eval($(this).text());">
