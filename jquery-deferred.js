@@ -141,21 +141,30 @@ function call (f, args) {
 
 // loop({end:100,step:10}, fun);
 // loop(10, fun);
-function loop (o, fun) {
-	var begin = o.begin || 0;
-	var end   = o.end   || o;
-	var step  = o.step  || 1;
+function loop (n, fun) {
+	var o = {};
+	o.begin = n.begin || 0;
+	o.end   = n.end   || n;
+	o.step  = n.step  || 1;
+	o.last  = false;
 	var ret;
 	return next(function () {
 		function _loop (i) {
-			if (i < end) {
-				ret = fun.call(this, i, step);
-				return call(_loop, i + step);
+			if (i < o.end) {
+				if ((i + o.step) >= o.end) o.last = true;
+				ret = fun.call(this, i, o);
+				if (ret instanceof Deferred) {
+					return ret.next(function () {
+						return call(_loop, i + o.step);
+					});
+				} else {
+					return call(_loop, i + o.step);
+				}
 			} else {
 				return ret;
 			}
 		}
-		return call(_loop, begin);
+		return call(_loop, o.begin);
 	});
 }
 

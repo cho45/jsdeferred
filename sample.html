@@ -128,9 +128,9 @@ parallel([wait(1), wait(2), wait(3)]).next(function (values) {
 					<pre id="loop-code" onclick="eval($(this).text());">
 next(function () {
 	var hoge = 0;
-	return loop({end:1000, step:100}, function (n, step) {
+	return loop({end:1000, step:100}, function (n, o) {
 		print("Processing devided loop:" + n);
-		for (var i = 0; i < step; i++) {
+		for (var i = 0; i < o.step; i++) {
 			hoge += n+i;
 		}
 		return hoge;
@@ -172,6 +172,23 @@ error(function (e) {
 
 
 function print (m) { $("#delay-loop-code").append("\n// "+m) }
+</pre>
+					<pre id="delay-loop-code1" onclick="eval($(this).text());">
+next(function (i) {
+	return loop(5, function (i, o) {
+		print(i);
+		return o.last? i : wait(1);
+	});
+}).
+next(function (e) {
+	print("end ["+e+"]");
+}).
+error(function (e) {
+	print(e);
+});
+
+
+function print (m) { $("#delay-loop-code1").append("\n// "+m) }
 </pre>
 				</div>
 			</div>
