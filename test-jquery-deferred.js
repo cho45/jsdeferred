@@ -32,7 +32,7 @@ function ok () {
 }
 
 function ng () {
-	show.apply("ok", arguments);
+	show.apply("ng", arguments);
 }
 
 function expect (msg, expect, result) {
@@ -47,9 +47,21 @@ function expect (msg, expect, result) {
 
 $.deferred.define();
 
-ok("Loaded "+testfuns.length+" tests;");
+msg("Loaded "+testfuns.length+" tests;");
 
 msg("Basic Tests::");
+
+expect("new $.deferred()", true, (new $.deferred()) instanceof $.deferred);
+
+var testobj = {};
+$.deferred.define(testobj);
+expect("define() next", $.deferred.next, testobj.next);
+expect("define() loop", $.deferred.loop, testobj.loop);
+
+var testobj = {};
+$.deferred.define(testobj, ["next"]);
+expect("define() next", $.deferred.next, testobj.next);
+expect("define() loop (must not be exported)", undefined, testobj.loop);
 
 var r = [];
 var d = new $.deferred();
@@ -71,7 +83,7 @@ next(function () {
 		throw "Error2";
 	}).
 	next(function (e) {
-		ng("Must not called!!");
+		ng("Must not be called!!");
 	}).
 	error(function (e) {
 		expect("Errorback called", "Error2", e);
@@ -98,7 +110,6 @@ next(function () {
 }).
 error(function (e) {
 	ng("Error on Test Callback, Errorback chain", "", e);
-
 }).
 next(function () {
 	msg("Utility Functions Tests::");
@@ -213,7 +224,23 @@ next(function () {
 	}).
 	next(function () {
 	});
+}).
+next(function () {
+	msg("Done Main.");
+	msg("Canceling Test:");
+	return next(function () {
+		return next(function () {
+			msg("Calceling... No more tests below...");
+			this.cancel();
+		}).
+		next(function () {
+			ng("Must not be called!! calceled");
+		});
+	});
+}).next(function () {
+	ng("Must not be called!! calceled");
 });
+
 
 
 // ::Test::End::
