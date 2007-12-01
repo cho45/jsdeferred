@@ -1,7 +1,7 @@
 
-$(function () {
-$.get("test-jquery-deferred.js", {}, function (data) {
+$(function () { $.get("test-jquery-deferred.js", {}, function (data) {
 
+// get tests number.
 data = data.match(/::Test::Start::((?:\s|[^\s])+)::Test::End::/)[1];
 var testfuns = []; data.replace(/(ok|expect)\(.+/g, function (m) {
 	if (window.console) console.log(m);
@@ -17,6 +17,7 @@ function show (msg, expect, result) {
 	testfuns.pop();
 	$("#nums").text([expects - testfuns.length, expects].join("/"));
 	$("<tr class='"+okng+"'><td>"+[msg, expect, result].join("</td><td>")+"</td></tr>").appendTo(results);
+	window.scrollTo(0, document.body.scrollHeight);
 }
 
 function msg (m) {
@@ -237,7 +238,8 @@ next(function () {
 			ng("Must not be called!! calceled");
 		});
 	});
-}).next(function () {
+}).
+next(function () {
 	ng("Must not be called!! calceled");
 });
 
@@ -245,5 +247,4 @@ next(function () {
 
 // ::Test::End::
 
-});
-});
+}) });
