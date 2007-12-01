@@ -19,6 +19,16 @@ function show (msg, expect, result) {
 	expect = (typeof expect == "function") ? uneval(expect).match(/[^{]+/)+"..." : uneval(expect);
 	result = (typeof result == "function") ? uneval(result).match(/[^{]+/)+"..." : uneval(result);
 	$("<tr class='"+okng+"'><td>"+[msg, expect, result].join("</td><td>")+"</td></tr>").appendTo(results);
+	if (testfuns.length) {
+		$("#nums").css("color", "#900");
+	} else {
+		$("#nums").css("color", "inherit");
+	}
+	if (okng == "ng" || arguments.callee.ng) {
+		arguments.callee.ng = true;
+		$("#nums").css("background", "#900");
+		$("#nums").css("color", "#fff");
+	}
 	window.scrollTo(0, document.body.scrollHeight);
 }
 
@@ -129,6 +139,15 @@ next(function () {
 		ng("Error on wait Tests", "", e);
 	}).
 	next(function () {
+		return call(function (test) {
+			expect("call test1", 10, test);
+			return call(function (t, u) {
+				expect("call test2", 10, t);
+				expect("call test2", 20, u);
+			}, 10, 20);
+		}, 10);
+	}).
+	next(function () {
 		var t = 0;
 		return loop(5, function (i) {
 			expect("loop num", t++, i);
@@ -214,6 +233,36 @@ next(function () {
 		}).next(function (r) {
 			expect("loop end:10, step:9", [0,1,2,3,4,5,6,7,8,9,10].join(), r.join());
 			expect("loop end:10, step:9 last?", [false,true].join(), l.join());
+		});
+	}).
+	next(function () {
+		var r = [];
+		var l = [];
+		return loop({end: 10, step:10}, function (n, o) {
+			print(uneval(o));
+			l.push(o.last);
+			for (var i = 0; i < o.step; i++) {
+				r.push(n+i);
+			}
+			return r;
+		}).next(function (r) {
+			expect("loop end:10, step:10", [0,1,2,3,4,5,6,7,8,9,10].join(), r.join());
+			expect("loop end:10, step:10 last?", [false,true].join(), l.join());
+		});
+	}).
+	next(function () {
+		var r = [];
+		var l = [];
+		return loop({end: 10, step:11}, function (n, o) {
+			print(uneval(o));
+			l.push(o.last);
+			for (var i = 0; i < o.step; i++) {
+				r.push(n+i);
+			}
+			return r;
+		}).next(function (r) {
+			expect("loop end:10, step:11", [0,1,2,3,4,5,6,7,8,9,10].join(), r.join());
+			expect("loop end:10, step:11 last?", [true].join(), l.join());
 		});
 	}).
 	next(function () {
