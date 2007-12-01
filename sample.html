@@ -117,29 +117,42 @@ $.get("sample.html").next(function (data) {
 					<h2>Parallel Deferred</h2>
 					<p>DeferredList</p>
 					<pre id="parallel-code" onclick="eval($(this).text());">
-$("#parallel-code").append("\n// start. gathering data.");
+print("start. gathering data.");
 
 parallel([$.get("sample.html"), $.get("jquery-deferred.js")]).
 next(function (values) {
 	var lengths = $.map(values, function (i) { return i.length });
-	$("#parallel-code").append("\n// " + lengths.join(", "));
+	print(lengths.join(", "));
 });
+
+function print (m) { $("#parallel-code").append("\n// "+m) }
 </pre>
 					<pre id="parallel-code2" onclick="eval($(this).text());">
-$("#parallel-code2").append("\n// start. gathering data.");
+print("start. gathering data.");
 
 // named parallel deferred
 parallel({html: $.get("sample.html"), js: $.get("jquery-deferred.js")}).
 next(function (values) {
-	$("#parallel-code2").append("\n// " + ["html=", values.html.length, " js=", values.js.length].join(""));
+	print(["html=", values.html.length, " js=", values.js.length].join(""));
 });
+
+function print (m) { $("#parallel-code2").append("\n// "+m) }
 </pre>
 					<pre id="parallel-code1" onclick="eval($(this).text());">
-$("#parallel-code1").append("\n// start. wait 3 sec.");
+print("start. wait 3 sec.");
 
-parallel([wait(1), wait(2), wait(3)]).next(function (values) {
-	$("#parallel-code1").append("\n// " + values.join(", "));
+var list = [];
+var printAndReturn = function (i) { print(i+"msec elapsed"); return i; };
+list.push(wait(0).next(printAndReturn));
+list.push(wait(1).next(printAndReturn));
+list.push(wait(2).next(printAndReturn));
+list.push(wait(3).next(printAndReturn));
+
+parallel(list).next(function (values) {
+	print("Completed. values: "+values.join(", "));
 });
+
+function print (m) { $("#parallel-code1").append("\n// "+m) }
 </pre>
 				</div>
 
