@@ -16,7 +16,9 @@ function show (msg, expect, result) {
 	var okng = this;
 	testfuns.pop();
 	$("#nums").text([expects - testfuns.length, expects].join("/"));
-	$("<tr class='"+okng+"'><td>"+[msg, uneval(expect), uneval(result)].join("</td><td>")+"</td></tr>").appendTo(results);
+	expect = (typeof expect == "function") ? uneval(expect).match(/[^{]+/)+"..." : uneval(expect);
+	result = (typeof result == "function") ? uneval(result).match(/[^{]+/)+"..." : uneval(result);
+	$("<tr class='"+okng+"'><td>"+[msg, expect, result].join("</td><td>")+"</td></tr>").appendTo(results);
 	window.scrollTo(0, document.body.scrollHeight);
 }
 
