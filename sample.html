@@ -28,6 +28,7 @@
 				border: 1px solid #ddd;
 				padding: 1em;
 				line-height: 1.33;
+				overflow: auto;
 			}
 
 			#footer {
@@ -116,9 +117,19 @@ $.get("sample.html").next(function (data) {
 					<h2>Parallel Deferred</h2>
 					<p>DeferredList</p>
 					<pre id="parallel-code" onclick="eval($(this).text());">
-$("#parallel-code").append("\n// start. wait 3 sec.");
+$("#parallel-code").append("\n// start. gathering data.");
+
+parallel([$.get("sample.html"), $.get("jquery-deferred.js")]).
+next(function (values) {
+	var lengths = $.map(values, function (i) { return i.length });
+	$("#parallel-code").append("\n// " + lengths.join(", "));
+});
+</pre>
+					<pre id="parallel-code1" onclick="eval($(this).text());">
+$("#parallel-code1").append("\n// start. wait 3 sec.");
+
 parallel([wait(1), wait(2), wait(3)]).next(function (values) {
-	$("#parallel-code").append("\n// " + values.join(", "));
+	$("#parallel-code1").append("\n// " + values.join(", "));
 });
 </pre>
 				</div>
