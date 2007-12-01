@@ -166,6 +166,7 @@ function loop (n, fun) {
 	o.end   = n.end   || (n - 1);
 	o.step  = n.step  || 1;
 	o.last  = false;
+	o.prev  = null;
 	var ret, step = o.step;
 	return next(function () {
 		function _loop (i) {
@@ -174,9 +175,11 @@ function loop (n, fun) {
 					o.last = true;
 					if ((i + step)  > o.end) o.step = o.end - i + 1;
 				}
+				o.prev = ret;
 				ret = fun.call(this, i, o);
 				if (ret instanceof Deferred) {
-					return ret.next(function () {
+					return ret.next(function (r) {
+						ret = r;
 						return call(_loop, i + step);
 					});
 				} else {
