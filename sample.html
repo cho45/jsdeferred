@@ -162,7 +162,7 @@ function print (m) { $("#parallel-code1").append("\n// "+m) }
 next(function () {
 	var sum = 0;
 	return loop({end:100000, step:1000}, function (n, o) {
-		print(["Processing devided loop:n=", n, ", sum=", sum, " last?=", o.last].join(""));
+		print(["Processing divided loop:n=", n, ", sum=", sum, " last?=", o.last].join(""));
 		for (var i = 0; i < o.step; i++) {
 			// print(i + n);
 			sum += i + n;
@@ -184,7 +184,7 @@ function print (m) { $("#loop-code").append("\n// "+m) }
 </pre>
 					<pre id="loop-code1" onclick="eval($(this).text());">
 loop({begin: 1, end:100, step:10}, function (n, o) {
-	print(["Processing devided loop:n=", n, " last?=", o.last].join(""));
+	print(["Processing divided loop:n=", n, " last?=", o.last].join(""));
 	for (var i = 0; i < o.step; i++) {
 		var j = n + i;
 		print(j);
