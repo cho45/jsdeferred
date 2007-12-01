@@ -182,6 +182,17 @@ error(function (e) {
 
 function print (m) { $("#loop-code").append("\n// "+m) }
 </pre>
+					<pre id="loop-code1" onclick="eval($(this).text());">
+loop({end:100, step:10}, function (n, o) {
+	print(["Processing devided loop:n=", n].join(""));
+	for (var i = 0; i < o.step; i++) {
+		var j = n + i;
+		print(j);
+	}
+});
+
+function print (m) { $("#loop-code1").append("\n// "+m) }
+</pre>
 				</div>
 
 				<div clsss="section">
