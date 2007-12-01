@@ -77,6 +77,10 @@ $.deferred.define(testobj, ["next"]);
 expect("define() next", $.deferred.next, testobj.next);
 expect("define() loop (must not be exported)", undefined, testobj.loop);
 
+expect("$.get deferred",     true, $.get(".")     instanceof $.deferred);
+expect("$.post deferred",    true, $.post(".")    instanceof $.deferred);
+expect("$.getJSON deferred", true, $.getJSON(".") instanceof $.deferred);
+
 var r = [];
 var d = new $.deferred();
 d.next(function () { ok("Callback called"); r.push(1) });

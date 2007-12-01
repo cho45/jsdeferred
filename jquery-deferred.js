@@ -23,30 +23,61 @@
  * THE SOFTWARE.
  */
 (function ($) {
-/***
+/* Usage:
+ *
+ *     $.deferred.export();
+ *
+ *     $.get("/hoge").next(function (data) {
+ *         alert(data);
+ *     }).
+ *
+ *     parallel([$.get("foo.html"), $.get("bar.html")]).next(function (values) {
+ *         log($.map(values, function (v) { return v.length }));
+ *         if (values[1].match(/nextUrl:\s*([^\s]+)/)) {
+ *             return $.get(RegExp.$1).next(function (d) {
+ *                 return d;
+ *             });
+ *         }
+ *     }).
+ *     next(function (d) {
+ *         log(d.length)
+ *     });
+ *
+ */
 
-Usage:
 
-$.deferred.export();
-
-$.get("/hoge").next(function (data) {
-	alert(data);
-}).
-
-parallel([$.get("foo.html"), $.get("bar.html")]).next(function (values) {
-	log($.map(values, function (v) { return v.length }));
-	if (values[1].match(/nextUrl:\s*([^\s]+)/)) {
-		return $.get(RegExp.$1).next(function (d) {
-			return d;
-		});
-	}
-}).
-next(function (d) {
-	log(d.length)
-});
-
-*/
-
+/*
+ * function Deferred () //=> constructor
+ *
+ * `Deferred` function is constructor of Deferred.
+ *
+ * Sample:
+ *     var d = new $.deferred(); //=> new Deferred;
+ *     // or this is shothand of above.
+ *     var d = $.deferred();
+ *
+ * function Deferred.prototype.next   (fun) //=> Deferred
+ *
+ * `next` set `fun` as callback of self and return next Deferred.
+ *
+ * function Deferred.prototype.error  (fun) //=> Deferred
+ *
+ * `error` set `fun` as errorback of self and return next Deferred.
+ * If `fun` not throws error but returns normal value, Deferred treats
+ * the given error is recovery and continue callback chain.
+ *
+ * function Deferred.prototype.call   (val) //=> void 0
+ *
+ * `call` invokes self callback chain.
+ *
+ * function Deferred.prototype.fail   (err) //=> void 0
+ *
+ * `fail` invokes self errorback chain.
+ *
+ * function Deferred.prototype.cancel (err) //=> void 0
+ *
+ * `cancel` cancels self callback chain.
+ */
 function Deferred () {
 	if (this instanceof Deferred) {
 		this.init.apply(this);
@@ -97,6 +128,30 @@ Deferred.prototype = {
 	}
 };
 
+/* function parallel (deferredlist) //=> Deferred
+ *
+ * `parallel` wraps up deferredlist to one deferred.
+ * This is useful when some asynchronous resources required.
+ *
+ * `deferredlist` can be Array or Object (Hash).
+ *
+ * Sample:
+ *     parallel([
+ *         $.get("foo.html"),
+ *         $.get("bar.html")
+ *     ]).next(function (values) {
+ *         values[0] //=> foo.html data
+ *         values[1] //=> bar.html data
+ *     });
+ *
+ *     parallel({
+ *         foo: $.get("foo.html"),
+ *         bar: $.get("bar.html")
+ *     }).next(function (values) {
+ *         values.foo //=> foo.html data
+ *         values.bar //=> bar.html data
+ *     });
+ */
 function parallel (dl) {
 	var ret = new Deferred();
 	if (dl instanceof Array) {
@@ -135,6 +190,16 @@ function parallel (dl) {
 	return ret;
 }
 
+/* function wait (sec) //=> Deferred
+ *
+ * `wait` returns deferred that will be called after `sec` elapsed
+ * with real elapsed time (msec)
+ *
+ * Sample:
+ *     wait(1).next(function (elapsed) {
+ *         log(elapsed); //=> may be 990-1100
+ *     });
+ */
 function wait (n) {
 	var d = new Deferred();
 	var t = new Date();
@@ -144,12 +209,37 @@ function wait (n) {
 	return d;
 }
 
+/* function next (fun) //=> Deferred
+ *
+ * `next` is shorthand for creating new deferred.
+ */
 function next (fun) {
 	var d = new Deferred();
 	setTimeout(function () { d.call() }, 0);
 	return d.next(fun);
 }
 
+/* function call (fun, arg [, args...]) //=> Deferred
+ *
+ * `call` function is for calling function asynchronous.
+ *
+ * Sample:
+ *     next(function () {
+ *         function pow (x, n) {
+ *             function _pow (n, r) {
+ *                 print([n, r]);
+ *                 if (n == 0) return r;
+ *                 return call(_pow, n - 1, x * r);
+ *             }
+ *             return call(_pow, n, 1);
+ *         }
+ *         return call(pow, 2, 10);
+ *     }).
+ *     next(function (r) {
+ *         print([r, "end"]);
+ *     })
+ *
+ */
 function call (f, args) {
 	args = Array.prototype.slice.call(arguments);
 	f    = args.shift();
@@ -158,8 +248,24 @@ function call (f, args) {
 	});
 }
 
-// loop({end:100,step:10}, fun);
-// loop(10, fun);
+/* function loop (n, fun) //=> Deferred
+ *
+ * `loop` function provides browser-non-blocking loop.
+ * This loop is slow but not stop browser's appearance.
+ *
+ * Sample:
+ *     //=> loop 1 to 100
+ *     loop({begin:1, end:100,step:10}, function (n, o) {
+ *         for (var i = 0; i < o.step; i++) {
+ *             log(n+i);
+ *         }
+ *     });
+ *
+ *     //=> loop 10 times
+ *     loop(10, function (n) {
+ *         log(n);
+ *     });
+ */
 function loop (n, fun) {
 	var o = {};
 	o.begin = n.begin || 0;
