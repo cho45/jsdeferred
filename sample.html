@@ -125,6 +125,15 @@ next(function (values) {
 	$("#parallel-code").append("\n// " + lengths.join(", "));
 });
 </pre>
+					<pre id="parallel-code2" onclick="eval($(this).text());">
+$("#parallel-code2").append("\n// start. gathering data.");
+
+// named parallel deferred
+parallel({html: $.get("sample.html"), js: $.get("jquery-deferred.js")}).
+next(function (values) {
+	$("#parallel-code2").append("\n// " + ["html=", values.html.length, " js=", values.js.length].join(""));
+});
+</pre>
 					<pre id="parallel-code1" onclick="eval($(this).text());">
 $("#parallel-code1").append("\n// start. wait 3 sec.");
 

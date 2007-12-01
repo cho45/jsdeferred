@@ -99,19 +99,38 @@ Deferred.prototype = {
 
 function parallel (dl) {
 	var ret = new Deferred();
-	var values = [];
-	for (var i = 0; i < dl.length; i++) {
-		(function (d, i) {
-			d.next(function (v) {
-				dl.pop();
-				values[i] = v;
-				if (!dl.length) {
-					ret.call(values);
-				}
-			}).error(function (e) {
-				ret.fail(e);
-			});
-		})(dl[i], i)
+	if (dl instanceof Array) {
+		var values = [];
+		for (var i = 0; i < dl.length; i++) {
+			(function (d, i) {
+				d.next(function (v) {
+					dl.pop();
+					values[i] = v;
+					if (!dl.length) {
+						ret.call(values);
+					}
+				}).error(function (e) {
+					ret.fail(e);
+				});
+			})(dl[i], i)
+		}
+	} else {
+		var values = {}
+		var num    = 0;
+		for (var i in dl) {
+			if (!dl.hasOwnProperty(i)) continue;
+			(function (d, i) {
+				d.next(function (v) {
+					values[i] = v;
+					if (--num <= 0) {
+						ret.call(values);
+					}
+				}).error(function (e) {
+					ret.fail(e);
+				});
+				num++;
+			})(dl[i], i)
+		}
 	}
 	return ret;
 }
