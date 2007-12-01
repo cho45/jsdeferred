@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>jQuery Deferred Sample</title>
+		
+		<script type="text/javascript" src="http://coderepos.org/share/htdocs/lib/jquery-1.2.1.min.js"></script>
+		<script type="text/javascript" src="jquery-deferred.js"></script>
+		<script type="text/javascript" src="test-jquery-deferred.js"></script>
+		<style type="text/css">
+			body {
+				padding: 0 10% 10em;
+				margin: 0;
+				color: #333;
+				line-height: 1.5;
+			}
+
+			h2 {
+				margin: 3em 0 1.5em 0;
+			}
+
+			pre {
+				background: #efefef;
+				border: 1px solid #ddd;
+				padding: 1em;
+				line-height: 1.33;
+				overflow: auto;
+			}
+
+			table {
+				width: 100%;
+			}
+
+			tr.ok {
+				background: #cfc;
+			}
+
+			tr.ng {
+				background: #fcc;
+			}
+
+			tr.msg {
+				background: #333;
+				color: #fff;
+			}
+
+			tr.msg.low {
+				background: #fff;
+				color: #666;
+				font-size: 50%;
+			}
+
+			td,
+			td {
+				padding: 0 0.5em;
+			}
+
+			#footer {
+				margin: 2em 0;
+				text-align: right;
+				font-size: 80%;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="whole">
+			<h1 id="top">jQuery Deferred Test <span id="nums">0/0</span></h1>
+
+			<div id="content">
+				<table id="results">
+					<thead>
+						<tr>
+							<th>Message</th>
+							<th>Expect</th>
+							<th>Result</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+
+			<div id="footer">
+				<address>2007 <a href="mailto:cho45@lowreal.net">cho45@lowreal.net</a></address>
+			</div>
+		</div>
+	</body>
+</html>
