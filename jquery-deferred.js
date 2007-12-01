@@ -147,18 +147,21 @@ function loop (n, fun) {
 	o.end   = n.end   || (n - 1);
 	o.step  = n.step  || 1;
 	o.last  = false;
-	var ret;
+	var ret, step = o.step;
 	return next(function () {
 		function _loop (i) {
 			if (i <= o.end) {
-				if ((i + o.step) >= o.end) o.last = true;
+				if ((i + step) >= o.end) {
+					o.last = true;
+					if ((i + step)  > o.end) o.step = o.end - i + 1;
+				}
 				ret = fun.call(this, i, o);
 				if (ret instanceof Deferred) {
 					return ret.next(function () {
-						return call(_loop, i + o.step);
+						return call(_loop, i + step);
 					});
 				} else {
-					return call(_loop, i + o.step);
+					return call(_loop, i + step);
 				}
 			} else {
 				return ret;

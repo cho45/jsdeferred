@@ -131,8 +131,10 @@ next(function () {
 	return loop({end:100000, step:1000}, function (n, o) {
 		print(["Processing devided loop:n=", n, ", sum=", sum].join(""));
 		for (var i = 0; i < o.step; i++) {
+			// print(i + n);
 			sum += i + n;
 		}
+		print(["sum=", sum].join(""));
 		return sum;
 	});
 }).
