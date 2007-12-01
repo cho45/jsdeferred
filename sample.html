@@ -220,11 +220,9 @@ error(function (e) {
 function print (m) { $("#delay-loop-code").append("\n// "+m) }
 </pre>
 					<pre id="delay-loop-code1" onclick="eval($(this).text());">
-next(function (i) {
-	return loop(5, function (i, o) {
-		print(i);
-		return o.last? i : wait(1);
-	});
+loop(5, function (i, o) {
+	print(i);
+	return o.last? i : wait(1);
 }).
 next(function (e) {
 	print("end ["+e+"]");
