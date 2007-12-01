@@ -16,7 +16,7 @@ function show (msg, expect, result) {
 	var okng = this;
 	testfuns.pop();
 	$("#nums").text([expects - testfuns.length, expects].join("/"));
-	$("<tr class='"+okng+"'><td>"+[msg, expect, result].join("</td><td>")+"</td></tr>").appendTo(results);
+	$("<tr class='"+okng+"'><td>"+[msg, uneval(expect), uneval(result)].join("</td><td>")+"</td></tr>").appendTo(results);
 	window.scrollTo(0, document.body.scrollHeight);
 }
 
@@ -95,7 +95,7 @@ next(function () {
 	return next(function () {
 		function pow (x, n) {
 			function _pow (n, r) {
-				print([n, r]);
+				print(uneval([n, r]));
 				if (n == 0) return r;
 				return call(_pow, n - 1, x * r);
 			}
@@ -145,6 +145,7 @@ next(function () {
 		var r = [];
 		var l = [];
 		return loop({end: 10, step:1}, function (n, o) {
+			print(uneval(o));
 			r.push(n);
 			l.push(o.last);
 			return r;
@@ -157,6 +158,7 @@ next(function () {
 		var r = [];
 		var l = [];
 		return loop({end: 10, step:2}, function (n, o) {
+			print(uneval(o));
 			l.push(o.last);
 			for (var i = 0; i < o.step; i++) {
 				r.push(n+i);
@@ -171,6 +173,7 @@ next(function () {
 		var r = [];
 		var l = [];
 		return loop({end: 10, step:3}, function (n, o) {
+			print(uneval(o));
 			l.push(o.last);
 			for (var i = 0; i < o.step; i++) {
 				r.push(n+i);
@@ -185,6 +188,7 @@ next(function () {
 		var r = [];
 		var l = [];
 		return loop({end: 10, step:5}, function (n, o) {
+			print(uneval(o));
 			l.push(o.last);
 			for (var i = 0; i < o.step; i++) {
 				r.push(n+i);
@@ -199,6 +203,7 @@ next(function () {
 		var r = [];
 		var l = [];
 		return loop({end: 10, step:9}, function (n, o) {
+			print(uneval(o));
 			l.push(o.last);
 			for (var i = 0; i < o.step; i++) {
 				r.push(n+i);
@@ -213,6 +218,7 @@ next(function () {
 		var r = [];
 		var l = [];
 		return loop({begin:1, end: 10, step:3}, function (n, o) {
+			print(uneval(o));
 			l.push(o.last);
 			for (var i = 0; i < o.step; i++) {
 				r.push(n+i);
@@ -226,6 +232,7 @@ next(function () {
 	next(function () {
 		return parallel([next(function () { return 0 }), next(function () { return 1 })]).
 		next(function (values) {
+			print(uneval(values));
 			expect("parallel values 0", 0, values[0]);
 			expect("parallel values 1", 1, values[1]);
 		});
@@ -233,6 +240,7 @@ next(function () {
 	next(function () {
 		return parallel({foo:next(function () { return 0 }), bar: next(function () { return 1 })}).
 		next(function (values) {
+			print(uneval(values));
 			expect("parallel named values foo", 0, values.foo);
 			expect("parallel named values bar", 1, values.bar);
 		});
@@ -265,5 +273,47 @@ next(function () {
 
 
 // ::Test::End::
-
 }) });
+
+
+
+/* util */
+
+if (typeof uneval != "function") {
+	uneval = function  (o) {
+		switch (typeof o) {
+			case "undefined" : return "(void 0)";
+			case "boolean"   : return String(o);
+			case "number"    : return String(o);
+			case "string"    : return '"' + o.replace(/"/g, '\\"') + '"';
+			case "function"  : return "(" + o.toString() + ")";
+			case "object"    :
+				if (o == null) return "null";
+				var type = Object.prototype.toString.call(o).match(/\[object (.+)\]/);
+				if (!type) throw TypeError("unknown type:"+o);
+				switch (type[1]) {
+					case "Array":
+						var ret = [];
+						for (var i = 0; i < o.length; i++) ret.push(arguments.callee(o[i]));
+						return "[" + ret.join(", ") + "]";
+					case "Object":
+						var ret = [];
+						for (var i in o) {
+							if (!o.hasOwnProperty(i)) continue;
+							ret.push(arguments.callee(i) + ":" + arguments.callee(o[i]));
+						}
+						return "({" + ret.join(", ") + "})";
+					case "Number":
+						return "(new Number(" + o + "))";
+					case "String":
+						return "(new String(" + arguments.callee(o) + "))";
+					case "Date":
+						return "(new Date(" + o.getTime() + "))";
+					default:
+						if (o.toSource) return o.toSource();
+						throw TypeError("unknown type:"+o);
+				}
+		}
+	}
+}
+
