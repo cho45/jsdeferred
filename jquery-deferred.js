@@ -171,9 +171,9 @@ function loop (n, fun) {
 	return next(function () {
 		function _loop (i) {
 			if (i <= o.end) {
-				if ((i + step) >= o.end) {
+				if ((i + step) > o.end) {
 					o.last = true;
-					if ((i + step)  > o.end) o.step = o.end - i + 1;
+					o.step = o.end - i + 1;
 				}
 				o.prev = ret;
 				ret = fun.call(this, i, o);
