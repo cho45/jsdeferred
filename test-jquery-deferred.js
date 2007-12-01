@@ -27,6 +27,7 @@ function msg (m) {
 function print (m) {
 	$("<tr class='msg low'><td colspan='3'>"+m+"</td></tr>").appendTo(results);
 }
+window.print = print;
 
 function ok () {
 	show.apply("ok", arguments);
@@ -142,66 +143,84 @@ next(function () {
 	}).
 	next(function () {
 		var r = [];
+		var l = [];
 		return loop({end: 10, step:1}, function (n, o) {
 			r.push(n);
+			l.push(o.last);
 			return r;
 		}).next(function (r) {
 			expect("loop end:10, step:1", [0,1,2,3,4,5,6,7,8,9,10].join(), r.join());
+			expect("loop end:10, step:1 last?", [false,false,false,false,false,false,false,false,false,false,true].join(), l.join());
 		});
 	}).
 	next(function () {
 		var r = [];
+		var l = [];
 		return loop({end: 10, step:2}, function (n, o) {
+			l.push(o.last);
 			for (var i = 0; i < o.step; i++) {
 				r.push(n+i);
 			}
 			return r;
 		}).next(function (r) {
 			expect("loop end:10, step:2", [0,1,2,3,4,5,6,7,8,9,10].join(), r.join());
+			expect("loop end:10, step:2 last?", [false,false,false,false,false,true].join(), l.join());
 		});
 	}).
 	next(function () {
 		var r = [];
+		var l = [];
 		return loop({end: 10, step:3}, function (n, o) {
+			l.push(o.last);
 			for (var i = 0; i < o.step; i++) {
 				r.push(n+i);
 			}
 			return r;
 		}).next(function (r) {
 			expect("loop end:10, step:3", [0,1,2,3,4,5,6,7,8,9,10].join(), r.join());
+			expect("loop end:10, step:3 last?", [false,false,false,true].join(), l.join());
 		});
 	}).
 	next(function () {
 		var r = [];
+		var l = [];
 		return loop({end: 10, step:5}, function (n, o) {
+			l.push(o.last);
 			for (var i = 0; i < o.step; i++) {
 				r.push(n+i);
 			}
 			return r;
 		}).next(function (r) {
 			expect("loop end:10, step:5", [0,1,2,3,4,5,6,7,8,9,10].join(), r.join());
+			expect("loop end:10, step:5 last?", [false,false,true].join(), l.join());
 		});
 	}).
 	next(function () {
 		var r = [];
+		var l = [];
 		return loop({end: 10, step:9}, function (n, o) {
+			l.push(o.last);
 			for (var i = 0; i < o.step; i++) {
 				r.push(n+i);
 			}
 			return r;
 		}).next(function (r) {
 			expect("loop end:10, step:9", [0,1,2,3,4,5,6,7,8,9,10].join(), r.join());
+			expect("loop end:10, step:9 last?", [false,true].join(), l.join());
 		});
 	}).
 	next(function () {
 		var r = [];
+		var l = [];
 		return loop({begin:1, end: 10, step:3}, function (n, o) {
+			l.push(o.last);
 			for (var i = 0; i < o.step; i++) {
 				r.push(n+i);
 			}
 			return r;
 		}).next(function (r) {
 			expect("loop begin:1, end:10, step:3", [1,2,3,4,5,6,7,8,9,10].join(), r.join());
+			expect("loop begin:1, end:10, step:3 last?", [false,false,false,true].join(), l.join());
 		});
 	}).
 	next(function () {
