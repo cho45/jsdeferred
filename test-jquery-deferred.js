@@ -109,8 +109,10 @@ next(function () {
 	});
 }).
 next(function () {
+	var a, b;
 	return next(function () {
 		function pow (x, n) {
+			expect("child deferred chain", a._next, b._next);
 			function _pow (n, r) {
 				print(uneval([n, r]));
 				if (n == 0) return r;
@@ -118,7 +120,9 @@ next(function () {
 			}
 			return call(_pow, n, 1);
 		}
-		return call(pow, 2, 10);
+		a = this;
+		b = call(pow, 2, 10);
+		return b;
 	}).
 	next(function (r) {
 		expect("pow calculate", 1024, r);
