@@ -23,7 +23,9 @@
 				margin: 3em 0 1.5em 0;
 			}
 
+			div.code,
 			pre {
+				font-family: monospace;
 				background: #efefef;
 				border: 1px solid #ddd;
 				padding: 1em;
@@ -31,7 +33,8 @@
 				overflow: auto;
 			}
 
-			em {
+			em,
+			span.em {
 				font-weight: bold;
 				font-style: normal;
 				color: #f00;
@@ -253,13 +256,20 @@ function print (m) { $("#delay-loop-code").append("\n// "+m) }
 function bfrun () {
 	var sinput = $("#bfi-source");
 	var source = sinput.text();
-	var pre    = $("&lt;pre/>").append(source);
+	var shtml  = $("&lt;div class='code'/>");
+	var selems = $.map(source.split(/\n/), function (l) {
+		var line = $("&lt;div class='line'/>");
+		line.appendTo(shtml);
+		return $.map(l.split(""), function (c) {
+			return $("&lt;span/>").append(c).appendTo(line);
+		})
+	});
 	var mem    = $("&lt;pre/>");
 	var out    = $("&lt;pre/>");
 	sinput.hide();
 	mem.insertBefore(sinput);
 	out.insertBefore(sinput);
-	pre.insertBefore(sinput);
+	shtml.insertBefore(sinput);
 
 	var pi = {
 		"+": function (c) {
@@ -318,46 +328,27 @@ function bfrun () {
 		};
 	}).
 	next(function (c) {
-		var f = arguments.callee;
-		return call(function (c) {
-			var chr, fun, npre;
-			do {
-				chr = c.source.charAt(c.pos);
-				fun = pi[chr];
-				c.pos++;
-			} while (chr.match(/[^&lt;>,.\[\]+-]/));
-			pre.replaceWith(
-				pre =
-				$("&lt;pre/>").
-					append(c.source.slice(0, c.pos-1)).
-					append($("&lt;em/>").append(chr)).
-					append(c.source.slice(c.pos))
-			);
-			mem.replaceWith(
-				mem =
-					$("&lt;pre/>").
-					append(c.memory.slice(0, c.pointer).join(" ")).
-					append($("&lt;em/>").append(" "+String(c.memory[c.pointer] || "")+" ")).
-					append(c.memory.slice(c.pointer+1).join(" "))
-			);
-			out.replaceWith(
-				out =
-					$("&lt;pre/>").
-					append(c.output.join(""))
-			);
+		if (selems[c.pos]) selems[c.pos].removeClass("em");
+		var chr, fun;
+		do {
+			chr = c.source.charAt(c.pos);
+			fun = pi[chr];
+			c.pos++;
+		} while (chr.match(/[^&lt;>,.\[\]+-]/));
+		mem.text(c.memory.join(", "));
+		out.text(c.output.join(""));
 
-			if (typeof fun == "function") {
-				c = fun(c);
-			} else {
-				return c;
-			}
-
+		if (typeof fun == "function") {
+			c = fun(c);
 			if (c.pos &lt; c.source.length) {
-				return call(f, c);
+				if (selems[c.pos]) selems[c.pos].addClass("em");
+				return call(arguments.callee, c);
 			} else {
 				return c;
 			}
-		}, c);
+		} else {
+			return c;
+		}
 	}).
 	next(function (c) {
 		log("end");
