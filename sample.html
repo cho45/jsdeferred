@@ -31,6 +31,16 @@
 				overflow: auto;
 			}
 
+			em {
+				font-weight: bold;
+				font-style: normal;
+				color: #f00;
+			}
+
+			textarea {
+				width: 100%;
+			}
+
 			#footer {
 				margin: 2em 0;
 				text-align: right;
@@ -234,6 +244,141 @@ error(function (e) {
 
 function print (m) { $("#delay-loop-code").append("\n// "+m) }
 </pre>
+				</div>
+
+				<div class="section">
+					<h2>Brainfuck interpreter</h2>
+					<p>No wait but toooooooo slow :( But, but, browser will not be stopped!</p>
+					<pre id="bfi-code">
+function bfrun () {
+	var sinput = $("#bfi-source");
+	var source = sinput.text();
+	var pre    = $("&lt;pre/>").append(source);
+	var mem    = $("&lt;pre/>");
+	var out    = $("&lt;pre/>");
+	sinput.hide();
+	mem.insertBefore(sinput);
+	out.insertBefore(sinput);
+	pre.insertBefore(sinput);
+
+	var pi = {
+		"+": function (c) {
+			if (!c.stack[0]) return c;
+			c.memory[c.pointer] = (c.memory[c.pointer] || 0) + 1;
+			return c;
+		},
+		"-": function (c) {
+			if (!c.stack[0]) return c;
+			c.memory[c.pointer] = (c.memory[c.pointer] || 0) - 1;
+			return c;
+		},
+		">": function (c) {
+			if (!c.stack[0]) return c;
+			c.pointer++;
+			return c;
+		},
+		"&lt;": function (c) {
+			if (!c.stack[0]) return c;
+			c.pointer--;
+			return c;
+		},
+		".": function (c) {
+			if (!c.stack[0]) return c;
+			c.output.push(String.fromCharCode(c.memory[c.pointer]));
+			return c;
+		},
+		",": function (c) {
+			if (!c.stack[0]) return c;
+			c.memory[c.pointer] = "t";
+			return c;
+		},
+		"[": function (c) {
+			if (c.memory[c.pointer] == 0) {
+				c.stack.unshift(false);
+			} else {
+				c.stack.unshift(c.pos - 1);
+			}
+			return c;
+		},
+		"]": function (c) {
+			var s = c.stack.shift();
+			if (s) c.pos = s;
+			return c;
+		}
+	};
+
+	next(function () {
+		return {
+			pos     : 0,
+			pointer : 0,
+			memory  : [0],
+			stack   : [true],
+			output  : [],
+			source  : source
+		};
+	}).
+	next(function (c) {
+		var f = arguments.callee;
+		return call(function (c) {
+			var chr, fun, npre;
+			do {
+				chr = c.source.charAt(c.pos);
+				fun = pi[chr];
+				c.pos++;
+			} while (chr.match(/[^&lt;>,.\[\]+-]/));
+			pre.replaceWith(
+				pre =
+				$("&lt;pre/>").
+					append(c.source.slice(0, c.pos-1)).
+					append($("&lt;em/>").append(chr)).
+					append(c.source.slice(c.pos))
+			);
+			mem.replaceWith(
+				mem =
+					$("&lt;pre/>").
+					append(c.memory.slice(0, c.pointer).join(" ")).
+					append($("&lt;em/>").append(" "+String(c.memory[c.pointer] || "")+" ")).
+					append(c.memory.slice(c.pointer+1).join(" "))
+			);
+			out.replaceWith(
+				out =
+					$("&lt;pre/>").
+					append(c.output.join(""))
+			);
+
+			if (typeof fun == "function") {
+				c = fun(c);
+			} else {
+				return c;
+			}
+
+			if (c.pos &lt; c.source.length) {
+				return call(f, c);
+			} else {
+				return c;
+			}
+		}, c);
+	}).
+	next(function (c) {
+		log("end");
+	}).
+	error(function (e) {
+		alert(e);
+	});
+
+	function log (m) {
+		// console.log(uneval(m));
+	}
+}
+
+</pre>
+					<script type="text/javascript">eval($("#bfi-code").text());</script>
+					<textarea id="bfi-source" cols="50" rows="5">
++++++++++[->+++++>++++++++>+++++++++++<<<]>
+>.>++.+++++++..+++.<<-.[->-<]>++++.>+++++++
++.--------.+++.------.--------.<+.
+</textarea>
+					<button onclick="bfrun();">Run!</button>
 				</div>
 			</div>
 
