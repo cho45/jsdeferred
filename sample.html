@@ -25,6 +25,7 @@
 
 			div.code,
 			pre {
+				font-size: 80%;
 				font-family: monospace;
 				background: #efefef;
 				border: 1px solid #ddd;
@@ -254,21 +255,16 @@ function print (m) { $("#delay-loop-code").append("\n// "+m) }
 					<p>No wait but toooooooo slow :( But, but, browser will not be stopped!</p>
 					<pre id="bfi-code">
 function bfrun () {
-	var sinput = $("#bfi-source").hide();
-	var mem    = $("&lt;pre/>");
-	var out    = $("&lt;pre/>");
-	var source = sinput.val();
+	var mem    = $("&lt;pre/>"), out = $("&lt;pre/>");
+	var sinput = $("#bfi-source").hide(), source = sinput.val();
 	var shtml  = $("&lt;div class='code'/>");
 	var selems = $.map(source.split(/\n/), function (l) {
-		var line = $("&lt;div class='line'/>");
-		line.appendTo(shtml);
+		var line = $("&lt;div class='line'/>").appendTo(shtml);
 		return $.map(l.split(""), function (c) {
 			return $("&lt;span/>").append(c).appendTo(line);
 		})
 	});
-	mem.insertBefore(sinput);
-	out.insertBefore(sinput);
-	shtml.insertBefore(sinput);
+	sinput.before(mem).before(out).before(shtml);
 
 	var pi = {
 		"+": function (c) {
