@@ -1,6 +1,6 @@
-/*
+/* Header::
  * jQuery Deferred
- * Copyring (c) 2007 cho45 ( www.lowreal.net )
+ * Copyright (c) 2007 cho45 ( www.lowreal.net )
  *
  * License:: MIT
  *
@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 (function ($) {
-/* Usage:
+/* Usage::
  *
  *     $.deferred.export();
  *
@@ -46,8 +46,7 @@
  */
 
 
-/*
- * function Deferred () //=> constructor
+/* function Deferred () //=> constructor
  *
  * `Deferred` function is constructor of Deferred.
  *
@@ -55,26 +54,26 @@
  *     var d = new $.deferred(); //=> new Deferred;
  *     // or this is shothand of above.
  *     var d = $.deferred();
- *
- * function Deferred.prototype.next   (fun) //=> Deferred
+ */
+/* function Deferred.prototype.next   (fun) //=> Deferred
  *
  * `next` set `fun` as callback of self and return next Deferred.
- *
- * function Deferred.prototype.error  (fun) //=> Deferred
+ */
+/* function Deferred.prototype.error  (fun) //=> Deferred
  *
  * `error` set `fun` as errorback of self and return next Deferred.
  * If `fun` not throws error but returns normal value, Deferred treats
  * the given error is recovery and continue callback chain.
- *
- * function Deferred.prototype.call   (val) //=> void 0
+ */
+/* function Deferred.prototype.call   (val) //=> void 0
  *
  * `call` invokes self callback chain.
- *
- * function Deferred.prototype.fail   (err) //=> void 0
+ */
+/* function Deferred.prototype.fail   (err) //=> void 0
  *
  * `fail` invokes self errorback chain.
- *
- * function Deferred.prototype.cancel (err) //=> void 0
+ */
+/* function Deferred.prototype.cancel (err) //=> void 0
  *
  * `cancel` cancels self callback chain.
  */
@@ -211,7 +210,8 @@ function wait (n) {
 
 /* function next (fun) //=> Deferred
  *
- * `next` is shorthand for creating new deferred.
+ * `next` is shorthand for creating new deferred which
+ * is called after current queue.
  */
 function next (fun) {
 	var d = new Deferred();
@@ -219,7 +219,7 @@ function next (fun) {
 	return d.next(fun);
 }
 
-/* function call (fun, arg [, args...]) //=> Deferred
+/* function call (fun[, args...]) //=> Deferred
  *
  * `call` function is for calling function asynchronous.
  *

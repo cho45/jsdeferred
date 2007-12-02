@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>jQuery Deferred</title>
+
+		<style type="text/css">
+			body {
+				padding: 0 10% 10em;
+				margin: 0;
+				color: #333;
+				line-height: 1.5;
+			}
+
+			h2 {
+				font-size: 100%;
+				margin: 3em 0 1.5em 0;
+			}
+
+			pre {
+				font-size: 80%;
+				background: #efefef;
+				border: 1px solid #ddd;
+				padding: 0.5em;
+				line-height: 1.33;
+				overflow: auto;
+			}
+
+			var {
+				font-style: italic;
+				font-weight: bold;
+			}
+
+			.body {
+				padding: 0 0 0 2em;
+			}
+
+			#footer {
+				margin: 2em 0;
+				text-align: right;
+				font-size: 80%;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="whole">
+			<h1>jQuery Deferred</h1>
+
+			
+			<div class="section" id="0">
+				<h2>Header::</h2>
+				<div class="body">
+				<p>jQuery Deferred
+Copyright (c) 2007 cho45 ( www.lowreal.net )</p>
+<p>License:: MIT</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+ </p>
+				</di>
+			</div>
+			
+			<div class="section" id="1">
+				<h2>Usage::</h2>
+				<div class="body">
+				<pre>$.deferred.export();
+
+$.get("/hoge").next(function (data) {
+    alert(data);
+}).
+
+parallel([$.get("foo.html"), $.get("bar.html")]).next(function (values) {
+    log($.map(values, function (v) { return v.length }));
+    if (values[1].match(/nextUrl:\s*([^\s]+)/)) {
+        return $.get(RegExp.$1).next(function (d) {
+            return d;
+        });
+    }
+}).
+next(function (d) {
+    log(d.length)
+});
+
+ </pre>
+				</di>
+			</div>
+			
+			<div class="section" id="Deferred">
+				<h2>function Deferred () //=&gt; constructor</h2>
+				<div class="body">
+				<p><code><a href='#Deferred'>Deferred</a></code> function is constructor of Deferred.</p>
+<p>Sample:
+</p>
+<pre>var d = new $.deferred(); //=> new Deferred;
+// or this is shothand of above.
+var d = $.deferred();
+ </pre>
+				</di>
+			</div>
+			
+			<div class="section" id="Deferred.prototype.next">
+				<h2>function Deferred.prototype.next   (fun) //=&gt; Deferred</h2>
+				<div class="body">
+				<p><code><a href='#next'>next</a></code> set <var>fun</var> as callback of self and return next Deferred.
+ </p>
+				</di>
+			</div>
+			
+			<div class="section" id="Deferred.prototype.error">
+				<h2>function Deferred.prototype.error  (fun) //=&gt; Deferred</h2>
+				<div class="body">
+				<p><code>error</code> set <var>fun</var> as errorback of self and return next Deferred.
+If <var>fun</var> not throws error but returns normal value, Deferred treats
+the given error is recovery and continue callback chain.
+ </p>
+				</di>
+			</div>
+			
+			<div class="section" id="Deferred.prototype.call">
+				<h2>function Deferred.prototype.call   (val) //=&gt; void 0</h2>
+				<div class="body">
+				<p><code><a href='#call'>call</a></code> invokes self callback chain.
+ </p>
+				</di>
+			</div>
+			
+			<div class="section" id="Deferred.prototype.fail">
+				<h2>function Deferred.prototype.fail   (err) //=&gt; void 0</h2>
+				<div class="body">
+				<p><code>fail</code> invokes self errorback chain.
+ </p>
+				</di>
+			</div>
+			
+			<div class="section" id="Deferred.prototype.cancel">
+				<h2>function Deferred.prototype.cancel (err) //=&gt; void 0</h2>
+				<div class="body">
+				<p><code>cancel</code> cancels self callback chain.
+ </p>
+				</di>
+			</div>
+			
+			<div class="section" id="parallel">
+				<h2>function parallel (deferredlist) //=&gt; Deferred</h2>
+				<div class="body">
+				<p><code><a href='#parallel'>parallel</a></code> wraps up deferredlist to one deferred.
+This is useful when some asynchronous resources required.</p>
+<p><var>deferredlist</var> can be Array or Object (Hash).</p>
+<p>Sample:
+</p>
+<pre>parallel([
+    $.get("foo.html"),
+    $.get("bar.html")
+]).next(function (values) {
+    values[0] //=> foo.html data
+    values[1] //=> bar.html data
+});
+
+parallel({
+    foo: $.get("foo.html"),
+    bar: $.get("bar.html")
+}).next(function (values) {
+    values.foo //=> foo.html data
+    values.bar //=> bar.html data
+});
+ </pre>
+				</di>
+			</div>
+			
+			<div class="section" id="wait">
+				<h2>function wait (sec) //=&gt; Deferred</h2>
+				<div class="body">
+				<p><code><a href='#wait'>wait</a></code> returns deferred that will be called after <var>sec</var> elapsed
+with real elapsed time (msec)</p>
+<p>Sample:
+</p>
+<pre>wait(1).next(function (elapsed) {
+    log(elapsed); //=> may be 990-1100
+});
+ </pre>
+				</di>
+			</div>
+			
+			<div class="section" id="next">
+				<h2>function next (fun) //=&gt; Deferred</h2>
+				<div class="body">
+				<p><code><a href='#next'>next</a></code> is shorthand for creating new deferred which
+is called after current queue.
+ </p>
+				</di>
+			</div>
+			
+			<div class="section" id="call">
+				<h2>function call (fun[, args...]) //=&gt; Deferred</h2>
+				<div class="body">
+				<p><code><a href='#call'>call</a></code> function is for calling function asynchronous.</p>
+<p>Sample:
+</p>
+<pre>next(function () {
+    function pow (x, n) {
+        function _pow (n, r) {
+            print([n, r]);
+            if (n == 0) return r;
+            return call(_pow, n - 1, x * r);
+        }
+        return call(_pow, n, 1);
+    }
+    return call(pow, 2, 10);
+}).
+next(function (r) {
+    print([r, "end"]);
+})
+
+ </pre>
+				</di>
+			</div>
+			
+			<div class="section" id="loop">
+				<h2>function loop (n, fun) //=&gt; Deferred</h2>
+				<div class="body">
+				<p><code><a href='#loop'>loop</a></code> function provides browser-non-blocking loop.
+This loop is slow but not stop browser's appearance.</p>
+<p>Sample:
+</p>
+<pre>//=> loop 1 to 100
+loop({begin:1, end:100,step:10}, function (n, o) {
+    for (var i = 0; i < o.step; i++) {
+        log(n+i);
+    }
+});
+
+//=> loop 10 times
+loop(10, function (n) {
+    log(n);
+});
+ </pre>
+				</di>
+			</div>
+			
+		</div>
+	</body>
+</html>
