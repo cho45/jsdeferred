@@ -4,7 +4,7 @@ require "erb"
 require "ostruct"
 
 class JsDoc
-	attr_reader :filename, :title
+	attr_reader :filename, :title, :functions
 
 	def initialize(filename)
 		@filename = filename
@@ -168,7 +168,11 @@ __END__
 
 			<% doc.each_section do |section| %>
 			<div class="section" id="<%=h section.sid %>">
+				<% if section.name %>
+				<h2><code><%=h section.header %></code></h2>
+				<% else %>
 				<h2><%=h section.header %></h2>
+				<% end %>
 				<div class="body">
 				<%= section.body %>
 				</di>

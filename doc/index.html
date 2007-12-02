@@ -47,7 +47,9 @@
 
 			
 			<div class="section" id="0">
+				
 				<h2>Header::</h2>
+				
 				<div class="body">
 				<p>jQuery Deferred
 Copyright (c) 2007 cho45 ( www.lowreal.net )</p>
@@ -72,7 +74,9 @@ THE SOFTWARE.
 			</div>
 			
 			<div class="section" id="1">
+				
 				<h2>Usage::</h2>
+				
 				<div class="body">
 				<pre>$.deferred.export();
 
@@ -97,7 +101,9 @@ next(function (d) {
 			</div>
 			
 			<div class="section" id="Deferred">
-				<h2>function Deferred () //=&gt; constructor</h2>
+				
+				<h2><code>function Deferred () //=&gt; constructor</code></h2>
+				
 				<div class="body">
 				<p><code><a href='#Deferred'>Deferred</a></code> function is constructor of Deferred.</p>
 <p>Sample:
@@ -110,17 +116,21 @@ var d = $.deferred();
 			</div>
 			
 			<div class="section" id="Deferred.prototype.next">
-				<h2>function Deferred.prototype.next   (fun) //=&gt; Deferred</h2>
+				
+				<h2><code>function Deferred.prototype.next   (fun) //=&gt; Deferred</code></h2>
+				
 				<div class="body">
-				<p><code><a href='#next'>next</a></code> set <var>fun</var> as callback of self and return next Deferred.
+				<p>This sets <var>fun</var> as callback of self and return next Deferred.
  </p>
 				</di>
 			</div>
 			
 			<div class="section" id="Deferred.prototype.error">
-				<h2>function Deferred.prototype.error  (fun) //=&gt; Deferred</h2>
+				
+				<h2><code>function Deferred.prototype.error  (fun) //=&gt; Deferred</code></h2>
+				
 				<div class="body">
-				<p><code>error</code> set <var>fun</var> as errorback of self and return next Deferred.
+				<p>This sets <var>fun</var> as errorback of self and return next Deferred.
 If <var>fun</var> not throws error but returns normal value, Deferred treats
 the given error is recovery and continue callback chain.
  </p>
@@ -128,31 +138,39 @@ the given error is recovery and continue callback chain.
 			</div>
 			
 			<div class="section" id="Deferred.prototype.call">
-				<h2>function Deferred.prototype.call   (val) //=&gt; void 0</h2>
+				
+				<h2><code>function Deferred.prototype.call   (val) //=&gt; void 0</code></h2>
+				
 				<div class="body">
-				<p><code><a href='#call'>call</a></code> invokes self callback chain.
+				<p>This invokes self callback chain.
  </p>
 				</di>
 			</div>
 			
 			<div class="section" id="Deferred.prototype.fail">
-				<h2>function Deferred.prototype.fail   (err) //=&gt; void 0</h2>
+				
+				<h2><code>function Deferred.prototype.fail   (err) //=&gt; void 0</code></h2>
+				
 				<div class="body">
-				<p><code>fail</code> invokes self errorback chain.
+				<p>This invokes self errorback chain.
  </p>
 				</di>
 			</div>
 			
 			<div class="section" id="Deferred.prototype.cancel">
-				<h2>function Deferred.prototype.cancel (err) //=&gt; void 0</h2>
+				
+				<h2><code>function Deferred.prototype.cancel (err) //=&gt; void 0</code></h2>
+				
 				<div class="body">
-				<p><code>cancel</code> cancels self callback chain.
+				<p>This cancels self callback chain.
  </p>
 				</di>
 			</div>
 			
 			<div class="section" id="parallel">
-				<h2>function parallel (deferredlist) //=&gt; Deferred</h2>
+				
+				<h2><code>function parallel (deferredlist) //=&gt; Deferred</code></h2>
+				
 				<div class="body">
 				<p><code><a href='#parallel'>parallel</a></code> wraps up deferredlist to one deferred.
 This is useful when some asynchronous resources required.</p>
@@ -179,7 +197,9 @@ parallel({
 			</div>
 			
 			<div class="section" id="wait">
-				<h2>function wait (sec) //=&gt; Deferred</h2>
+				
+				<h2><code>function wait (sec) //=&gt; Deferred</code></h2>
+				
 				<div class="body">
 				<p><code><a href='#wait'>wait</a></code> returns deferred that will be called after <var>sec</var> elapsed
 with real elapsed time (msec)</p>
@@ -193,7 +213,9 @@ with real elapsed time (msec)</p>
 			</div>
 			
 			<div class="section" id="next">
-				<h2>function next (fun) //=&gt; Deferred</h2>
+				
+				<h2><code>function next (fun) //=&gt; Deferred</code></h2>
+				
 				<div class="body">
 				<p><code><a href='#next'>next</a></code> is shorthand for creating new deferred which
 is called after current queue.
@@ -202,7 +224,9 @@ is called after current queue.
 			</div>
 			
 			<div class="section" id="call">
-				<h2>function call (fun[, args...]) //=&gt; Deferred</h2>
+				
+				<h2><code>function call (fun[, args...]) //=&gt; Deferred</code></h2>
+				
 				<div class="body">
 				<p><code><a href='#call'>call</a></code> function is for calling function asynchronous.</p>
 <p>Sample:
@@ -227,7 +251,9 @@ next(function (r) {
 			</div>
 			
 			<div class="section" id="loop">
-				<h2>function loop (n, fun) //=&gt; Deferred</h2>
+				
+				<h2><code>function loop (n, fun) //=&gt; Deferred</code></h2>
+				
 				<div class="body">
 				<p><code><a href='#loop'>loop</a></code> function provides browser-non-blocking loop.
 This loop is slow but not stop browser's appearance.</p>
