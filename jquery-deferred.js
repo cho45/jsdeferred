@@ -103,12 +103,14 @@ Deferred.prototype = {
 	},
 
 	_post : function (okng, fun) {
-		this.callback[okng] = fun;
-		this._next = new Deferred();
-		return this._next;
+		var ret =  new Deferred();
+		ret.callback[okng] = fun;
+		this._next = ret;
+		return ret;
 	},
 
 	_fire : function (okng, value) {
+		// if (typeof log == 'function') log("_fire called");
 		var self = this;
 		var next = "ok";
 		try {
@@ -216,7 +218,8 @@ function wait (n) {
 function next (fun) {
 	var d = new Deferred();
 	setTimeout(function () { d.call() }, 0);
-	return d.next(fun);
+	d.callback.ok = fun;
+	return d;
 }
 
 /* function call (fun[, args...]) //=> Deferred

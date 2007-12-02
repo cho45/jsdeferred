@@ -34,12 +34,15 @@ function show (msg, expect, result) {
 
 function msg (m) {
 	$("<tr class='msg'><td colspan='3'>"+m+"</td></tr>").appendTo(results);
+	window.scrollTo(0, document.body.scrollHeight);
 }
 
 function print (m) {
 	$("<tr class='msg low'><td colspan='3'>"+m+"</td></tr>").appendTo(results);
+	window.scrollTo(0, document.body.scrollHeight);
 }
 window.print = print;
+window.log = print;
 
 function ok () {
 	show.apply("ok", arguments);
@@ -82,11 +85,6 @@ expect("$.get deferred",     true, $.get(".")     instanceof $.deferred);
 // comment out for svn web
 expect("$.getJSON deferred", true, $.getJSON(".") instanceof $.deferred);
 
-var r = [];
-var d = new $.deferred();
-d.next(function () { ok("Callback called"); r.push(1) });
-d.call();
-expect("Callback called", 1, r.pop());
 
 // Start Main Test
 msg("Start Main Tests::");
