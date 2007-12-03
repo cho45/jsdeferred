@@ -93,26 +93,23 @@ Deferred.prototype = {
 		this._next    = null;
 	},
 
-	next  : function (fun) { return this._post("ok", fun); },
-	error : function (fun) { return this._post("ng", fun); },
-	call  : function (val) { return this._fire("ok", val); },
-	fail  : function (err) { return this._fire("ng", err); },
+	next  : function (fun) { return this._post("ok", fun) },
+	error : function (fun) { return this._post("ng", fun) },
+	call  : function (val) { return this._fire("ok", val) },
+	fail  : function (err) { return this._fire("ng", err) },
 
 	cancel : function () {
 		this._next = null;
 	},
 
 	_post : function (okng, fun) {
-		var ret =  new Deferred();
-		ret.callback[okng] = fun;
-		this._next = ret;
-		return ret;
+		this._next =  new Deferred();
+		this._next.callback[okng] = fun;
+		return this._next;
 	},
 
 	_fire : function (okng, value) {
-		// if (typeof log == 'function') log("_fire called");
-		var self = this;
-		var next = "ok";
+		var self = this, next = "ok";
 		try {
 			value = self.callback[okng].call(self, value);
 		} catch (e) {
@@ -154,39 +151,25 @@ Deferred.prototype = {
  *     });
  */
 function parallel (dl) {
-	var ret = new Deferred();
-	if (dl instanceof Array) {
-		var values = [];
-		for (var i = 0; i < dl.length; i++) {
-			(function (d, i) {
-				d.next(function (v) {
-					dl.pop();
-					values[i] = v;
-					if (!dl.length) {
-						ret.call(values);
+	var ret = new Deferred(), values = {}, num = 0;
+	for (var i in dl) {
+		if (!dl.hasOwnProperty(i)) continue;
+		(function (d, i) {
+			d.next(function (v) {
+				values[i] = v;
+				if (--num <= 0) {
+					if (dl instanceof Array) {
+						// Object to Array
+						values.length = dl.length;
+						values = Array.prototype.slice.call(values, 0);
 					}
-				}).error(function (e) {
-					ret.fail(e);
-				});
-			})(dl[i], i)
-		}
-	} else {
-		var values = {}
-		var num    = 0;
-		for (var i in dl) {
-			if (!dl.hasOwnProperty(i)) continue;
-			(function (d, i) {
-				d.next(function (v) {
-					values[i] = v;
-					if (--num <= 0) {
-						ret.call(values);
-					}
-				}).error(function (e) {
-					ret.fail(e);
-				});
-				num++;
-			})(dl[i], i)
-		}
+					ret.call(values);
+				}
+			}).error(function (e) {
+				ret.fail(e);
+			});
+			num++;
+		})(dl[i], i)
 	}
 	return ret;
 }
@@ -202,8 +185,7 @@ function parallel (dl) {
  *     });
  */
 function wait (n) {
-	var d = new Deferred();
-	var t = new Date();
+	var d = new Deferred(), t = new Date();
 	setTimeout(function () {
 		d.call((new Date).getTime() - t.getTime());
 	}, n * 1000)
@@ -270,12 +252,13 @@ function call (f, args) {
  *     });
  */
 function loop (n, fun) {
-	var o = {};
-	o.begin = n.begin || 0;
-	o.end   = n.end   || (n - 1);
-	o.step  = n.step  || 1;
-	o.last  = false;
-	o.prev  = null;
+	var o = {
+		begin : n.begin || 0,
+		end   : n.end   || (n - 1),
+		step  : n.step  || 1,
+		last  : false,
+		prev  : null
+	};
 	var ret, step = o.step;
 	return next(function () {
 		function _loop (i) {
