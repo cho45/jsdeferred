@@ -255,7 +255,7 @@ function print (m) { $("#delay-loop-code").append("\n// "+m) }
 					<p>No wait but toooooooo slow :( But, but, browser will not be stopped!</p>
 					<pre id="bfi-code">
 function bfrun () {
-	var mem    = $("&lt;pre/>"), out = $("&lt;pre/>");
+	var mem    = $("&lt;pre/>"), out = $("&lt;pre/>"), button = $("#bfi-run").hide();
 	var sinput = $("#bfi-source").hide(), source = sinput.val();
 	var shtml  = $("&lt;div class='code'/>");
 	var selems = $.map(source.split(/\n/), function (l) {
@@ -348,6 +348,16 @@ function bfrun () {
 		}
 	}).
 	next(function (c) {
+		var reset = $("&lt;button>Reset&lt;/button>")
+		sinput.after(reset);
+		reset.click(function () {
+			sinput.show();
+			button.show();
+			mem.remove();
+			out.remove();
+			shtml.remove();
+			reset.remove();
+		});
 		log("end");
 	}).
 	error(function (e) {
@@ -366,7 +376,7 @@ function bfrun () {
 >.>++.+++++++..+++.<<-.[->-<]>++++.>+++++++
 +.--------.+++.------.--------.<+.
 </textarea>
-					<button onclick="bfrun();">Run!</button>
+					<button id="bfi-run" onclick="bfrun();">Run!</button>
 				</div>
 			</div>
 
