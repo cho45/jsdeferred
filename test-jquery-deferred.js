@@ -22,7 +22,7 @@ function show (msg, expect, result) {
 	if (testfuns.length) {
 		$("#nums").css("color", "#900");
 	} else {
-		$("#nums").css("color", "inherit");
+		$("#nums").css("color", "");
 	}
 	if (okng == "ng" || arguments.callee.ng) {
 		arguments.callee.ng = true;
@@ -303,12 +303,9 @@ next(function () {
 			expect("parallel named values bar", 1, values.bar);
 		});
 	}).
-	next(function () {
-	}).
 	error(function (e) {
-		ng("Error on loop Tests", "", e);
-	}).
-	next(function () {
+		alert(e);
+		ng("Error on Tests", "", e);
 	});
 }).
 next(function () {
