@@ -269,22 +269,24 @@ function bfrun () {
 	var pi = {
 		"+": function (c) {
 			if (!c.stack[0]) return c;
-			c.memory[c.pointer] = (c.memory[c.pointer] || 0) + 1;
+			c.memory[c.pointer]++;
 			return c;
 		},
 		"-": function (c) {
 			if (!c.stack[0]) return c;
-			c.memory[c.pointer] = (c.memory[c.pointer] || 0) - 1;
+			c.memory[c.pointer]--;
 			return c;
 		},
 		">": function (c) {
 			if (!c.stack[0]) return c;
 			c.pointer++;
+			c.memory[c.pointer] = (c.memory[c.pointer] || 0);
 			return c;
 		},
 		"&lt;": function (c) {
 			if (!c.stack[0]) return c;
 			c.pointer--;
+			c.memory[c.pointer] = (c.memory[c.pointer] || 0);
 			return c;
 		},
 		".": function (c) {
