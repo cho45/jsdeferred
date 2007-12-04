@@ -25,7 +25,7 @@
 (function ($) {
 /* Usage::
  *
- *     $.deferred.export();
+ *     $.deferred.define();
  *
  *     $.get("/hoge").next(function (data) {
  *         alert(data);
