@@ -77,13 +77,7 @@
  *
  * This cancels self callback chain.
  */
-function Deferred () {
-	if (this instanceof Deferred) {
-		this.init.apply(this);
-	} else {
-		return new Deferred();
-	}
-}
+function Deferred () { return (this instanceof Deferred) ? this.init(this) : new Deferred() }
 Deferred.prototype = {
 	init : function () {
 		this.callback = {
@@ -91,6 +85,7 @@ Deferred.prototype = {
 			ng: function (x) { throw  x }
 		};
 		this._next    = null;
+		return this;
 	},
 
 	next  : function (fun) { return this._post("ok", fun) },
@@ -100,7 +95,7 @@ Deferred.prototype = {
 
 	cancel : function () {
 		(this.canceller || function () {})();
-		this.init();
+		return this.init();
 	},
 
 	_post : function (okng, fun) {
@@ -125,6 +120,7 @@ Deferred.prototype = {
 				if (self._next) self._next._fire(next, value);
 			}, 0);
 		}
+		return this;
 	}
 };
 
