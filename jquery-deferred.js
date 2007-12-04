@@ -311,7 +311,7 @@ $.each(["get", "getJSON", "post"], function (n, i) {
 		orig(url, data, function (data) {
 			d.call(data);
 		});
-		if (callback) d.next(callback);
+		if (callback) d = d.next(callback);
 		return d;
 	};
 });
