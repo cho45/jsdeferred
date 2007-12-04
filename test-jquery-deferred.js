@@ -86,6 +86,11 @@ expect("$.get deferred",     true, $.get(".")     instanceof $.deferred);
 expect("$.getJSON deferred", true, $.getJSON(".") instanceof $.deferred);
 
 
+var d = next(function () {
+	ng("Must not be called!!");
+});
+d.cancel();
+
 // Start Main Test
 msg("Start Main Tests::");
 next(function () {

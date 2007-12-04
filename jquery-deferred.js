@@ -99,6 +99,7 @@ Deferred.prototype = {
 	fail  : function (err) { return this._fire("ng", err) },
 
 	cancel : function () {
+		(this.canceller || function () {})();
 		this._next = null;
 	},
 
@@ -119,7 +120,8 @@ Deferred.prototype = {
 		if (value instanceof Deferred) {
 			value._next = self._next;
 		} else {
-			setTimeout(function () {
+			var id = setTimeout(function () {
+				clearTimeout(id);
 				if (self._next) self._next._fire(next, value);
 			}, 0);
 		}
@@ -186,9 +188,11 @@ function parallel (dl) {
  */
 function wait (n) {
 	var d = new Deferred(), t = new Date();
-	setTimeout(function () {
+	var id = setTimeout(function () {
+		clearTimeout(id);
 		d.call((new Date).getTime() - t.getTime());
 	}, n * 1000)
+	d.canceller   = function () { try { clearTimeout(id) } catch (e) {} };
 	return d;
 }
 
@@ -199,8 +203,9 @@ function wait (n) {
  */
 function next (fun) {
 	var d = new Deferred();
-	setTimeout(function () { d.call() }, 0);
+	var id = setTimeout(function () { clearTimeout(id); d.call() }, 0);
 	d.callback.ok = fun;
+	d.canceller   = function () { try { clearTimeout(id) } catch (e) {} };
 	return d;
 }
 
