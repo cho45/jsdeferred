@@ -130,8 +130,8 @@ var d = $.deferred();
 				<h2><code>function Deferred.prototype.error  (fun) //=&gt; Deferred</code></h2>
 				
 				<div class="body">
-				<p>This sets <var>fun</var> as errorback of self and return next Deferred.
-If <var>fun</var> not throws error but returns normal value, Deferred treats
+				<p>Create new Deferred and sets <var>fun</var> as its errorback.</p>
+<p>If <var>fun</var> not throws error but returns normal value, Deferred treats
 the given error is recovery and continue callback chain.
  </p>
 				</di>
@@ -139,7 +139,7 @@ the given error is recovery and continue callback chain.
 			
 			<div class="section" id="Deferred.prototype.call">
 				
-				<h2><code>function Deferred.prototype.call   (val) //=&gt; void 0</code></h2>
+				<h2><code>function Deferred.prototype.call   (val) //=&gt; this</code></h2>
 				
 				<div class="body">
 				<p>Invokes self callback chain.
@@ -149,7 +149,7 @@ the given error is recovery and continue callback chain.
 			
 			<div class="section" id="Deferred.prototype.fail">
 				
-				<h2><code>function Deferred.prototype.fail   (err) //=&gt; void 0</code></h2>
+				<h2><code>function Deferred.prototype.fail   (err) //=&gt; this</code></h2>
 				
 				<div class="body">
 				<p>Invokes self errorback chain.
@@ -159,7 +159,7 @@ the given error is recovery and continue callback chain.
 			
 			<div class="section" id="Deferred.prototype.cancel">
 				
-				<h2><code>function Deferred.prototype.cancel (err) //=&gt; void 0</code></h2>
+				<h2><code>function Deferred.prototype.cancel (err) //=&gt; this</code></h2>
 				
 				<div class="body">
 				<p>Cancels self callback chain.

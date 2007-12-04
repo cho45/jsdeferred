@@ -61,19 +61,20 @@
  */
 /* function Deferred.prototype.error  (fun) //=> Deferred
  *
- * This sets `fun` as errorback of self and return next Deferred.
+ * Create new Deferred and sets `fun` as its errorback.
+ *
  * If `fun` not throws error but returns normal value, Deferred treats
  * the given error is recovery and continue callback chain.
  */
-/* function Deferred.prototype.call   (val) //=> void 0
+/* function Deferred.prototype.call   (val) //=> this
  *
  * Invokes self callback chain.
  */
-/* function Deferred.prototype.fail   (err) //=> void 0
+/* function Deferred.prototype.fail   (err) //=> this
  *
  * Invokes self errorback chain.
  */
-/* function Deferred.prototype.cancel (err) //=> void 0
+/* function Deferred.prototype.cancel (err) //=> this
  *
  * Cancels self callback chain.
  */
