@@ -91,6 +91,13 @@ var d = next(function () {
 });
 d.cancel();
 
+var d = $.deferred();
+d.callback.ok = function () {
+	ng("Must not be called!!");
+};
+d.cancel();
+d.call();
+
 // Start Main Test
 msg("Start Main Tests::");
 next(function () {

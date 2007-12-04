@@ -100,7 +100,7 @@ Deferred.prototype = {
 
 	cancel : function () {
 		(this.canceller || function () {})();
-		this._next = null;
+		this.init();
 	},
 
 	_post : function (okng, fun) {
