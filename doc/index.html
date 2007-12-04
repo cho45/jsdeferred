@@ -120,7 +120,7 @@ var d = $.deferred();
 				<h2><code>function Deferred.prototype.next   (fun) //=&gt; Deferred</code></h2>
 				
 				<div class="body">
-				<p>This sets <var>fun</var> as callback of self and return next Deferred.
+				<p>Create new Deferred and sets <var>fun</var> as its callback.
  </p>
 				</di>
 			</div>
@@ -142,7 +142,7 @@ the given error is recovery and continue callback chain.
 				<h2><code>function Deferred.prototype.call   (val) //=&gt; void 0</code></h2>
 				
 				<div class="body">
-				<p>This invokes self callback chain.
+				<p>Invokes self callback chain.
  </p>
 				</di>
 			</div>
@@ -152,7 +152,7 @@ the given error is recovery and continue callback chain.
 				<h2><code>function Deferred.prototype.fail   (err) //=&gt; void 0</code></h2>
 				
 				<div class="body">
-				<p>This invokes self errorback chain.
+				<p>Invokes self errorback chain.
  </p>
 				</di>
 			</div>
@@ -162,7 +162,7 @@ the given error is recovery and continue callback chain.
 				<h2><code>function Deferred.prototype.cancel (err) //=&gt; void 0</code></h2>
 				
 				<div class="body">
-				<p>This cancels self callback chain.
+				<p>Cancels self callback chain.
  </p>
 				</di>
 			</div>
@@ -172,7 +172,7 @@ the given error is recovery and continue callback chain.
 				<h2><code>function parallel (deferredlist) //=&gt; Deferred</code></h2>
 				
 				<div class="body">
-				<p><code><a href='#parallel'>parallel</a></code> wraps up deferredlist to one deferred.
+				<p><code><a href='#parallel'>parallel</a></code> wraps up <var>deferredlist</var> to one deferred.
 This is useful when some asynchronous resources required.</p>
 <p><var>deferredlist</var> can be Array or Object (Hash).</p>
 <p>Sample:

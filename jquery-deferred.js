@@ -57,7 +57,7 @@
  */
 /* function Deferred.prototype.next   (fun) //=> Deferred
  *
- * This sets `fun` as callback of self and return next Deferred.
+ * Create new Deferred and sets `fun` as its callback.
  */
 /* function Deferred.prototype.error  (fun) //=> Deferred
  *
@@ -67,15 +67,15 @@
  */
 /* function Deferred.prototype.call   (val) //=> void 0
  *
- * This invokes self callback chain.
+ * Invokes self callback chain.
  */
 /* function Deferred.prototype.fail   (err) //=> void 0
  *
- * This invokes self errorback chain.
+ * Invokes self errorback chain.
  */
 /* function Deferred.prototype.cancel (err) //=> void 0
  *
- * This cancels self callback chain.
+ * Cancels self callback chain.
  */
 function Deferred () { return (this instanceof Deferred) ? this.init(this) : new Deferred() }
 Deferred.prototype = {
@@ -126,7 +126,7 @@ Deferred.prototype = {
 
 /* function parallel (deferredlist) //=> Deferred
  *
- * `parallel` wraps up deferredlist to one deferred.
+ * `parallel` wraps up `deferredlist` to one deferred.
  * This is useful when some asynchronous resources required.
  *
  * `deferredlist` can be Array or Object (Hash).
