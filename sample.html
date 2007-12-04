@@ -210,6 +210,23 @@ function print (m) { $("#loop-code1").append("\n// "+m) }
 				</div>
 
 				<div clsss="section">
+					<h2>Pseudo Multi Thread</h2>
+					<pre id="thread-code" onclick="eval($(this).text());">
+loop(10, function (n) {
+	print(n);
+	return wait(0.1);
+});
+
+loop(10, function (n) {
+	print(String.fromCharCode(97+n));
+	return wait(0.2);
+});
+
+function print (m) { $("#thread-code").append("\n// "+m) }
+</pre>
+				</div>
+
+				<div clsss="section">
 					<h2>Delay Loop</h2>
 					<pre id="delay-loop-code1" onclick="eval($(this).text());">
 loop(5, function (i, o) {
