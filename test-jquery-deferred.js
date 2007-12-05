@@ -98,6 +98,7 @@ d.callback.ok = function () {
 d.cancel();
 d.call();
 
+
 // Start Main Test
 msg("Start Main Tests::");
 next(function () {
@@ -116,6 +117,23 @@ next(function () {
 	}).
 	error(function (e) {
 		expect("Errorback called", "Error2", e);
+	});
+}).
+next(function () {
+	delete $.deferred.prototype.wait;
+	$.deferred.register("wait", wait);
+	return next(function () {
+		msg("register test");
+	}).
+	next(function () { msg("registed wait") }).
+	wait(0.1).
+	next(function () { msg("registed loop") }).
+	loop(1, function () {}).
+	next(function (n) {
+		ok("register test");
+	}).
+	error(function (e) {
+		ng(e);
 	});
 }).
 next(function () {

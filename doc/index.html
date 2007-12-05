@@ -167,6 +167,45 @@ the given error is recovery and continue callback chain.
 				</di>
 			</div>
 			
+			<div class="section" id="Deferred.register">
+				
+				<h2><code>function Deferred.register (name, fun) //=&gt; void 0</code></h2>
+				
+				<div class="body">
+				<p>Register <var>fun</var> to Deferred prototype for method chain.</p>
+<p>Sample::
+</p>
+<pre>// Deferred.register("loop", loop);
+
+// Global Deferred function
+loop(10, function (n) {
+    print(n);
+}).
+// Registered Deferred.prototype.loop
+loop(10, function (n) {
+    print(n);
+});
+ </pre>
+				</di>
+			</div>
+			
+			<div class="section" id="Deferred.wrap">
+				
+				<h2><code>function Deferred.wrap (dfun) //=&gt; Function</code></h2>
+				
+				<div class="body">
+				<p>Create and return function which run <var>dfun</var> with arguments.</p>
+<p>Sample::
+</p>
+<pre>var dloop = Deferred.wrap(loop);
+
+next(dloop(10, function (n) {
+    print(n);
+}));
+ </pre>
+				</di>
+			</div>
+			
 			<div class="section" id="parallel">
 				
 				<h2><code>function parallel (deferredlist) //=&gt; Deferred</code></h2>

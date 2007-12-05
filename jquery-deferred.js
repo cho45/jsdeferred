@@ -125,6 +125,48 @@ Deferred.prototype = {
 	}
 };
 
+/* function Deferred.register (name, fun) //=> void 0
+ *
+ * Register `fun` to Deferred prototype for method chain.
+ *
+ * Sample::
+ *     // Deferred.register("loop", loop);
+ *
+ *     // Global Deferred function
+ *     loop(10, function (n) {
+ *         print(n);
+ *     }).
+ *     // Registered Deferred.prototype.loop
+ *     loop(10, function (n) {
+ *         print(n);
+ *     });
+ */
+Deferred.register = function (name, fun) {
+	this.prototype[name] = function () {
+		return this.next(Deferred.wrap(fun).apply(null, arguments));
+	};
+};
+
+/* function Deferred.wrap (dfun) //=> Function
+ *
+ * Create and return function which run `dfun` with arguments.
+ *
+ * Sample::
+ *     var dloop = Deferred.wrap(loop);
+ *
+ *     next(dloop(10, function (n) {
+ *         print(n);
+ *     }));
+ */
+Deferred.wrap = function (dfun) {
+	return function () {
+		var a = arguments;
+		return function () {
+			return dfun.apply(null, a);
+		};
+	};
+};
+
 /* function parallel (deferredlist) //=> Deferred
  *
  * `parallel` wraps up `deferredlist` to one deferred.
@@ -155,6 +197,7 @@ function parallel (dl) {
 		if (!dl.hasOwnProperty(i)) continue;
 		(function (d, i) {
 			d.next(function (v) {
+				console.log([i, num]);
 				values[i] = v;
 				if (--num <= 0) {
 					if (dl instanceof Array) {
@@ -192,6 +235,7 @@ function wait (n) {
 	d.canceller   = function () { try { clearTimeout(id) } catch (e) {} };
 	return d;
 }
+Deferred.register("wait", wait);
 
 /* function next (fun) //=> Deferred
  *
@@ -286,6 +330,7 @@ function loop (n, fun) {
 		return call(_loop, o.begin);
 	});
 }
+Deferred.register("loop", loop);
 
 $.deferred          = Deferred;
 $.deferred.parallel = parallel;

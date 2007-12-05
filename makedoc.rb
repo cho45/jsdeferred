@@ -16,9 +16,9 @@ class JsDoc
 
 	def parse
 		js = File.read(@filename)
-		js.scan(%r{/\* ([^:]+::|function[^\n]+)(.+?)\*/}im) do |header, body|
+		js.scan(%r{/\* (function[^\n]+|[^:]+::)(.+?)\*/}im) do |header, body|
 			body.gsub!(/^ \* ?/, "")
-			# p header
+			p header
 			_, name, args, retv = *%r{^function\s+([^\s]+)\s+\((.*)\)\s+//=>\s+(.+)}.match(header)
 			if _
 				#p [name, args, retv]

@@ -8,6 +8,8 @@
 		<script type="text/javascript">
 			// <![CDATA[
 			$.deferred.define();
+
+
 			// ]]>
 		</script>
 
@@ -223,6 +225,32 @@ loop(10, function (n) {
 });
 
 function print (m) { $("#thread-code").append(" "+m) }
+
+//</pre>
+				</div>
+
+				<div clsss="section">
+					<h2>Shorthand</h2>
+					<pre id="shorthand-code" onclick="eval($(this).text());">
+print(0);
+loop(10, function (n) {
+	print(n);
+	return n;
+}).
+wait(1).
+loop(10, function (n) {
+	var c = String.fromCharCode(97+n);
+	print(c);
+	return c;
+}).
+next(function (i) {
+	print("end");
+}).
+error(function (e) {
+	alert(e);
+});
+
+function print (m) { $("#shorthand-code").append(" "+m) }
 
 //</pre>
 				</div>
