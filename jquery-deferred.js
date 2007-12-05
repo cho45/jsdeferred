@@ -197,7 +197,6 @@ function parallel (dl) {
 		if (!dl.hasOwnProperty(i)) continue;
 		(function (d, i) {
 			d.next(function (v) {
-				console.log([i, num]);
 				values[i] = v;
 				if (--num <= 0) {
 					if (dl instanceof Array) {
