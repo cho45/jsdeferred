@@ -270,22 +270,21 @@ function effect (o) {
 		}
 	});
 }
+// register function to use shorthand of chain
+$.deferred.register("effect", effect);
+
 var ele  = document.getElementById("effect-code1");
-next(function () {
-	return effect({
-		target : ele,
-		name   : "left",
-		value  : 100,
-		time   : 300
-	});
+effect({
+	target : ele,
+	name   : "left",
+	value  : 100,
+	time   : 300
 }).
-next(function () {
-	return effect({
-		target : ele,
-		name   : "top",
-		value  : 100,
-		time   : 300
-	});
+effect({
+	target : ele,
+	name   : "top",
+	value  : 100,
+	time   : 300
 }).
 next(function () {
 	return parallel([
