@@ -263,6 +263,7 @@ function effect (o) {
 	var curr  = +o.target.style[o.name].match(/\d+/);
 	return next(function () {
 		var rate = (new Date().valueOf() - start) / o.time;
+		if (rate > 1) rate = 1;
 		o.target.style[o.name] = (curr + rate * o.value) + "px";
 		if (rate &lt; 1) {
 			return call(arguments.callee);
@@ -271,24 +272,20 @@ function effect (o) {
 }
 var ele  = document.getElementById("effect-code1");
 next(function () {
-	return parallel([
-		effect({
-			target : ele,
-			name   : "left",
-			value  : 100,
-			time   : 300
-		})
-	]);
+	return effect({
+		target : ele,
+		name   : "left",
+		value  : 100,
+		time   : 300
+	});
 }).
 next(function () {
-	return parallel([
-		effect({
-			target : ele,
-			name   : "top",
-			value  : 100,
-			time   : 300
-		})
-	]);
+	return effect({
+		target : ele,
+		name   : "top",
+		value  : 100,
+		time   : 300
+	});
 }).
 next(function () {
 	return parallel([
