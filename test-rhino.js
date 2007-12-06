@@ -124,18 +124,18 @@ addFinalizer(function () {
 			}
 		}
 	});
-	runQueue.add    = sync(function (func, delay) {
+	runQueue.add    = function (func, delay) {
 		this.push({id:++runQueue._id,func:func, time: new Date().valueOf() + delay});
 		return runQueue._id;
-	});
-	runQueue.remove = sync(function (id) {
+	};
+	runQueue.remove = function (id) {
 		for (var i = 0; i < this.length; i++) {
 			if (this[i].id == id) {
 				this.splice(i, 1);
 				break;
 			}
 		}
-	});
+	};
 	runQueue._id = 0;
 
 	Global.addFinalizer = function (fun) {
@@ -160,11 +160,8 @@ addFinalizer(function () {
 	};
 
 	// run process
-	spawn(function () {
-		while (runQueue.length) {
-//			print(uneval(runQueue));
-			runQueue.process();
-		}
-		Global.addFinalizer.finalizers.forEach(function (i) { i() });
-	});
+	while (runQueue.length) {
+		runQueue.process();
+	}
+	Global.addFinalizer.finalizers.forEach(function (i) { i() });
 })();
