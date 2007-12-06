@@ -10,10 +10,11 @@ def mini(js, commentonly=false)
 	js.gsub!(%r|\n?/\*.*?\*/|m, "")
 	js.gsub!(%r|\n?//.*|, "")
 	unless commentonly
+		js.gsub!(/^\s+/, "")
 		js.gsub!(/[ \t]+/, " ")
 		js.gsub!(/\n\n+/, "\n")
 		js.gsub!(/\s?;\s?/, ";")
-		js.gsub!(/\s?\{\s?/, "{")
+		js.gsub!(/ ?([{}()<>:=,*\/+-]) ?/, "\\1")
 	end
 	js
 end
