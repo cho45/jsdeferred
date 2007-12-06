@@ -135,7 +135,7 @@ $.get("sample.html").next(function (data) {
 					<pre id="parallel-code" onclick="eval($(this).text());">
 print("start. gathering data.");
 
-parallel([$.get("sample.html"), $.get("jquery-deferred.js")]).
+parallel([$.get("sample.html"), $.get("jsdeferred.js")]).
 next(function (values) {
 	var lengths = $.map(values, function (i) { return i.length });
 	print(lengths.join(", "));
@@ -147,7 +147,7 @@ function print (m) { $("#parallel-code").append("\n// "+m) }
 print("start. gathering data.");
 
 // named parallel deferred
-parallel({html: $.get("sample.html"), js: $.get("jquery-deferred.js")}).
+parallel({html: $.get("sample.html"), js: $.get("jsdeferred.js")}).
 next(function (values) {
 	print(["html=", values.html.length, " js=", values.js.length].join(""));
 });
