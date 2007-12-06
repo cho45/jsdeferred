@@ -28,7 +28,7 @@ task :default => [:test]
 task :test => [:release] do
 end
 
-task :release => ["jsdeferred.nodoc.js", "jsdeferred.mini.js", "jsdeferred.js", "jsdeferred.jquery.js"] do
+task :release => ["jsdeferred.nodoc.js", "jsdeferred.mini.js", "jsdeferred.js", "jsdeferred.jquery.js", "doc/index.html"] do
 end
 
 file "jsdeferred.nodoc.js" => ["jsdeferred.js"] do |t|
@@ -49,4 +49,8 @@ file "jsdeferred.jquery.js" => ["jsdeferred.js", "binding/jquery.js"] do |t|
 	}
 end
 
+
+file "doc/index.html" => ["jsdeferred.js"] do |t|
+	sh %{ruby makedoc.rb}
+end
 

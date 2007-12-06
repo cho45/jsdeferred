@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>jQuery Deferred</title>
+		<title>JSDeferred</title>
 
 		<style type="text/css">
 			body {
@@ -43,7 +43,7 @@
 	</head>
 	<body>
 		<div id="whole">
-			<h1>jQuery Deferred</h1>
+			<h1>JSDeferred</h1>
 
 			
 			<div class="section" id="0">
@@ -51,7 +51,7 @@
 				<h2>Header::</h2>
 				
 				<div class="body">
-				<p>jQuery Deferred
+				<p>JSDeferred
 Copyright (c) 2007 cho45 ( www.lowreal.net )</p>
 <p>License:: MIT</p>
 <p>Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -75,7 +75,7 @@ THE SOFTWARE.
 			
 			<div class="section" id="1">
 				
-				<h2>Usage::</h2>
+				<h2>Usage (with jQuery)::</h2>
 				
 				<div class="body">
 				<pre>$.deferred.define();
@@ -108,9 +108,9 @@ next(function (d) {
 				<p><code><a href='#Deferred'>Deferred</a></code> function is constructor of Deferred.</p>
 <p>Sample:
 </p>
-<pre>var d = new $.deferred(); //=> new Deferred;
+<pre>var d = new Deferred();
 // or this is shothand of above.
-var d = $.deferred();
+var d = Deferred();
  </pre>
 				</di>
 			</div>
@@ -164,45 +164,6 @@ the given error is recovery and continue callback chain.
 				<div class="body">
 				<p>Cancels self callback chain.
  </p>
-				</di>
-			</div>
-			
-			<div class="section" id="Deferred.register">
-				
-				<h2><code>function Deferred.register (name, fun) //=&gt; void 0</code></h2>
-				
-				<div class="body">
-				<p>Register <var>fun</var> to Deferred prototype for method chain.</p>
-<p>Sample::
-</p>
-<pre>// Deferred.register("loop", loop);
-
-// Global Deferred function
-loop(10, function (n) {
-    print(n);
-}).
-// Registered Deferred.prototype.loop
-loop(10, function (n) {
-    print(n);
-});
- </pre>
-				</di>
-			</div>
-			
-			<div class="section" id="Deferred.wrap">
-				
-				<h2><code>function Deferred.wrap (dfun) //=&gt; Function</code></h2>
-				
-				<div class="body">
-				<p>Create and return function which run <var>dfun</var> with arguments.</p>
-<p>Sample::
-</p>
-<pre>var dloop = Deferred.wrap(loop);
-
-next(dloop(10, function (n) {
-    print(n);
-}));
- </pre>
 				</di>
 			</div>
 			
@@ -309,6 +270,45 @@ loop({begin:1, end:100,step:10}, function (n, o) {
 loop(10, function (n) {
     log(n);
 });
+ </pre>
+				</di>
+			</div>
+			
+			<div class="section" id="Deferred.register">
+				
+				<h2><code>function Deferred.register (name, fun) //=&gt; void 0</code></h2>
+				
+				<div class="body">
+				<p>Register <var>fun</var> to Deferred prototype for method chain.</p>
+<p>Sample::
+</p>
+<pre>// Deferred.register("loop", loop);
+
+// Global Deferred function
+loop(10, function (n) {
+    print(n);
+}).
+// Registered Deferred.prototype.loop
+loop(10, function (n) {
+    print(n);
+});
+ </pre>
+				</di>
+			</div>
+			
+			<div class="section" id="Deferred.wrap">
+				
+				<h2><code>function Deferred.wrap (dfun) //=&gt; Function</code></h2>
+				
+				<div class="body">
+				<p>Create and return function which run <var>dfun</var> with arguments.</p>
+<p>Sample::
+</p>
+<pre>var dloop = Deferred.wrap(loop);
+
+next(dloop(10, function (n) {
+    print(n);
+}));
  </pre>
 				</di>
 			</div>

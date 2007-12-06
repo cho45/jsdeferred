@@ -108,7 +108,7 @@ class JsDoc
 end
 
 require "pp"
-doc = JsDoc.new("jquery-deferred.js")
+doc = JsDoc.new("jsdeferred.js")
 #doc.each_section do |s|
 #	pp s
 ##	puts s.name
