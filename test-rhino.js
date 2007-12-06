@@ -56,28 +56,28 @@ function expect (msg, expect, result) {
 }
 
 
-// run test
-// eval(data);
+// run tests
+eval(data);
 
-Deferred.define();
-loop(5, function (n) {
-	print(n);
-});
-
-
-next(function () {
-	print("111");
-	return next(function () {
-		print("222");
-	});
-}).
-next(function () {
-	function aaa () {
-		print("444");
-	}
-	print("333");
-	return call(aaa);
-});
+//Deferred.define();
+//loop(5, function (n) {
+//	print(n);
+//});
+//
+//
+//next(function () {
+//	print("111");
+//	return next(function () {
+//		print("222");
+//	});
+//}).
+//next(function () {
+//	function aaa () {
+//		print("444");
+//	}
+//	print("333");
+//	return call(aaa);
+//});
 
 //var id = setTimeout(function () {
 //	print("foo");

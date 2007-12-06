@@ -28,6 +28,7 @@ end
 task :default => [:test]
 
 task :test => [:release] do
+	sh %{rhino test-rhino.js}
 end
 
 task :release => ["jsdeferred.nodoc.js", "jsdeferred.mini.js", "jsdeferred.js", "jsdeferred.jquery.js", "doc/index.html"] do
