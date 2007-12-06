@@ -2,7 +2,7 @@
 $(function () { $.get("test-jsdeferred.js", {}, function (data) {
 
 // get tests number.
-data = data.match(/::Test::Start::((?:\s|[^\s])+)::Test::End::/)[1];
+data = data.match(/\/\/ ::Test::Start::((?:\s|[^\s])+)::Test::End::/)[1];
 var testfuns = []; data.replace(/(ok|expect)\(.+/g, function (m) {
 	if (window.console) console.log(m);
 	testfuns.push(m);
@@ -93,11 +93,11 @@ d.callback.ok = function () {
 d.cancel();
 d.call();
 
-msg("jQuery binding test")
-expect("$.get deferred",     true, $.get(".")     instanceof $.deferred);
+// comment out for test on rhino
+// msg("jQuery binding test")
+// expect//("$.get deferred",     true, $.get(".")     instanceof $.deferred);
 // expect//("$.post deferred",    true, $.post(".")    instanceof $.deferred);
-// comment out for svn web
-expect("$.getJSON deferred", true, $.getJSON(".") instanceof $.deferred);
+// expect//("$.getJSON deferred", true, $.getJSON(".") instanceof $.deferred);
 
 // Start Main Test
 msg("Start Main Tests::");
@@ -120,8 +120,8 @@ next(function () {
 	});
 }).
 next(function () {
-	delete $.deferred.prototype.wait;
-	$.deferred.register("wait", wait);
+	delete Deferred.prototype.wait;
+	Deferred.register("wait", wait);
 	return next(function () {
 		msg("register test");
 	}).
