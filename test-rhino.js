@@ -1,11 +1,7 @@
 #!rhino
 function Main () {
-/*
- * This test script is NOT work in Rhino 1.6.R1-0.0ubuntu3
- * ...
- */
 
-load("jsdeferred.js");
+load(Global.arguments[0] || "jsdeferred.js");
 
 var data;
 data = readFile("./test-jsdeferred.js");
@@ -153,6 +149,7 @@ addFinalizer(function () {
 	};
 
 	Global.window = Global;
+	Global.Global = Global;
 	Global.console = {
 		log : function (a) {
 			a = Array.prototype.slice.call(arguments, 0);

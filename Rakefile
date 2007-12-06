@@ -9,6 +9,7 @@ See http://coderepos.org/share/wiki/JSDeferred
 EOS
 
 CLEAN.include ["jsdeferred.{nodoc,mini,jquery}.js"]
+Version = File.read("jsdeferred.js")[/Version:: (\d+\.\d+\.\d+)/, 1]
 
 def mini(js, commentonly=false)
 	js = js.dup
@@ -27,11 +28,37 @@ end
 
 task :default => [:test]
 
-task :test => [:release] do
-	sh %{rhino test-rhino.js}
+task :test => ["jsdeferred.nodoc.js", "jsdeferred.mini.js", "jsdeferred.js", "jsdeferred.jquery.js", "doc/index.html"] do
+	sh %{rhino test-rhino.js jsdeferred.js}
 end
 
-task :release => ["jsdeferred.nodoc.js", "jsdeferred.mini.js", "jsdeferred.js", "jsdeferred.jquery.js", "doc/index.html"] do
+task :release => [:update, :clean, :test] do
+	# Additional Tests
+#	[".nodoc", ".mini"].each do |f|
+#		sleep 3
+#		sh %{rhino test-rhino.js jsdeferred#{f}.js}
+#	end
+	ENV["LANG"] = "C"
+	info = `svn info`
+#	day = Time.now.strftime("%Y-%m-%d")
+#	rev = info[/Revision: (\d+)/, 1].to_i
+#	ver = "#{day}.r#{rev}"
+
+	ver = Version
+	puts "Releasing:: #{ver}"
+
+	require "uri"
+	url = URI(info[/URL: ([^\s]+)/, 1]) + "."
+	puts url
+	com = %{svn cp #{url + "trunk"} #{url + "tags/release-#{ver}"}}
+	puts com
+	puts "Tag to press any key."
+	$stdin.gets
+	sh com
+end
+
+task :update do
+	sh %{svn up}
 end
 
 file "jsdeferred.nodoc.js" => ["jsdeferred.js"] do |t|

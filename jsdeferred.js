@@ -2,6 +2,7 @@
  * JSDeferred
  * Copyright (c) 2007 cho45 ( www.lowreal.net )
  *
+ * Version:: 0.1.0
  * License:: MIT
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
