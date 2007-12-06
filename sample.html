@@ -1,14 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>jQuery Deferred Sample</title>
+		<title>JSDeferred Sample</title>
 		
 		<script type="text/javascript" src="http://coderepos.org/share/htdocs/lib/jquery-1.2.1.min.js"></script>
 		<script type="text/javascript" src="jsdeferred.js"></script>
+		<script type="text/javascript" src="binding/jquery.js"></script>
 		<script type="text/javascript">
 			// <![CDATA[
-			$.deferred.define();
-
 
 			// ]]>
 		</script>
@@ -56,7 +55,7 @@
 	</head>
 	<body>
 		<div id="whole">
-			<h1 id="top">jQuery Deferred Sample</h1>
+			<h1 id="top">JSDeferred Sample</h1>
 			<p>About Deferred: <a href="http://mochikit.com/doc/html/MochiKit/Async.html">MochiKit.Async</a></p>
 			<p>Deferred is able to write async code cleanly.</p>
 
@@ -69,17 +68,17 @@
 					<h2>Export deferred functions.</h2>
 					<pre>
 // export functions to global;
-$.deferred.define();
+Deferred.define();
 
 // export to aObj
-// $.deferred.define(aObj);
+// Deferred.define(aObj);
 
 // export specic functions
 // var global = (function () { return this })();
-// $.deferred.define(global, ["next"]);
+// Deferred.define(global, ["next"]);
 
 // full name
-$.deferred.next(fun);
+Deferred.next(fun);
 </pre>
 				</div>
 
