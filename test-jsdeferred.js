@@ -1,5 +1,5 @@
 
-$(function () { $.get("test-jquery-deferred.js", {}, function (data) {
+$(function () { $.get("test-jsdeferred.js", {}, function (data) {
 
 // get tests number.
 data = data.match(/::Test::Start::((?:\s|[^\s])+)::Test::End::/)[1];
