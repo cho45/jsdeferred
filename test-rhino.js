@@ -22,7 +22,7 @@ function show (msg, expect, result) {
 	testfuns.pop();
 
 	var out = [];
-	out.push("[", [expects - testfuns.length, expects].join("/"), "]");
+	out.push(color(46, "[", [expects - testfuns.length, expects].join("/"), "]"));
 	if (okng == "ng") {
 		expect = (typeof expect == "function") ? uneval(expect).match(/[^{]+/)+"..." : uneval(expect);
 		result = (typeof result == "function") ? uneval(result).match(/[^{]+/)+"..." : uneval(result);
@@ -30,7 +30,7 @@ function show (msg, expect, result) {
 		print(out.join(""));
 		quit();
 	} else {
-		out.push(" ", "ok");
+		out.push(" ", color(32, "ok"));
 		print(out.join(""));
 	}
 }
@@ -55,9 +55,26 @@ function expect (msg, expect, result) {
 	}
 }
 
+function color (code) {
+	var str = "";
+	for (var i = 1; i < arguments.length; i++) str += arguments[i];
+	return [
+		String.fromCharCode(27), "[", code, "m",
+		str,
+		String.fromCharCode(27), "[0m"
+	].join("");
+}
 
 // run tests
 eval(data);
+
+addFinalizer(function () {
+	if (expects - testfuns.length == expects) {
+		print(color(32, "All tests passed"));
+	} else {
+		print(color(31, "Some tests failed..."));
+	}
+});
 
 //Deferred.define();
 //loop(5, function (n) {
@@ -121,6 +138,11 @@ eval(data);
 	});
 	runQueue._id = 0;
 
+	Global.addFinalizer = function (fun) {
+		Global.addFinalizer.finalizers.push(fun);
+	};
+	Global.addFinalizer.finalizers = [];
+
 	Global.setTimeout = function (func, delay) {
 //		print("setTimeout:"+uneval(func));
 		return runQueue.add(func, delay);
@@ -143,5 +165,6 @@ eval(data);
 //			print(uneval(runQueue));
 			runQueue.process();
 		}
+		Global.addFinalizer.finalizers.forEach(function (i) { i() });
 	});
 })();
