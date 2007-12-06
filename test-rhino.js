@@ -7,6 +7,7 @@ function Main () {
 
 load("jsdeferred.js");
 
+var data;
 data = readFile("./test-jsdeferred.js");
 data = data.match(/\/\/ ::Test::Start::((?:\s|[^\s])+)::Test::End::/)[1];
 var testfuns = []; data.replace(/(ok|expect)\(.+/g, function (m) {
@@ -112,18 +113,18 @@ addFinalizer(function () {
 	// emurate setTimeout
 	var Global = (function () { return this })();
 	var runQueue = [{func:Main,time:0}];
-	runQueue.process = sync(function () {
+	runQueue.process = function () {
 		var now = new Date().valueOf();
 		for (var i = 0; i < runQueue.length; i++) {
 			if (runQueue[i].time <= now) {
 		//		print("invoke"+uneval(runQueue[i]));
-				fun = runQueue[i].func;
+				var fun = runQueue[i].func;
 				runQueue.splice(i, 1);
 				fun();
 				break;
 			}
 		}
-	});
+	};
 	runQueue.add    = function (func, delay) {
 		this.push({id:++runQueue._id,func:func, time: new Date().valueOf() + delay});
 		return runQueue._id;
