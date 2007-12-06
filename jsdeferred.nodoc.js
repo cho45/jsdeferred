@@ -1,8 +1,5 @@
 // JSDefeered (c) Copyright (c) 2007 cho45 ( www.lowreal.net )
 // See http://coderepos.org/share/wiki/JSDeferred
-
-
-
 function Deferred () { return (this instanceof Deferred) ? this.init(this) : new Deferred() }
 Deferred.prototype = {
 	init : function () {
@@ -59,7 +56,6 @@ Deferred.parallel = function (dl) {
 				values[i] = v;
 				if (--num <= 0) {
 					if (dl instanceof Array) {
-						
 						values.length = dl.length;
 						values = Array.prototype.slice.call(values, 0);
 					}
@@ -160,4 +156,3 @@ Deferred.define = function (obj, list) {
 		obj[n] = Deferred[n];
 	}
 };
-

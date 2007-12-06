@@ -3,16 +3,18 @@ require "rubygems"
 require "rake"
 require "rake/clean"
 
-CLEAN.include ["jsdeferred.{nodoc,mini,jquery}.js"]
 COPYRIGHT = <<EOS
 JSDefeered (c) Copyright (c) 2007 cho45 ( www.lowreal.net )
 See http://coderepos.org/share/wiki/JSDeferred
 EOS
 
+CLEAN.include ["jsdeferred.{nodoc,mini,jquery}.js"]
+
 def mini(js, commentonly=false)
 	js = js.dup
 	js.gsub!(%r|\n?/\*.*?\*/|m, "")
-	js.gsub!(%r|\n?//.*|, "")
+	js.gsub!(%r|\n?\s*//.*|, "")
+	js.gsub!(/\A\s+|\s+\z/, "")
 	unless commentonly
 		js.gsub!(/^\s+/, "")
 		js.gsub!(/[ \t]+/, " ")
