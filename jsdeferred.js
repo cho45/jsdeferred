@@ -1,5 +1,5 @@
 /* Header::
- * jQuery Deferred
+ * JSDeferred
  * Copyright (c) 2007 cho45 ( www.lowreal.net )
  *
  * License:: MIT

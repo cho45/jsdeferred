@@ -1,3 +1,5 @@
+// JSDefeered (c) Copyright (c) 2007 cho45 ( www.lowreal.net )
+// See http://coderepos.org/share/wiki/JSDeferred
 
 
 
