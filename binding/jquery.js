@@ -1,6 +1,5 @@
 (function ($) {
-	$.deferred          = Deferred;
-
+	$.deferred = Deferred;
 	// override jQuery Ajax functions
 	$.each(["get", "getJSON", "post"], function (n, i) {
 		var orig = $[i];

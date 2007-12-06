@@ -62,42 +62,42 @@ function expect (msg, expect, result) {
 
 // ::Test::Start::
 
-$.deferred.define();
+Deferred.define();
 
 msg("Loaded "+testfuns.length+" tests;");
 
 msg("Basic Tests::");
 
-expect("new $.deferred()", true, (new $.deferred()) instanceof $.deferred);
+expect("new Deferred", true, (new Deferred) instanceof Deferred);
+expect("Deferred()",   true,     Deferred() instanceof Deferred);
 
 var testobj = {};
-$.deferred.define(testobj);
-expect("define() next", $.deferred.next, testobj.next);
-expect("define() loop", $.deferred.loop, testobj.loop);
+Deferred.define(testobj);
+expect("define() next", Deferred.next, testobj.next);
+expect("define() loop", Deferred.loop, testobj.loop);
 
 var testobj = {};
-$.deferred.define(testobj, ["next"]);
-expect("define() next", $.deferred.next, testobj.next);
+Deferred.define(testobj, ["next"]);
+expect("define() next", Deferred.next, testobj.next);
 expect("define() loop (must not be exported)", undefined, testobj.loop);
-
-expect("$.get deferred",     true, $.get(".")     instanceof $.deferred);
-// expect//("$.post deferred",    true, $.post(".")    instanceof $.deferred);
-// comment out for svn web
-expect("$.getJSON deferred", true, $.getJSON(".") instanceof $.deferred);
-
 
 var d = next(function () {
 	ng("Must not be called!!");
 });
 d.cancel();
 
-var d = $.deferred();
+var d = Deferred();
 d.callback.ok = function () {
 	ng("Must not be called!!");
 };
 d.cancel();
 d.call();
 
+msg("jQuery binding test")
+expect("$.get deferred",     true, $.get(".")     instanceof $.deferred);
+// expect//("$.post deferred",    true, $.post(".")    instanceof $.deferred);
+// comment out for svn web
+expect("$.getJSON deferred", true, $.getJSON(".") instanceof $.deferred);
 
 // Start Main Test
 msg("Start Main Tests::");
