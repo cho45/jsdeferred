@@ -170,7 +170,7 @@ Deferred.parallel = function (dl) {
 		})(dl[i], i)
 	}
 	return ret;
-}
+};
 
 /* function wait (sec) //=> Deferred
  *
@@ -190,7 +190,7 @@ Deferred.wait = function (n) {
 	}, n * 1000)
 	d.canceller   = function () { try { clearTimeout(id) } catch (e) {} };
 	return d;
-}
+};
 
 /* function next (fun) //=> Deferred
  *
@@ -203,7 +203,7 @@ Deferred.next = function (fun) {
 	d.callback.ok = fun;
 	d.canceller   = function () { try { clearTimeout(id) } catch (e) {} };
 	return d;
-}
+};
 
 /* function call (fun[, args...]) //=> Deferred
  *
@@ -232,7 +232,7 @@ Deferred.call = function (f, args) {
 	return next(function () {
 		return f.apply(this, args);
 	});
-}
+};
 
 /* function loop (n, fun) //=> Deferred
  *
@@ -284,7 +284,7 @@ Deferred.loop = function (n, fun) {
 		}
 		return call(_loop, o.begin);
 	});
-}
+};
 
 /* function Deferred.register (name, fun) //=> void 0
  *
