@@ -1,37 +1,7 @@
 // Usage:: var Deferred = D().define();
 // JSDefeered (c) Copyright (c) 2007 cho45 ( www.lowreal.net )
 // See http://coderepos.org/share/wiki/JSDeferred
-function xhttp (opts) {
-	var d = Deferred();
-	if (opts.onload)  d = d.next(opts.onload);
-	if (opts.onerror) d = d.error(opts.onerror);
-	opts.onload = function (res) {
-		d.call(res);
-	};
-	opts.onerror = function (res) {
-		d.fail(res);
-	};
-	GM_xmlhttpRequest(opts);
-	return d;
-}
-xhttp.get  = function (url)       { return xhttp({method:"get", url:url}) }
-xhttp.post = function (url, data) { return xhttp({method:"post", url:url, data:data}) }
-
-function http (opts) {
-	var d = Deferred();
-	var req = new XMLHttpRequest();
-	req.open(opts.method, opts.url, true);
-	req.onreadystatechange = function () {
-		if (req.readyState == 4) d.call(req);
-	};
-	req.send(opts.data || null);
-	return d;
-}
-http.get  = function (url)       { return http({method:"get", url:url}) }
-http.post = function (url, data) { return http({method:"post", url:url, data:data}) }
-
 function D () {
-
 
 
 function Deferred () { return (this instanceof Deferred) ? this.init(this) : new Deferred() }
@@ -194,5 +164,37 @@ Deferred.define = function (obj, list) {
 
 
 
+function xhttp (opts) {
+	var d = Deferred();
+	if (opts.onload)  d = d.next(opts.onload);
+	if (opts.onerror) d = d.error(opts.onerror);
+	opts.onload = function (res) {
+		d.call(res);
+	};
+	opts.onerror = function (res) {
+		d.fail(res);
+	};
+	GM_xmlhttpRequest(opts);
+	return d;
+}
+xhttp.get  = function (url)       { return xhttp({method:"get", url:url}) }
+xhttp.post = function (url, data) { return xhttp({method:"post", url:url, data:data}) }
+
+function http (opts) {
+	var d = Deferred();
+	var req = new XMLHttpRequest();
+	req.open(opts.method, opts.url, true);
+	req.onreadystatechange = function () {
+		if (req.readyState == 4) d.call(req);
+	};
+	req.send(opts.data || null);
+	return d;
+}
+http.get  = function (url)       { return http({method:"get", url:url}) }
+http.post = function (url, data) { return http({method:"post", url:url, data:data}) }
+
+Deferred.Deferred = Deferred;
+Deferred.http     = http;
+Deferred.xhttp    = xhttp;
 return Deferred;
 }

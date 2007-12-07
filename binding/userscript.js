@@ -1,3 +1,6 @@
+function D () {
+/*include JSDeferred*/
+
 /* function xhttp (opts) //=> Deferred
  * Cross site version of `http`.
  */
@@ -48,9 +51,8 @@ function http (opts) {
 http.get  = function (url)       { return http({method:"get", url:url}) }
 http.post = function (url, data) { return http({method:"post", url:url, data:data}) }
 
-function D () {
-
-/*include JSDeferred*/
-
+Deferred.Deferred = Deferred;
+Deferred.http     = http;
+Deferred.xhttp    = xhttp;
 return Deferred;
 }
