@@ -1,11 +1,6 @@
 // Usage:: var Deferred = D().define();
-/* function xhttp (opts) //=> Deferred
- * Cross site version of `http`.
- */
-/* function xhttp.get (url) //=> Deferred
- */
-/* function xhttp.post (url, data) //=> Deferred
- */
+// JSDefeered (c) Copyright (c) 2007 cho45 ( www.lowreal.net )
+// See http://coderepos.org/share/wiki/JSDeferred
 function xhttp (opts) {
 	var d = Deferred();
 	if (opts.onload)  d = d.next(opts.onload);
@@ -22,20 +17,6 @@ function xhttp (opts) {
 xhttp.get  = function (url)       { return xhttp({method:"get", url:url}) }
 xhttp.post = function (url, data) { return xhttp({method:"post", url:url, data:data}) }
 
-/* function http (opts) //=> Deferred
- * Sample:
- *     http.get("http://example.com/hogehoge")
- *     .next(function (a) {
- *         log(a.responseText);
- *     })
- *     .error(function (e) {
- *         log("error", e);
- *     });
- */
-/* function http.get (url) //=> Deferred
- */
-/* function http.post (url, data) //=> Deferred
- */
 function http (opts) {
 	var d = Deferred();
 	var req = new XMLHttpRequest();
@@ -51,8 +32,8 @@ http.post = function (url, data) { return http({method:"post", url:url, data:dat
 
 function D () {
 
-// JSDefeered (c) Copyright (c) 2007 cho45 ( www.lowreal.net )
-// See http://coderepos.org/share/wiki/JSDeferred
+
+
 function Deferred () { return (this instanceof Deferred) ? this.init(this) : new Deferred() }
 Deferred.prototype = {
 	init : function () {
@@ -210,6 +191,8 @@ Deferred.define = function (obj, list) {
 	}
 	return Deferred;
 };
+
+
 
 return Deferred;
 }
