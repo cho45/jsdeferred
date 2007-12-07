@@ -339,5 +339,6 @@ Deferred.define = function (obj, list) {
 		var n = list[i];
 		obj[n] = Deferred[n];
 	}
+	return Deferred;
 };
 

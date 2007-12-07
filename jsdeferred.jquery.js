@@ -68,7 +68,7 @@ var a=arguments;return function(){
 return dfun.apply(null,a);};};};Deferred.register("loop",Deferred.loop);Deferred.register("wait",Deferred.wait);Deferred.define=function(obj,list){
 if(!list)list=["parallel","wait","next","call","loop"];if(!obj)obj=(function(){return this})();for(var i=0;i<list.length;i++){
 var n=list[i];obj[n]=Deferred[n];}
-};(function($){
+return Deferred;};(function($){
 $.deferred=Deferred;$.each(["get","getJSON","post"],function(n,i){
 var orig=$[i];$[i]=function(url,data,callback){
 if(typeof data=="function"){
