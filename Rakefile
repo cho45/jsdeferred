@@ -36,10 +36,12 @@ end
 
 task :default => [:test]
 
+desc "Test JSDeferred"
 task :test => RELEASES do
 	sh %{rhino test-rhino.js jsdeferred.js}
 end
 
+desc "Make all release file and tagging #{Version}"
 task :release => [:update, :clean, :test] do
 	# Additional Tests
 #	[".nodoc", ".mini"].each do |f|
@@ -54,6 +56,13 @@ task :release => [:update, :clean, :test] do
 
 	ver = Version
 	puts "Releasing:: #{ver}"
+
+	st = `svn st`
+	unless st.empty?
+		puts "Any changes remain?"
+		puts st
+		exit
+	end
 
 	require "uri"
 	url = URI(info[/URL: ([^\s]+)/, 1]) + "."
