@@ -8,7 +8,15 @@ JSDefeered (c) Copyright (c) 2007 cho45 ( www.lowreal.net )
 See http://coderepos.org/share/wiki/JSDeferred
 EOS
 
-CLEAN.include ["jsdeferred.{nodoc,mini,jquery}.js"]
+CLEAN.include ["jsdeferred.{nodoc,mini,jquery,userscript}.js"]
+RELEASES = %w(
+	jsdeferred.js
+	jsdeferred.nodoc.js
+	jsdeferred.mini.js
+	jsdeferred.jquery.js
+	jsdeferred.userscript.js
+	doc/index.html
+)
 Version = File.read("jsdeferred.js")[/Version:: (\d+\.\d+\.\d+)/, 1]
 
 def mini(js, commentonly=false)
@@ -28,7 +36,7 @@ end
 
 task :default => [:test]
 
-task :test => ["jsdeferred.nodoc.js", "jsdeferred.mini.js", "jsdeferred.js", "jsdeferred.jquery.js", "doc/index.html"] do
+task :test => RELEASES do
 	sh %{rhino test-rhino.js jsdeferred.js}
 end
 
@@ -79,6 +87,12 @@ file "jsdeferred.jquery.js" => ["jsdeferred.js", "binding/jquery.js"] do |t|
 	}
 end
 
+file "jsdeferred.userscript.js" => ["jsdeferred.js", "binding/userscript.js"] do |t|
+	File.open(t.name, "w") {|f|
+		f.puts "// Usage:: D().export();"
+		f << File.read("binding/userscript.js").sub("/*include JSDeferred*/", mini(File.read("jsdeferred.js"), true))
+	}
+end
 
 file "doc/index.html" => ["jsdeferred.js"] do |t|
 	sh %{ruby makedoc.rb}
