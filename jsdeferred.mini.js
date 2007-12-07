@@ -3,10 +3,10 @@
 function Deferred(){return(this instanceof Deferred)? this.init(this):new Deferred()}
 Deferred.prototype={
 init:function(){
-this.callback={
+this._next=null;this.callback={
 ok:function(x){return x},
 ng:function(x){throw x}
-};this._next=null;return this;},
+};return this;},
 next:function(fun){return this._post("ok",fun)},
 error:function(fun){return this._post("ng",fun)},
 call:function(val){return this._fire("ok",val)},
