@@ -116,10 +116,7 @@ Deferred.prototype = {
 		if (value instanceof Deferred) {
 			value._next = self._next;
 		} else {
-			var id = setTimeout(function () {
-				clearTimeout(id);
-				if (self._next) self._next._fire(next, value);
-			}, 0);
+			if (self._next) self._next._fire(next, value);
 		}
 		return this;
 	}

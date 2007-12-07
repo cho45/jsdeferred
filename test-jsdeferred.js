@@ -1,4 +1,3 @@
-
 $(function () { $.get("test-jsdeferred.js", {}, function (data) {
 
 // get tests number.
@@ -117,6 +116,20 @@ next(function () {
 	}).
 	error(function (e) {
 		expect("Errorback called", "Error2", e);
+	});
+}).
+next(function () {
+	msg("Stack over flow test: check not waste stack.");
+	var num = 1000;
+	return loop(num, function (n) {
+		if (n % 50 == 0) print(n);
+		return n;
+	}).
+	next(function (r) {
+		expect("Long long loop", num-1, r);
+	}).
+	error(function (e) {
+		ng(e);
 	});
 }).
 next(function () {
