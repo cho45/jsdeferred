@@ -1,4 +1,4 @@
-// Usage:: D().export();
+// Usage:: D().define();
 function D () {
 
 // JSDefeered (c) Copyright (c) 2007 cho45 ( www.lowreal.net )
