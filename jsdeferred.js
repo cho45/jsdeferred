@@ -155,7 +155,6 @@ Deferred.parallel = function (dl) {
 				values[i] = v;
 				if (--num <= 0) {
 					if (dl instanceof Array) {
-						// Object to Array
 						values.length = dl.length;
 						values = Array.prototype.slice.call(values, 0);
 					}
@@ -198,7 +197,7 @@ Deferred.wait = function (n) {
 Deferred.next = function (fun) {
 	var d = new Deferred();
 	var id = setTimeout(function () { clearTimeout(id); d.call() }, 0);
-	d.callback.ok = fun;
+	if (fun) d.callback.ok = fun;
 	d.canceller   = function () { try { clearTimeout(id) } catch (e) {} };
 	return d;
 };
