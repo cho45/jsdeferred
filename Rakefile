@@ -38,7 +38,7 @@ task :default => [:test]
 
 desc "Test JSDeferred"
 task :test => RELEASES do
-	sh %{rhino test-rhino.js jsdeferred.js}
+	sh %{rhino -opt 0 -w -strict test-rhino.js jsdeferred.js}
 end
 
 desc "Make all release file and tagging #{Version}"
