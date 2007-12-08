@@ -19,14 +19,16 @@ class JsDoc
 		js.scan(%r{/\* (function[^\n]+|[^:]+::)(.+?)\*/}im) do |header, body|
 			body.gsub!(/^ \* ?/, "")
 			p header
-			_, name, args, retv = *%r{^function\s+([^\s]+)\s+\((.*)\)\s+//=>\s+(.+)}.match(header)
+			_, name, arg, retv = *%r{^function\s+([^\s]+)\s+\((.*)\)\s+//=>\s+(.+)}.match(header)
 			if _
 				#p [name, args, retv]
-				_, req, opt = */([^\[\]]+)(?:\[, ([^\[\]]+)\])?/.match(args)
+				_, req, opt = */([^\[\]]+)(?:\[, ([^\[\]]+)\])?/.match(arg)
 				args = []
 				args.concat(req.split(/,\s*/)) if req
 				args.concat(opt.split(/,\s*/)) if opt
 				@functions[name] = {
+					:name => name,
+					:arg  => arg,
 					:args => args,
 					:retv => retv,
 				}
@@ -155,6 +157,15 @@ __END__
 				padding: 0 0 0 2em;
 			}
 
+			.funname,
+			.paren {
+				font-weight: bold;
+			}
+
+			.args {
+				font-weight: normal;
+			}
+
 			#footer {
 				margin: 2em 0;
 				text-align: right;
@@ -168,8 +179,18 @@ __END__
 
 			<% doc.each_section do |section| %>
 			<div class="section" id="<%=h section.sid %>">
-				<% if section.name %>
-				<h2><code><%=h section.header %></code></h2>
+				<% fun = doc.functions[section.name] %>
+				<% if fun %>
+				<h2>
+					<span class="funname">
+						<%=h fun[:name] %>
+					</span>
+					<span class="paren">(</span>
+					<span class="args"><%=h fun[:arg] %></span>
+					<span class="paren">)</span>
+					//=>
+					<%=h fun[:retv] %>
+				</h2>
 				<% else %>
 				<h2><%=h section.header %></h2>
 				<% end %>

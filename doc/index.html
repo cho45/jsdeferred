@@ -34,6 +34,15 @@
 				padding: 0 0 0 2em;
 			}
 
+			.funname,
+			.paren {
+				font-weight: bold;
+			}
+
+			.args {
+				font-weight: normal;
+			}
+
 			#footer {
 				margin: 2em 0;
 				text-align: right;
@@ -48,11 +57,13 @@
 			
 			<div class="section" id="0">
 				
+				
 				<h2>Header::</h2>
 				
 				<div class="body">
 				<p>JSDeferred
 Copyright (c) 2007 cho45 ( www.lowreal.net )</p>
+<p>http://coderepos.org/share/wiki/JSDeferred</p>
 <p>Version:: 0.1.0
 License:: MIT</p>
 <p>Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -75,6 +86,7 @@ THE SOFTWARE.
 			</div>
 			
 			<div class="section" id="1">
+				
 				
 				<h2>Usage (with jQuery)::</h2>
 				
@@ -103,7 +115,17 @@ next(function (d) {
 			
 			<div class="section" id="Deferred">
 				
-				<h2><code>function Deferred () //=&gt; constructor</code></h2>
+				
+				<h2>
+					<span class="funname">
+						Deferred
+					</span>
+					<span class="paren">(</span>
+					<span class="args"></span>
+					<span class="paren">)</span>
+					//=>
+					constructor
+				</h2>
 				
 				<div class="body">
 				<p><code><a href='#Deferred'>Deferred</a></code> function is constructor of Deferred.</p>
@@ -118,7 +140,17 @@ var d = Deferred();
 			
 			<div class="section" id="Deferred.prototype.next">
 				
-				<h2><code>function Deferred.prototype.next   (fun) //=&gt; Deferred</code></h2>
+				
+				<h2>
+					<span class="funname">
+						Deferred.prototype.next
+					</span>
+					<span class="paren">(</span>
+					<span class="args">fun</span>
+					<span class="paren">)</span>
+					//=>
+					Deferred
+				</h2>
 				
 				<div class="body">
 				<p>Create new Deferred and sets <var>fun</var> as its callback.
@@ -128,7 +160,17 @@ var d = Deferred();
 			
 			<div class="section" id="Deferred.prototype.error">
 				
-				<h2><code>function Deferred.prototype.error  (fun) //=&gt; Deferred</code></h2>
+				
+				<h2>
+					<span class="funname">
+						Deferred.prototype.error
+					</span>
+					<span class="paren">(</span>
+					<span class="args">fun</span>
+					<span class="paren">)</span>
+					//=>
+					Deferred
+				</h2>
 				
 				<div class="body">
 				<p>Create new Deferred and sets <var>fun</var> as its errorback.</p>
@@ -140,7 +182,17 @@ the given error is recovery and continue callback chain.
 			
 			<div class="section" id="Deferred.prototype.call">
 				
-				<h2><code>function Deferred.prototype.call   (val) //=&gt; this</code></h2>
+				
+				<h2>
+					<span class="funname">
+						Deferred.prototype.call
+					</span>
+					<span class="paren">(</span>
+					<span class="args">val</span>
+					<span class="paren">)</span>
+					//=>
+					this
+				</h2>
 				
 				<div class="body">
 				<p>Invokes self callback chain.
@@ -150,7 +202,17 @@ the given error is recovery and continue callback chain.
 			
 			<div class="section" id="Deferred.prototype.fail">
 				
-				<h2><code>function Deferred.prototype.fail   (err) //=&gt; this</code></h2>
+				
+				<h2>
+					<span class="funname">
+						Deferred.prototype.fail
+					</span>
+					<span class="paren">(</span>
+					<span class="args">err</span>
+					<span class="paren">)</span>
+					//=>
+					this
+				</h2>
 				
 				<div class="body">
 				<p>Invokes self errorback chain.
@@ -160,7 +222,17 @@ the given error is recovery and continue callback chain.
 			
 			<div class="section" id="Deferred.prototype.cancel">
 				
-				<h2><code>function Deferred.prototype.cancel (err) //=&gt; this</code></h2>
+				
+				<h2>
+					<span class="funname">
+						Deferred.prototype.cancel
+					</span>
+					<span class="paren">(</span>
+					<span class="args">err</span>
+					<span class="paren">)</span>
+					//=>
+					this
+				</h2>
 				
 				<div class="body">
 				<p>Cancels self callback chain.
@@ -170,7 +242,17 @@ the given error is recovery and continue callback chain.
 			
 			<div class="section" id="parallel">
 				
-				<h2><code>function parallel (deferredlist) //=&gt; Deferred</code></h2>
+				
+				<h2>
+					<span class="funname">
+						parallel
+					</span>
+					<span class="paren">(</span>
+					<span class="args">deferredlist</span>
+					<span class="paren">)</span>
+					//=>
+					Deferred
+				</h2>
 				
 				<div class="body">
 				<p><code><a href='#parallel'>parallel</a></code> wraps up <var>deferredlist</var> to one deferred.
@@ -199,7 +281,17 @@ parallel({
 			
 			<div class="section" id="wait">
 				
-				<h2><code>function wait (sec) //=&gt; Deferred</code></h2>
+				
+				<h2>
+					<span class="funname">
+						wait
+					</span>
+					<span class="paren">(</span>
+					<span class="args">sec</span>
+					<span class="paren">)</span>
+					//=>
+					Deferred
+				</h2>
 				
 				<div class="body">
 				<p><code><a href='#wait'>wait</a></code> returns deferred that will be called after <var>sec</var> elapsed
@@ -215,7 +307,17 @@ with real elapsed time (msec)</p>
 			
 			<div class="section" id="next">
 				
-				<h2><code>function next (fun) //=&gt; Deferred</code></h2>
+				
+				<h2>
+					<span class="funname">
+						next
+					</span>
+					<span class="paren">(</span>
+					<span class="args">fun</span>
+					<span class="paren">)</span>
+					//=>
+					Deferred
+				</h2>
 				
 				<div class="body">
 				<p><code><a href='#next'>next</a></code> is shorthand for creating new deferred which
@@ -226,7 +328,17 @@ is called after current queue.
 			
 			<div class="section" id="call">
 				
-				<h2><code>function call (fun[, args...]) //=&gt; Deferred</code></h2>
+				
+				<h2>
+					<span class="funname">
+						call
+					</span>
+					<span class="paren">(</span>
+					<span class="args">fun [, args...]</span>
+					<span class="paren">)</span>
+					//=>
+					Deferred
+				</h2>
 				
 				<div class="body">
 				<p><code><a href='#call'>call</a></code> function is for calling function asynchronous.</p>
@@ -253,7 +365,17 @@ next(function (r) {
 			
 			<div class="section" id="loop">
 				
-				<h2><code>function loop (n, fun) //=&gt; Deferred</code></h2>
+				
+				<h2>
+					<span class="funname">
+						loop
+					</span>
+					<span class="paren">(</span>
+					<span class="args">n, fun</span>
+					<span class="paren">)</span>
+					//=>
+					Deferred
+				</h2>
 				
 				<div class="body">
 				<p><code><a href='#loop'>loop</a></code> function provides browser-non-blocking loop.
@@ -277,7 +399,17 @@ loop(10, function (n) {
 			
 			<div class="section" id="Deferred.register">
 				
-				<h2><code>function Deferred.register (name, fun) //=&gt; void 0</code></h2>
+				
+				<h2>
+					<span class="funname">
+						Deferred.register
+					</span>
+					<span class="paren">(</span>
+					<span class="args">name, fun</span>
+					<span class="paren">)</span>
+					//=>
+					void 0
+				</h2>
 				
 				<div class="body">
 				<p>Register <var>fun</var> to Deferred prototype for method chain.</p>
@@ -299,7 +431,17 @@ loop(10, function (n) {
 			
 			<div class="section" id="Deferred.wrap">
 				
-				<h2><code>function Deferred.wrap (dfun) //=&gt; Function</code></h2>
+				
+				<h2>
+					<span class="funname">
+						Deferred.wrap
+					</span>
+					<span class="paren">(</span>
+					<span class="args">dfun</span>
+					<span class="paren">)</span>
+					//=>
+					Function
+				</h2>
 				
 				<div class="body">
 				<p>Create and return function which run <var>dfun</var> with arguments.</p>

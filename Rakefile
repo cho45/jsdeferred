@@ -74,6 +74,10 @@ task :release => [:update, :clean, :test] do
 	sh com
 end
 
+desc "Create Documentation"
+task :doc => ["doc/index.html"] do |t|
+end
+
 task :update do
 	sh %{svn up}
 end
@@ -103,7 +107,7 @@ file "jsdeferred.userscript.js" => ["jsdeferred.js", "binding/userscript.js"] do
 	}
 end
 
-file "doc/index.html" => ["jsdeferred.js"] do |t|
+file "doc/index.html" => ["jsdeferred.js", "makedoc.rb"] do |t|
 	sh %{ruby makedoc.rb}
 end
 

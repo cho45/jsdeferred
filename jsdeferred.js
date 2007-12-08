@@ -2,6 +2,8 @@
  * JSDeferred
  * Copyright (c) 2007 cho45 ( www.lowreal.net )
  *
+ * http://coderepos.org/share/wiki/JSDeferred
+ *
  * Version:: 0.1.0
  * License:: MIT
  *
@@ -202,7 +204,7 @@ Deferred.next = function (fun) {
 	return d;
 };
 
-/* function call (fun[, args...]) //=> Deferred
+/* function call (fun [, args...]) //=> Deferred
  *
  * `call` function is for calling function asynchronous.
  *
