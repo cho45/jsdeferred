@@ -3,10 +3,6 @@ require "rubygems"
 require "rake"
 require "rake/clean"
 
-COPYRIGHT = <<EOS
-JSDefeered (c) Copyright (c) 2007 cho45 ( www.lowreal.net )
-See http://coderepos.org/share/wiki/JSDeferred
-EOS
 
 CLEAN.include ["jsdeferred.{nodoc,mini,jquery,userscript}.js"]
 RELEASES = %w(
@@ -18,6 +14,11 @@ RELEASES = %w(
 	doc/index.html
 )
 Version = File.read("jsdeferred.js")[/Version:: (\d+\.\d+\.\d+)/, 1]
+
+COPYRIGHT = <<EOS
+JSDefeered #{Version} (c) Copyright (c) 2007 cho45 ( www.lowreal.net )
+See http://coderepos.org/share/wiki/JSDeferred
+EOS
 
 def mini(js, commentonly=false)
 	js = js.dup
