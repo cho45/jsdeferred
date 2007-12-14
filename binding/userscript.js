@@ -22,7 +22,8 @@ function xhttp (opts) {
 	return d;
 }
 xhttp.get  = function (url)       { return xhttp({method:"get", url:url}) }
-xhttp.post = function (url, data) { return xhttp({method:"post", url:url, data:data}) }
+xhttp.post = function (url, data) { return xhttp({method:"post", url:url, data:data, headers:{"Content-Type":"application/x-www-form-urlencoded"}}) }
+
 
 /* function http (opts) //=> Deferred
  * Sample:
