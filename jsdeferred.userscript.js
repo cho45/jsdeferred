@@ -92,7 +92,7 @@ Deferred.next = function (fun) {
 Deferred.call = function (f, args) {
 	args = Array.prototype.slice.call(arguments);
 	f    = args.shift();
-	return next(function () {
+	return Deferred.next(function () {
 		return f.apply(this, args);
 	});
 };
@@ -106,7 +106,7 @@ Deferred.loop = function (n, fun) {
 		prev  : null
 	};
 	var ret, step = o.step;
-	return next(function () {
+	return Deferred.next(function () {
 		function _loop (i) {
 			if (i <= o.end) {
 				if ((i + step) > o.end) {
@@ -118,16 +118,16 @@ Deferred.loop = function (n, fun) {
 				if (ret instanceof Deferred) {
 					return ret.next(function (r) {
 						ret = r;
-						return call(_loop, i + step);
+						return Deferred.call(_loop, i + step);
 					});
 				} else {
-					return call(_loop, i + step);
+					return Deferred.call(_loop, i + step);
 				}
 			} else {
 				return ret;
 			}
 		}
-		return call(_loop, o.begin);
+		return Deferred.call(_loop, o.begin);
 	});
 };
 
@@ -175,7 +175,8 @@ function xhttp (opts) {
 	return d;
 }
 xhttp.get  = function (url)       { return xhttp({method:"get", url:url}) }
-xhttp.post = function (url, data) { return xhttp({method:"post", url:url, data:data}) }
+xhttp.post = function (url, data) { return xhttp({method:"post", url:url, data:data, headers:{"Content-Type":"application/x-www-form-urlencoded"}}) }
+
 
 function http (opts) {
 	var d = Deferred();

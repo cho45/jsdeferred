@@ -39,7 +39,7 @@ var d=new Deferred(),t=new Date();var id=setTimeout(function(){
 clearTimeout(id);d.call((new Date).getTime()-t.getTime());},n*1000)
 d.canceller=function(){try{clearTimeout(id)}catch(e){}};return d;};Deferred.next=function(fun){
 var d=new Deferred();var id=setTimeout(function(){clearTimeout(id);d.call()},0);if(fun)d.callback.ok=fun;d.canceller=function(){try{clearTimeout(id)}catch(e){}};return d;};Deferred.call=function(f,args){
-args=Array.prototype.slice.call(arguments);f=args.shift();return next(function(){
+args=Array.prototype.slice.call(arguments);f=args.shift();return Deferred.next(function(){
 return f.apply(this,args);});};Deferred.loop=function(n,fun){
 var o={
 begin:n.begin || 0,
@@ -47,19 +47,19 @@ end:n.end ||(n-1),
 step:n.step || 1,
 last:false,
 prev:null
-};var ret,step=o.step;return next(function(){
+};var ret,step=o.step;return Deferred.next(function(){
 function _loop(i){
 if(i<=o.end){
 if((i+step)>o.end){
 o.last=true;o.step=o.end-i+1;}
 o.prev=ret;ret=fun.call(this,i,o);if(ret instanceof Deferred){
 return ret.next(function(r){
-ret=r;return call(_loop,i+step);});}else{
-return call(_loop,i+step);}
+ret=r;return Deferred.call(_loop,i+step);});}else{
+return Deferred.call(_loop,i+step);}
 }else{
 return ret;}
 }
-return call(_loop,o.begin);});};Deferred.register=function(name,fun){
+return Deferred.call(_loop,o.begin);});};Deferred.register=function(name,fun){
 this.prototype[name]=function(){
 return this.next(Deferred.wrap(fun).apply(null,arguments));};};Deferred.wrap=function(dfun){
 return function(){
