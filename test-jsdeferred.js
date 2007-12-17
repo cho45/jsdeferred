@@ -331,6 +331,12 @@ next(function () {
 		});
 	}).
 	next(function () {
+		return parallel([]).
+		next(function () {
+			ok("parallel no values");
+		});
+	}).
+	next(function () {
 		return parallel([next(function () { return 0 }), next(function () { return 1 })]).
 		next(function (values) {
 			print(uneval(values));

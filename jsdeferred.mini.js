@@ -32,9 +32,8 @@ if(dl instanceof Array){
 values.length=dl.length;values=Array.prototype.slice.call(values,0);}
 ret.call(values);}
 }).error(function(e){
-ret.fail(e);});num++;})(dl[i],i)
-}
-return ret;};Deferred.wait=function(n){
+ret.fail(e);});num++;})(dl[i],i);}
+if(!num)Deferred.next(function(){ret.call()});return ret;};Deferred.wait=function(n){
 var d=new Deferred(),t=new Date();var id=setTimeout(function(){
 clearTimeout(id);d.call((new Date).getTime()-t.getTime());},n*1000)
 d.canceller=function(){try{clearTimeout(id)}catch(e){}};return d;};Deferred.next=function(fun){

@@ -66,8 +66,9 @@ Deferred.parallel = function (dl) {
 				ret.fail(e);
 			});
 			num++;
-		})(dl[i], i)
+		})(dl[i], i);
 	}
+	if (!num) Deferred.next(function () { ret.call() });
 	return ret;
 };
 
