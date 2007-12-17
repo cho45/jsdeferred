@@ -195,4 +195,4 @@ Deferred.Deferred = Deferred;
 Deferred.http     = http;
 Deferred.xhttp    = xhttp;
 return Deferred;
-}
+}// End of JSDeferred

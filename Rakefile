@@ -105,6 +105,7 @@ file "jsdeferred.userscript.js" => ["jsdeferred.js", "binding/userscript.js"] do
 	File.open(t.name, "w") {|f|
 		f.puts "// Usage:: with (D()) { your code }"
 		f << mini(File.read("binding/userscript.js").sub("/*include JSDeferred*/", File.read("jsdeferred.js")), true)
+		f.puts "// End of JSDeferred"
 	}
 end
 
