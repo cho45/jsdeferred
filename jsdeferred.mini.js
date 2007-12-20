@@ -12,7 +12,7 @@ error:function(fun){return this._post("ng",fun)},
 call:function(val){return this._fire("ok",val)},
 fail:function(err){return this._fire("ng",err)},
 cancel:function(){
-(this.canceller || function(){})();return this.init();},
+(this.canceller || function(){})();if(this._next)this._next.cancel();return this.init();},
 _post:function(okng,fun){
 this._next=new Deferred();this._next.callback[okng]=fun;return this._next;},
 _fire:function(okng,value){
@@ -33,7 +33,10 @@ values.length=dl.length;values=Array.prototype.slice.call(values,0);}
 ret.call(values);}
 }).error(function(e){
 ret.fail(e);});num++;})(dl[i],i);}
-if(!num)Deferred.next(function(){ret.call()});return ret;};Deferred.wait=function(n){
+if(!num)Deferred.next(function(){ret.call()});ret.canceller=function(){
+for(var i in dl){
+if(!dl.hasOwnProperty(i))continue;dl[i].cancel();}
+};return ret;};Deferred.wait=function(n){
 var d=new Deferred(),t=new Date();var id=setTimeout(function(){
 clearTimeout(id);d.call((new Date).getTime()-t.getTime());},n*1000)
 d.canceller=function(){try{clearTimeout(id)}catch(e){}};return d;};Deferred.next=function(fun){

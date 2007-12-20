@@ -98,6 +98,7 @@ Deferred.prototype = {
 
 	cancel : function () {
 		(this.canceller || function () {})();
+		if (this._next) this._next.cancel();
 		return this.init();
 	},
 
@@ -169,6 +170,12 @@ Deferred.parallel = function (dl) {
 		})(dl[i], i);
 	}
 	if (!num) Deferred.next(function () { ret.call() });
+	ret.canceller = function () {
+		for (var i in dl) {
+			if (!dl.hasOwnProperty(i)) continue;
+			dl[i].cancel();
+		}
+	};
 	return ret;
 };
 
