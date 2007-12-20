@@ -98,7 +98,6 @@ Deferred.prototype = {
 
 	cancel : function () {
 		(this.canceller || function () {})();
-		if (this._next) this._next.cancel();
 		return this.init();
 	},
 

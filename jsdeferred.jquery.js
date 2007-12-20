@@ -12,7 +12,7 @@ error:function(fun){return this._post("ng",fun)},
 call:function(val){return this._fire("ok",val)},
 fail:function(err){return this._fire("ng",err)},
 cancel:function(){
-(this.canceller || function(){})();if(this._next)this._next.cancel();return this.init();},
+(this.canceller || function(){})();return this.init();},
 _post:function(okng,fun){
 this._next=new Deferred();this._next.callback[okng]=fun;return this._next;},
 _fire:function(okng,value){
