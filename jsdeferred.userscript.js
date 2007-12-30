@@ -181,15 +181,19 @@ function xhttp (opts) {
 	GM_xmlhttpRequest(opts);
 	return d;
 }
-xhttp.get  = function (url)       { return xhttp({method:"get", url:url}) }
+xhttp.get  = function (url)       { return xhttp({method:"get",  url:url}) }
 xhttp.post = function (url, data) { return xhttp({method:"post", url:url, data:data, headers:{"Content-Type":"application/x-www-form-urlencoded"}}) }
 
 
 function http (opts) {
 	var d = Deferred();
 	var req = new XMLHttpRequest();
-	if (opts.method == "post") req.setRequestHeader("content-type", "application/x-www-form-urlencoded;charset=UTF-8");
 	req.open(opts.method, opts.url, true);
+	if (opts.headers) {
+		for (var k in opts.headers) if (opts.headers.hasOwnProperty(k)) {
+			req.setRequestHeader(k, opts.headers[k]);
+		}
+	}
 	req.onreadystatechange = function () {
 		if (req.readyState == 4) d.call(req);
 	};
@@ -197,8 +201,8 @@ function http (opts) {
 	d.xhr = req;
 	return d;
 }
-http.get  = function (url)       { return http({method:"get", url:url}) }
-http.post = function (url, data) { return http({method:"post", url:url, data:data}) }
+http.get  = function (url)       { return http({method:"get",  url:url}) }
+http.post = function (url, data) { return http({method:"post", url:url, data:data, headers:{"Content-Type":"application/x-www-form-urlencoded"}}) }
 
 Deferred.Deferred = Deferred;
 Deferred.http     = http;
