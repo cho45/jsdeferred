@@ -1,4 +1,4 @@
-// JSDefeered 0.2.0 (c) Copyright (c) 2007 cho45 ( www.lowreal.net )
+// JSDefeered 0.2.1 (c) Copyright (c) 2007 cho45 ( www.lowreal.net )
 // See http://coderepos.org/share/wiki/JSDeferred
 function Deferred () { return (this instanceof Deferred) ? this.init(this) : new Deferred() }
 Deferred.prototype = {

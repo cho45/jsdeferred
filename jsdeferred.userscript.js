@@ -1,5 +1,5 @@
 // Usage:: with (D()) { your code }
-// JSDefeered 0.2.0 (c) Copyright (c) 2007 cho45 ( www.lowreal.net )
+// JSDefeered 0.2.1 (c) Copyright (c) 2007 cho45 ( www.lowreal.net )
 // See http://coderepos.org/share/wiki/JSDeferred
 function D () {
 
@@ -188,11 +188,13 @@ xhttp.post = function (url, data) { return xhttp({method:"post", url:url, data:d
 function http (opts) {
 	var d = Deferred();
 	var req = new XMLHttpRequest();
+	if (opts.method == "post") req.setRequestHeader("content-type", "application/x-www-form-urlencoded;charset=UTF-8");
 	req.open(opts.method, opts.url, true);
 	req.onreadystatechange = function () {
 		if (req.readyState == 4) d.call(req);
 	};
 	req.send(opts.data || null);
+	d.xhr = req;
 	return d;
 }
 http.get  = function (url)       { return http({method:"get", url:url}) }
