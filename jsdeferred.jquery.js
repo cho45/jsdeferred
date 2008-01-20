@@ -24,8 +24,8 @@ value._next=self._next;}else{
 if(self._next)self._next._fire(next,value);}
 return this;}
 };Deferred.parallel=function(dl){
-var ret=new Deferred(),values={},num=0;for(var i in dl){
-if(!dl.hasOwnProperty(i))continue;(function(d,i){
+var ret=new Deferred(),values={},num=0;for(var i in dl)if(dl.hasOwnProperty(i)){
+(function(d,i){
 d.next(function(v){
 values[i]=v;if(--num<=0){
 if(dl instanceof Array){
@@ -34,8 +34,8 @@ ret.call(values);}
 }).error(function(e){
 ret.fail(e);});num++;})(dl[i],i);}
 if(!num)Deferred.next(function(){ret.call()});ret.canceller=function(){
-for(var i in dl){
-if(!dl.hasOwnProperty(i))continue;dl[i].cancel();}
+for(var i in dl)if(dl.hasOwnProperty(i)){
+dl[i].cancel();}
 };return ret;};Deferred.wait=function(n){
 var d=new Deferred(),t=new Date();var id=setTimeout(function(){
 clearTimeout(id);d.call((new Date).getTime()-t.getTime());},n*1000)
