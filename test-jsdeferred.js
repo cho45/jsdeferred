@@ -119,20 +119,6 @@ next(function () {
 	});
 }).
 next(function () {
-	msg("Stack over flow test: check not waste stack.");
-	var num = 1000;
-	return loop(num, function (n) {
-		if (n % 50 == 0) print(n);
-		return n;
-	}).
-	next(function (r) {
-		expect("Long long loop", num-1, r);
-	}).
-	error(function (e) {
-		ng(e);
-	});
-}).
-next(function () {
 	delete Deferred.prototype.wait;
 	Deferred.register("wait", wait);
 	return next(function () {
@@ -331,6 +317,14 @@ next(function () {
 		});
 	}).
 	next(function () {
+		var t = 0;
+		return loop({begin:0, end:0}, function (i) {
+			t++;
+		}).next(function () {
+			expect("loop num 0 to 0. result", 0, t);
+		});
+	}).
+	next(function () {
 		return parallel([]).
 		next(function () {
 			ok("parallel no values");
@@ -355,6 +349,20 @@ next(function () {
 	error(function (e) {
 		alert(e);
 		ng("Error on Tests", "", e);
+	});
+}).
+next(function () {
+	msg("Stack over flow test: check not waste stack.");
+	var num = 1000;
+	return loop(num, function (n) {
+		if (n % 50 == 0) print(n);
+		return n;
+	}).
+	next(function (r) {
+		expect("Long long loop", num-1, r);
+	}).
+	error(function (e) {
+		ng(e);
 	});
 }).
 next(function () {

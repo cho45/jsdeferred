@@ -259,7 +259,7 @@ Deferred.call = function (f, args) {
 Deferred.loop = function (n, fun) {
 	var o = {
 		begin : n.begin || 0,
-		end   : n.end   || (n - 1),
+		end   : (typeof n.end == "number") ? n.end : n - 1,
 		step  : n.step  || 1,
 		last  : false,
 		prev  : null
