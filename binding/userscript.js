@@ -21,8 +21,8 @@ function xhttp (opts) {
 	GM_xmlhttpRequest(opts);
 	return d;
 }
-xhttp.get  = function (url)       { return xhttp({method:"get",  url:url}) }
-xhttp.post = function (url, data) { return xhttp({method:"post", url:url, data:data, headers:{"Content-Type":"application/x-www-form-urlencoded"}}) }
+xhttp.get  = function (url)       { return xhttp({method:"get",  url:url}) };
+xhttp.post = function (url, data) { return xhttp({method:"post", url:url, data:data, headers:{"Content-Type":"application/x-www-form-urlencoded"}}) };
 
 
 /* function http (opts) //=> Deferred
@@ -55,8 +55,8 @@ function http (opts) {
 	d.xhr = req;
 	return d;
 }
-http.get  = function (url)       { return http({method:"get",  url:url}) }
-http.post = function (url, data) { return http({method:"post", url:url, data:data, headers:{"Content-Type":"application/x-www-form-urlencoded"}}) }
+http.get  = function (url)       { return http({method:"get",  url:url}) };
+http.post = function (url, data) { return http({method:"post", url:url, data:data, headers:{"Content-Type":"application/x-www-form-urlencoded"}}) };
 
 Deferred.Deferred = Deferred;
 Deferred.http     = http;

@@ -19,7 +19,7 @@ class JsDoc
 		js.scan(%r{/\* (function[^\n]+|[^:]+::)(.+?)\*/}im) do |header, body|
 			body.gsub!(/^ \* ?/, "")
 			p header
-			_, name, arg, retv = *%r{^function\s+([^\s]+)\s+\((.*)\)\s+//=>\s+(.+)}.match(header)
+			_, name, arg, retv = *%r{^function\s*(\S+)\s*\(([^)]*)\)\s*//\s*=>\s*(.+)}.match(header)
 			if _
 				#p [name, args, retv]
 				_, req, opt = */([^\[\]]+)(?:\[, ([^\[\]]+)\])?/.match(arg)
@@ -62,7 +62,7 @@ class JsDoc
 			str.gsub!(/[<&]/) {|m|
 				"&#{r[m]};"
 			}
-			str.gsub!(/`([^`]+)`/) {|m|
+			str.gsub!(/`((?:\\`|[^`])+)`/) {|m|
 				name = Regexp.last_match[1]
 				case
 				when fun[:args].include?(name)
@@ -101,7 +101,7 @@ class JsDoc
 				when :pre
 					"<pre>#{b}</pre>"
 				else
-					"<p>#{parse_inline[b].gsub(/\n\n/, "</p>\n<p>")}</p>"
+					"<p>#{parse_inline[b].gsub(/(?:\r?\n|\r){2}/, "</p>\n<p>")}</p>"
 				end
 			}.join("\n")
 		end

@@ -35,14 +35,14 @@
  *
  *     parallel([$.get("foo.html"), $.get("bar.html")]).next(function (values) {
  *         log($.map(values, function (v) { return v.length }));
- *         if (values[1].match(/nextUrl:\s*([^\s]+)/)) {
+ *         if (values[1].match(/nextUrl:\s*(\S+)/)) {
  *             return $.get(RegExp.$1).next(function (d) {
  *                 return d;
  *             });
  *         }
  *     }).
  *     next(function (d) {
- *         log(d.length)
+ *         log(d.length);
  *     });
  *
  */
@@ -191,8 +191,8 @@ Deferred.wait = function (n) {
 	var id = setTimeout(function () {
 		clearTimeout(id);
 		d.call((new Date).getTime() - t.getTime());
-	}, n * 1000)
-	d.canceller   = function () { try { clearTimeout(id) } catch (e) {} };
+	}, n * 1000);
+	d.canceller = function () { try { clearTimeout(id) } catch (e) {} };
 	return d;
 };
 
@@ -205,7 +205,7 @@ Deferred.next = function (fun) {
 	var d = new Deferred();
 	var id = setTimeout(function () { clearTimeout(id); d.call() }, 0);
 	if (fun) d.callback.ok = fun;
-	d.canceller   = function () { try { clearTimeout(id) } catch (e) {} };
+	d.canceller = function () { try { clearTimeout(id) } catch (e) {} };
 	return d;
 };
 
@@ -227,7 +227,7 @@ Deferred.next = function (fun) {
  *     }).
  *     next(function (r) {
  *         print([r, "end"]);
- *     })
+ *     });
  *
  */
 Deferred.call = function (f, args) {
@@ -245,7 +245,7 @@ Deferred.call = function (f, args) {
  *
  * Sample:
  *     //=> loop 1 to 100
- *     loop({begin:1, end:100,step:10}, function (n, o) {
+ *     loop({begin:1, end:100, step:10}, function (n, o) {
  *         for (var i = 0; i < o.step; i++) {
  *             log(n+i);
  *         }

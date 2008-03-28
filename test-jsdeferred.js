@@ -1,7 +1,7 @@
 $(function () { $.get("test-jsdeferred.js", {}, function (data) {
 
 // get tests number.
-data = data.match(/\/\/ ::Test::Start::((?:\s|[^\s])+)::Test::End::/)[1];
+data = data.match(/\/\/ ::Test::Start::([\s\S]+)::Test::End::/)[1];
 var testfuns = []; data.replace(/(ok|expect)\(.+/g, function (m) {
 	if (window.console) console.log(m);
 	testfuns.push(m);

@@ -66,7 +66,7 @@ task :release => [:update, :clean, :test] do
 	end
 
 	require "uri"
-	url = URI(info[/URL: ([^\s]+)/, 1]) + "."
+	url = URI(info[/URL: (\S+)/, 1]) + "."
 	puts url
 	com = %{svn cp #{url + "trunk"} #{url + "tags/release-#{ver}"}}
 	puts com
