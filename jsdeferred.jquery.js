@@ -70,9 +70,9 @@ return dfun.apply(null,a);};};};Deferred.register("loop",Deferred.loop);Deferred
 if(!list)list=["parallel","wait","next","call","loop"];if(!obj)obj=(function(){return this})();for(var i=0;i<list.length;i++){
 var n=list[i];obj[n]=Deferred[n];}
 return Deferred;};(function($){
-$.deferred=Deferred;$.each(["get","getJSON","post"],function(n,i){
-var orig=$[i];$[i]=function(url,data,callback){
+$.deferred=Deferred;$.each(["get","post"],function(n,i){
+var orig=$[i];$[i]=function(url,data,callback,type){
 if(typeof data=="function"){
 data=undefined;callback=data;}
 var d=$.deferred();orig(url,data,function(data){
-d.call(data);});if(callback)d=d.next(callback);return d;};});})(jQuery);
+d.call(data);},type);if(callback)d=d.next(callback);return d;};});})(jQuery);
