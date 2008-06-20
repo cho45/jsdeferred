@@ -176,7 +176,9 @@ function xhttp (opts) {
 	opts.onerror = function (res) {
 		d.fail(res);
 	};
-	GM_xmlhttpRequest(opts);
+	setTimeout(function () {
+		GM_xmlhttpRequest(opts);
+	}, 0);
 	return d;
 }
 xhttp.get  = function (url)       { return xhttp({method:"get",  url:url}) }
