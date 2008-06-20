@@ -81,8 +81,8 @@ Deferred.wait = function (n) {
 	var id = setTimeout(function () {
 		clearTimeout(id);
 		d.call((new Date).getTime() - t.getTime());
-	}, n * 1000)
-	d.canceller   = function () { try { clearTimeout(id) } catch (e) {} };
+	}, n * 1000);
+	d.canceller = function () { try { clearTimeout(id) } catch (e) {} };
 	return d;
 };
 
@@ -90,7 +90,7 @@ Deferred.next = function (fun) {
 	var d = new Deferred();
 	var id = setTimeout(function () { clearTimeout(id); d.call() }, 0);
 	if (fun) d.callback.ok = fun;
-	d.canceller   = function () { try { clearTimeout(id) } catch (e) {} };
+	d.canceller = function () { try { clearTimeout(id) } catch (e) {} };
 	return d;
 };
 
@@ -105,7 +105,7 @@ Deferred.call = function (f, args) {
 Deferred.loop = function (n, fun) {
 	var o = {
 		begin : n.begin || 0,
-		end   : n.end   || (n - 1),
+		end   : (typeof n.end == "number") ? n.end : n - 1,
 		step  : n.step  || 1,
 		last  : false,
 		prev  : null
@@ -181,8 +181,8 @@ function xhttp (opts) {
 	}, 0);
 	return d;
 }
-xhttp.get  = function (url)       { return xhttp({method:"get",  url:url}) }
-xhttp.post = function (url, data) { return xhttp({method:"post", url:url, data:data, headers:{"Content-Type":"application/x-www-form-urlencoded"}}) }
+xhttp.get  = function (url)       { return xhttp({method:"get",  url:url}) };
+xhttp.post = function (url, data) { return xhttp({method:"post", url:url, data:data, headers:{"Content-Type":"application/x-www-form-urlencoded"}}) };
 
 
 function http (opts) {
@@ -201,8 +201,8 @@ function http (opts) {
 	d.xhr = req;
 	return d;
 }
-http.get  = function (url)       { return http({method:"get",  url:url}) }
-http.post = function (url, data) { return http({method:"post", url:url, data:data, headers:{"Content-Type":"application/x-www-form-urlencoded"}}) }
+http.get  = function (url)       { return http({method:"get",  url:url}) };
+http.post = function (url, data) { return http({method:"post", url:url, data:data, headers:{"Content-Type":"application/x-www-form-urlencoded"}}) };
 
 Deferred.Deferred = Deferred;
 Deferred.http     = http;
