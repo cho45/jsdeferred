@@ -77,8 +77,6 @@ http.jsonp = function (url, params) {
 		url = url + encodeURIComponent(name) + "=" + encodeURIComponent(params[name]) + "&";
 	}
 
-	alert(url);
-
 	var script = document.createElement('script');
 	script.type    = "text/javascript";
 	script.charset = "utf-8";
