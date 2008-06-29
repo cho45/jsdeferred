@@ -77,8 +77,8 @@ Deferred.wait = function (n) {
 	var id = setTimeout(function () {
 		clearTimeout(id);
 		d.call((new Date).getTime() - t.getTime());
-	}, n * 1000)
-	d.canceller   = function () { try { clearTimeout(id) } catch (e) {} };
+	}, n * 1000);
+	d.canceller = function () { try { clearTimeout(id) } catch (e) {} };
 	return d;
 };
 
@@ -86,7 +86,7 @@ Deferred.next = function (fun) {
 	var d = new Deferred();
 	var id = setTimeout(function () { clearTimeout(id); d.call() }, 0);
 	if (fun) d.callback.ok = fun;
-	d.canceller   = function () { try { clearTimeout(id) } catch (e) {} };
+	d.canceller = function () { try { clearTimeout(id) } catch (e) {} };
 	return d;
 };
 
@@ -101,7 +101,7 @@ Deferred.call = function (f, args) {
 Deferred.loop = function (n, fun) {
 	var o = {
 		begin : n.begin || 0,
-		end   : n.end   || (n - 1),
+		end   : (typeof n.end == "number") ? n.end : n - 1,
 		step  : n.step  || 1,
 		last  : false,
 		prev  : null

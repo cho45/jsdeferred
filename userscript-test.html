@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>JSDeferred Sample</title>
+		<script type="text/javascript" src="jsdeferred.js"></script>
+		<script type="text/javascript" src="binding/userscript.js"></script>
+		<script type="text/javascript">
+			// <![CDATA[
+
+			window.onload = function () { 
+				with (D()) {
+
+				http.jsonp("http://wedata.net/databases/AutoPagerize/items.json").next(function (data) {
+					alert(data);
+				});
+
+				}
+			};
+
+			// ]]>
+		</script>
+
+		<style type="text/css">
+			body {
+				padding: 0 10% 10em;
+				margin: 0;
+				color: #333;
+				line-height: 1.5;
+			}
+
+			h2 {
+				margin: 3em 0 1.5em 0;
+			}
+
+			div.code,
+			pre {
+				font-size: 80%;
+				font-family: monospace;
+				background: #efefef;
+				border: 1px solid #ddd;
+				padding: 1em;
+				line-height: 1.33;
+				overflow: auto;
+			}
+
+			em,
+			span.em {
+				font-weight: bold;
+				font-style: normal;
+				color: #f00;
+			}
+
+			textarea {
+				width: 100%;
+			}
+
+			#footer {
+				margin: 2em 0;
+				text-align: right;
+				font-size: 80%;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="whole">
+		</div>
+	</body>
+</html>

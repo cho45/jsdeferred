@@ -57,8 +57,41 @@ function http (opts) {
 	d.xhr = req;
 	return d;
 }
-http.get  = function (url)       { return http({method:"get",  url:url}) };
-http.post = function (url, data) { return http({method:"post", url:url, data:data, headers:{"Content-Type":"application/x-www-form-urlencoded"}}) };
+http.get   = function (url)       { return http({method:"get",  url:url}) };
+http.post  = function (url, data) { return http({method:"post", url:url, data:data, headers:{"Content-Type":"application/x-www-form-urlencoded"}}) };
+http.jsonp = function (url, params) {
+	if (!params) params = {};
+
+	var Global = (function () { return this })();
+	var d = Deferred();
+	var cbname = params["callback"];
+	if (!cbname) do {
+		cbname = "callback" + String(Math.random()).slice(2);
+	} while (typeof(Global[cbname]) != "undefined");
+
+	params["callback"] = cbname;
+
+	url += (url.indexOf("?") == -1) ? "?" : "&";
+
+	for (var name in params) if (params.hasOwnProperty(name)) {
+		url = url + encodeURIComponent(name) + "=" + encodeURIComponent(params[name]) + "&";
+	}
+
+	alert(url);
+
+	var script = document.createElement('script');
+	script.type    = "text/javascript";
+	script.charset = "utf-8";
+	script.src     = url;
+	document.body.appendChild(script);
+
+	Global[cbname] = function callback (data) {
+		delete Global[cbname];
+		document.body.removeChild(script);
+		d.call(data);
+	};
+	return d;
+};
 
 Deferred.Deferred = Deferred;
 Deferred.http     = http;

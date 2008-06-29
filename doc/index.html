@@ -99,14 +99,14 @@ $.get("/hoge").next(function (data) {
 
 parallel([$.get("foo.html"), $.get("bar.html")]).next(function (values) {
     log($.map(values, function (v) { return v.length }));
-    if (values[1].match(/nextUrl:\s*([^\s]+)/)) {
+    if (values[1].match(/nextUrl:\s*(\S+)/)) {
         return $.get(RegExp.$1).next(function (d) {
             return d;
         });
     }
 }).
 next(function (d) {
-    log(d.length)
+    log(d.length);
 });
 
  </pre>
@@ -357,7 +357,7 @@ is called after current queue.
 }).
 next(function (r) {
     print([r, "end"]);
-})
+});
 
  </pre>
 				</di>
@@ -383,7 +383,7 @@ This loop is slow but not stop browser's appearance.</p>
 <p>Sample:
 </p>
 <pre>//=> loop 1 to 100
-loop({begin:1, end:100,step:10}, function (n, o) {
+loop({begin:1, end:100, step:10}, function (n, o) {
     for (var i = 0; i < o.step; i++) {
         log(n+i);
     }
