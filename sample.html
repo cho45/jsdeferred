@@ -210,6 +210,45 @@ loop({begin: 1, end:100, step:10}, function (n, o) {
 function print (m) { $("#loop-code1").append("\n// "+m) }
 </pre>
 				</div>
+				<div clsss="section">
+					<h2>Auto Divided Loop</h2>
+					<pre id="aloop-code" onclick="eval($(this).text());">
+function aloop (n, f) {
+	var i   = 0;
+	var end = new Object;
+	var ret = null;
+	return Deferred.next(function () {
+		var t = (new Date()).getTime();
+		try {
+			do {
+				ret = f(i)
+				i++;
+				if (i > n) throw end;
+			} while ((new Date()).getTime() - t < 50);
+			print("Devided: " + ((new Date()).getTime() - t) + "msec.");
+			return Deferred.call(arguments.callee);
+		} catch (e) {
+			if (e == end) {
+				print("End");
+				return ret;
+			} else {
+				throw e;
+			}
+		}
+	});
+}
+
+aloop(100, function (n, o) {
+	print(n);
+	for (var i = 0; i < Math.pow(n, 2); i++) {
+		for (var j = n; j; j--);
+	}
+});
+
+
+function print (m) { $("#aloop-code").append("\n// "+m) }
+</pre>
+				</div>
 
 				<div clsss="section">
 					<h2>Pseudo Multi Thread</h2>

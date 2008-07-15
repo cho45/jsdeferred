@@ -60,7 +60,7 @@ return Deferred.call(_loop,i+step);}
 }else{
 return ret;}
 }
-return Deferred.call(_loop,o.begin);});};Deferred.register=function(name,fun){
+if(o.begin<o.end)return Deferred.call(_loop,o.begin);});};Deferred.register=function(name,fun){
 this.prototype[name]=function(){
 return this.next(Deferred.wrap(fun).apply(null,arguments));};};Deferred.wrap=function(dfun){
 return function(){

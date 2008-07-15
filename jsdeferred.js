@@ -286,7 +286,7 @@ Deferred.loop = function (n, fun) {
 				return ret;
 			}
 		}
-		return Deferred.call(_loop, o.begin);
+		if (o.begin < o.end) return Deferred.call(_loop, o.begin);
 	});
 };
 

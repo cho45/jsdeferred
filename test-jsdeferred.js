@@ -1,4 +1,5 @@
 $(function () { $.get("test-jsdeferred.js", {}, function (data) {
+Global = (function () { return this })();
 
 // get tests number.
 data = data.match(/\/\/ ::Test::Start::([\s\S]+)::Test::End::/)[1];
@@ -13,10 +14,16 @@ var expects = testfuns.length;
 
 function show (msg, expect, result) {
 	var okng = this;
-	testfuns.pop();
+	if (okng == "skip") {
+		result = "skipped " + expect + "tests:" + msg;
+		while (expect--) testfuns.pop();
+		expect = "skipped";
+	} else {
+		testfuns.pop();
+		expect = (typeof expect == "function") ? uneval(expect).match(/[^{]+/)+"..." : uneval(expect);
+		result = (typeof result == "function") ? uneval(result).match(/[^{]+/)+"..." : uneval(result);
+	}
 	$("#nums").text([expects - testfuns.length, expects].join("/"));
-	expect = (typeof expect == "function") ? uneval(expect).match(/[^{]+/)+"..." : uneval(expect);
-	result = (typeof result == "function") ? uneval(result).match(/[^{]+/)+"..." : uneval(result);
 	$("<tr class='"+okng+"'><td>"+[msg, expect, result].join("</td><td>")+"</td></tr>").appendTo(results);
 	if (testfuns.length) {
 		$("#nums").css("color", "#900");
@@ -45,10 +52,17 @@ window.log = print;
 
 function ok () {
 	show.apply("ok", arguments);
+	return true;
 }
 
 function ng () {
 	show.apply("ng", arguments);
+	return true;
+}
+
+function skip () {
+	show.apply("skip", arguments);
+	return true;
 }
 
 function expect (msg, expect, result) {
@@ -57,6 +71,7 @@ function expect (msg, expect, result) {
 	} else {
 		show.apply("ng", arguments);
 	}
+	return true;
 }
 
 // ::Test::Start::
@@ -92,11 +107,6 @@ d.callback.ok = function () {
 d.cancel();
 d.call();
 
-// comment out for test on rhino
-// msg("jQuery binding test")
-// expect//("$.get deferred",     true, $.get(".")     instanceof $.deferred);
-// expect//("$.post deferred",    true, $.post(".")    instanceof $.deferred);
-// expect//("$.getJSON deferred", true, $.getJSON(".") instanceof $.deferred);
 
 // Start Main Test
 msg("Start Main Tests::");
@@ -353,6 +363,8 @@ next(function () {
 }).
 next(function () {
 	msg("Stack over flow test: check not waste stack.");
+	if (skip("too heavy", 1)) return;
+
 	var num = 1000;
 	return loop(num, function (n) {
 		if (n % 50 == 0) print(n);
@@ -367,6 +379,58 @@ next(function () {
 }).
 next(function () {
 	msg("Done Main.");
+}).
+next(function () {
+	msg("jQuery binding test")
+	if (Global.navigator) {
+		return next(function() {
+			expect("$.ajax should return deferred",    true, $.ajax({ url: "." }) instanceof $.deferred);
+			expect("$.get should return deferred",     true, $.get(".")           instanceof $.deferred);
+			expect("$.post should return deferred",    true, $.post(".")          instanceof $.deferred);
+			expect("$.getJSON should return deferred", true, $.getJSON(".")       instanceof $.deferred);
+		}).
+		next(function () {
+			return $.ajax({
+				url : ".",
+				success : function () {
+					ok("$.ajax#success");
+				},
+				error : function () {
+					ng("$.ajax#success");
+				}
+			}).
+			next(function () {
+				ok("$.ajax#success");
+			}).
+			error(function (e) {
+				ng("$.ajax#success");
+			});
+		}).
+		next(function () {
+			return $.ajax({
+				url : "error-404" + Math.random(),
+				success : function () {
+					ng("$.ajax#errro");
+				},
+				error : function () {
+					ok("$.ajax#error", "You may see error on console but it is correct.");
+				}
+			}).
+			next(function () {
+				ng("$.ajax#error");
+			}).
+			error(function (e) {
+				ok("$.ajax#error");
+			});
+		}).
+		error(function (e) {
+			ng("Error on jQuery Test:", "", e);
+		});
+	} else {
+		skip("Not in browser", 8);
+	}
+}).
+next(function () {
 	msg("Canceling Test:");
 	return next(function () {
 		return next(function () {
@@ -380,6 +444,9 @@ next(function () {
 }).
 next(function () {
 	ng("Must not be called!! calceled");
+}).
+error(function (e) {
+	ng(e);
 });
 
 
