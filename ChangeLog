@@ -1,0 +1,5 @@
+2008-08-02  SATOH Hiroh <cho45@lowreal.net>
+
+	* Released 0.2.2
+	* [bug] Fixed: loop function didn't loop when it get 1 as argument.
+
