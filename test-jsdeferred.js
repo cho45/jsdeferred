@@ -206,6 +206,43 @@ next(function () {
 			return "ok";
 		}).next(function (r) {
 			expect("loop num. result", "ok", r);
+			expect("loop num. result", 5, t);
+		});
+	}).
+	next(function () {
+		var t = 0;
+		return loop(2, function (i) {
+			expect("loop num", t++, i);
+			return "ok";
+		}).next(function (r) {
+			expect("loop num. result", "ok", r);
+			expect("loop num. result", 2, t);
+		});
+	}).
+	next(function () {
+		var t = 0;
+		return loop(1, function (i) {
+			expect("loop num", t++, i);
+			return "ok";
+		}).next(function (r) {
+			expect("loop num. result", "ok", r);
+			expect("loop num. result", 1, t);
+		});
+	}).
+	next(function () {
+		var t = 0;
+		return loop(0, function (i) {
+			t++;
+		}).next(function () {
+			expect("loop num 0 to 0. result", 0, t);
+		});
+	}).
+	next(function () {
+		var t = 0;
+		return loop({begin:0, end:0}, function (i) {
+			t++;
+		}).next(function () {
+			expect("loop num begin:0 to end:0. result", 1, t);
 		});
 	}).
 	next(function () {
@@ -324,14 +361,6 @@ next(function () {
 		}).next(function (r) {
 			expect("loop begin:1, end:10, step:3", [1,2,3,4,5,6,7,8,9,10].join(), r.join());
 			expect("loop begin:1, end:10, step:3 last?", [false,false,false,true].join(), l.join());
-		});
-	}).
-	next(function () {
-		var t = 0;
-		return loop({begin:0, end:0}, function (i) {
-			t++;
-		}).next(function () {
-			expect("loop num 0 to 0. result", 0, t);
 		});
 	}).
 	next(function () {
