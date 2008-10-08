@@ -134,9 +134,9 @@ next(function () {
 	return next(function () {
 		msg("register test");
 	}).
-	next(function () { msg("registed wait") }).
+	next(function () { msg("registered wait") }).
 	wait(0.1).
-	next(function () { msg("registed loop") }).
+	next(function () { msg("registered loop") }).
 	loop(1, function () {}).
 	next(function (n) {
 		ok("register test");
