@@ -337,7 +337,7 @@ Deferred.register("wait", Deferred.wait);
 
 Deferred.define = function (obj, list) {
 	if (!list) list = ["parallel", "wait", "next", "call", "loop"];
-	if (!obj)  obj  = (function () { return this })();
+	if (!obj)  obj  = (function getGlobal () { return this })();
 	for (var i = 0; i < list.length; i++) {
 		var n = list[i];
 		obj[n] = Deferred[n];

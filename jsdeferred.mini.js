@@ -66,6 +66,6 @@ return this.next(Deferred.wrap(fun).apply(null,arguments));};};Deferred.wrap=fun
 return function(){
 var a=arguments;return function(){
 return dfun.apply(null,a);};};};Deferred.register("loop",Deferred.loop);Deferred.register("wait",Deferred.wait);Deferred.define=function(obj,list){
-if(!list)list=["parallel","wait","next","call","loop"];if(!obj)obj=(function(){return this})();for(var i=0;i<list.length;i++){
+if(!list)list=["parallel","wait","next","call","loop"];if(!obj)obj=(function getGlobal(){return this})();for(var i=0;i<list.length;i++){
 var n=list[i];obj[n]=Deferred[n];}
 return Deferred;};
