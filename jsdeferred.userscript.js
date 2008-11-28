@@ -32,17 +32,17 @@ Deferred.prototype = {
 	},
 
 	_fire : function (okng, value) {
-		var self = this, next = "ok";
+		var next = "ok";
 		try {
-			value = self.callback[okng].call(self, value);
+			value = this.callback[okng].call(this, value);
 		} catch (e) {
 			next  = "ng";
 			value = e;
 		}
 		if (value instanceof Deferred) {
-			value._next = self._next;
+			value._next = this._next;
 		} else {
-			if (self._next) self._next._fire(next, value);
+			if (this._next) this._next._fire(next, value);
 		}
 		return this;
 	}

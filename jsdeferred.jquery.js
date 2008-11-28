@@ -16,12 +16,12 @@ cancel:function(){
 _post:function(okng,fun){
 this._next=new Deferred();this._next.callback[okng]=fun;return this._next;},
 _fire:function(okng,value){
-var self=this,next="ok";try{
-value=self.callback[okng].call(self,value);}catch(e){
+var next="ok";try{
+value=this.callback[okng].call(this,value);}catch(e){
 next="ng";value=e;}
 if(value instanceof Deferred){
-value._next=self._next;}else{
-if(self._next)self._next._fire(next,value);}
+value._next=this._next;}else{
+if(this._next)this._next._fire(next,value);}
 return this;}
 };Deferred.parallel=function(dl){
 var ret=new Deferred(),values={},num=0;for(var i in dl)if(dl.hasOwnProperty(i)){
