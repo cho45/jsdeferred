@@ -150,23 +150,22 @@ Deferred.prototype = {
  */
 Deferred.parallel = function (dl) {
 	var ret = new Deferred(), values = {}, num = 0;
-	for (var i in dl) if (dl.hasOwnProperty(i)) {
-		(function (d, i) {
-			d.next(function (v) {
-				values[i] = v;
-				if (--num <= 0) {
-					if (dl instanceof Array) {
-						values.length = dl.length;
-						values = Array.prototype.slice.call(values, 0);
-					}
-					ret.call(values);
+	for (var i in dl) if (dl.hasOwnProperty(i)) (function (d, i) {
+		d.next(function (v) {
+			values[i] = v;
+			if (--num <= 0) {
+				if (dl instanceof Array) {
+					values.length = dl.length;
+					values = Array.prototype.slice.call(values, 0);
 				}
-			}).error(function (e) {
-				ret.fail(e);
-			});
-			num++;
-		})(dl[i], i);
-	}
+				ret.call(values);
+			}
+		}).error(function (e) {
+			ret.fail(e);
+		});
+		num++;
+	})(dl[i], i);
+
 	if (!num) Deferred.next(function () { ret.call() });
 	ret.canceller = function () {
 		for (var i in dl) if (dl.hasOwnProperty(i)) {
