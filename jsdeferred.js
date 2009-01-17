@@ -80,7 +80,7 @@
  *
  * Cancels self callback chain.
  */
-function Deferred () { return (this instanceof Deferred) ? this.init(this) : new Deferred() }
+function Deferred () { return (this instanceof Deferred) ? this.init() : new Deferred() }
 Deferred.prototype = {
 	init : function () {
 		this._next    = null;

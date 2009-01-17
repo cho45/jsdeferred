@@ -1,6 +1,6 @@
 // JSDeferred 0.2.2 (c) Copyright (c) 2007 cho45 ( www.lowreal.net )
 // See http://coderepos.org/share/wiki/JSDeferred
-function Deferred(){return(this instanceof Deferred)? this.init(this):new Deferred()}
+function Deferred(){return(this instanceof Deferred)? this.init():new Deferred()}
 Deferred.prototype={
 init:function(){
 this._next=null;this.callback={
