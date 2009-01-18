@@ -388,6 +388,24 @@ function print (m) { $("#delay-loop-code").append("\n// "+m) }
 </pre>
 				</div>
 
+				<div clsss="section">
+					<h2>Step Run (event handling)</h2>
+					<p>(double click to run this code and click to step)</p>
+					<pre id="step-run" ondblclick="eval($(this).text());" style="position: relative">
+var deferred = Deferred();
+$("#step-run").click(function () { deferred.call() });
+
+loop(5, function (i) {
+	print("running... " + i);
+	return deferred;
+}).
+next(function () {
+	print("completed");
+});
+
+function print (m) { $("#step-run").append("\n// "+m) }
+</pre>
+
 				<div class="section">
 					<h2>Brainfuck interpreter</h2>
 					<p>No wait but toooooooo slow :( But, but, browser will not be stopped!</p>
