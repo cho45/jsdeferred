@@ -223,7 +223,7 @@ function aloop (n, f) {
 			do {
 				ret = f(i)
 				i++;
-				if (i > n) throw end;
+				if (i >= n) throw end;
 			} while ((new Date()).getTime() - t < 50);
 			print("Devided: " + ((new Date()).getTime() - t) + "msec.");
 			return Deferred.call(arguments.callee);
