@@ -10,6 +10,45 @@
 			// <![CDATA[
 			Deferred.define();
 
+			if (typeof uneval != "function") {
+				uneval = function (o) {
+					switch (typeof o) {
+						case "undefined" : return "(void 0)";
+						case "boolean"   : return String(o);
+						case "number"    : return String(o);
+						case "string"    : return '"' + o.replace(/"/g, '\\"') + '"';
+						case "function"  : return "(" + o.toString() + ")";
+						case "object"    :
+							if (o == null) return "null";
+							var type = Object.prototype.toString.call(o).match(/\[object (.+)\]/);
+							if (!type) throw TypeError("unknown type:"+o);
+							switch (type[1]) {
+								case "Array":
+									var ret = [];
+									for (var i = 0, l = o.length; i < l; ret.push(arguments.callee(o[i++])));
+									return "[" + ret.join(", ") + "]";
+								case "Object":
+									var ret = [];
+									for (var i in o) if (o.hasOwnProperty(i)) {
+										ret.push(arguments.callee(i) + ":" + arguments.callee(o[i]));
+									}
+									return "({" + ret.join(", ") + "})";
+								case "Number":
+									return "(new Number(" + o + "))";
+								case "String":
+									return "(new String(" + arguments.callee(o) + "))";
+								case "Date":
+									return "(new Date(" + o.getTime() + "))";
+								default:
+									if (o.toSource) return o.toSource();
+									throw TypeError("unknown type:"+o);
+							}
+					}
+					return "";
+				}
+			}
+
+
 			// ]]>
 		</script>
 
@@ -536,6 +575,162 @@ function bfrun () {
 </textarea>
 					<button id="bfi-run" onclick="bfrun();">Run!</button>
 				</div>
+
+				<div clsss="section">
+					<h2>callcc</h2>
+					<p>like Scheme's callcc</p>
+					<pre id="callcc" onclick="eval($(this).text());">
+function callcc (fun) {
+	var error = new Deferred();
+	return call(function () {
+		// JSDeferred passes current Deferred Object to  this.
+		var ccdeferred = this;
+		// Call with current continuation (calling Deferred.next)
+		return fun(function (a) { ccdeferred._next.call(a); throw error });
+	}).
+	error(function (e) {
+		// Current Deferred chain must be stopped
+		if (e === error) {
+			return e;
+		} else {
+			throw e;
+		}
+	});
+}
+
+callcc(function (cont) {
+	return 10 * 10 * cont(20);
+}).
+next(function (val) {
+	print("callcc1 returns:" + val);
+});
+// should show "callcc1 returns:20"
+
+var cont;
+var i = 0;
+callcc(function (c) {
+	cont = c;
+	return 10;
+}).
+next(function (val) {
+	print("callcc2 returns:" + val);
+	if (!i++) cont(20);
+});
+// should show "callcc2 returns:10", "callcc returns:20"
+
+
+function print (m) { $("#callcc").append("\n// "+m) }
+</pre>
+
+					<p>and Scheme's amb</p>
+					<pre id="amb" onclick="eval($(this).text());this.onclick=null;">
+function callcc (fun) {
+	var error = new Deferred();
+	return call(function () {
+		// JSDeferred passes current Deferred Object to  this.
+		var ccdeferred = this;
+		// Call with current continuation (calling Deferred.next)
+		return fun(function (a) { ccdeferred._next.call(a); throw error });
+	}).
+	error(function (e) {
+		// Current Deferred chain must be stopped
+		if (e === error) {
+			return e;
+		} else {
+			throw e;
+		}
+	});
+}
+
+// http://www.sampou.org/scheme/t-y-scheme/t-y-scheme-Z-H-16.html#node_chap_14
+// 上記のものをそのまま移植したもの
+function amb () {
+	var alts = arguments;
+	var prevAmbFail = amb.ambFail;
+
+	return callcc(function (sk) {
+		return loop(alts.length, function (i) {
+			var alt = alts[i];
+			return callcc(function (fk) {
+				amb.ambFail = function () {
+					amb.ambFail = prevAmbFail;
+					return fk("fail");
+				};
+				return sk(alt);
+			});
+		}).
+		next(prevAmbFail);
+	});
+}
+amb.ambFail = function () { throw "amb tree exhausted" };
+
+// Utility function
+function amb1 (ambvars) {
+	var f    = wait(0);
+	var vars = {};
+	for (var k in ambvars) if (ambvars.hasOwnProperty(k)) (function (name, val) {
+		log(name);
+		f = f.next(function () {
+			return amb.apply(this, val).next(function (i) {
+				vars[name] = i;
+			});
+		});
+	})(k, ambvars[k]);
+
+	f = f.next(function () {
+		return vars;
+	});
+
+	return f;
+}
+
+function assert (cond) {
+	if (!cond) throw amb();
+}
+
+// http://mayokara.info/note/view/251
+Array.prototype.uniq = function(){
+	for (var i = 0,l = this.length; i &lt; l; i++) {
+		if (this.indexOf(this[i]) &lt; i) {
+			this.splice(i--, l-- &amp;&amp; 1);
+		}
+	}
+	return this;
+};
+
+amb1({
+	baker    : [1, 2, 3, 4, 5],
+	cooper   : [1, 2, 3, 4, 5],
+	fletcher : [1, 2, 3, 4, 5],
+	miller   : [1, 2, 3, 4, 5],
+	smith    : [1, 2, 3, 4, 5]
+}).
+next(function (vars) { with (vars) {
+	log(vars);
+	// 簡易 distinct
+	assert([baker, cooper, fletcher, miller, smith].uniq().length == 5);
+	log("distinct passed");
+	assert(baker  != 5);
+	assert(cooper != 1);
+	assert(fletcher != 1 &amp;&amp; fletcher != 5);
+	assert(miller > cooper);
+	assert(Math.abs(smith - fletcher)  != 1);
+	assert(Math.abs(fletcher - cooper) != 1);
+
+	return vars;
+} }).
+next(function (vars) { with (vars) {
+	log("resolved");
+	log(vars);
+	alert(uneval(vars));
+} }).
+error(function (e) {
+	alert(e)
+});
+
+function log (m) { $("#amb").append("\n// "+ uneval(m)) }
+</pre>
+
 			</div>
 
 			<div id="footer">
