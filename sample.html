@@ -673,13 +673,10 @@ function amb1 (ambvars) {
 		f = f.next(function () {
 			return amb.apply(this, val).next(function (i) {
 				vars[name] = i;
+				return vars;
 			});
 		});
 	})(k, ambvars[k]);
-
-	f = f.next(function () {
-		return vars;
-	});
 
 	return f;
 }
