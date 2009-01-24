@@ -202,9 +202,28 @@ Deferred.wait = function (n) {
  */
 Deferred.next = function (fun) {
 	var d = new Deferred();
-	var id = setTimeout(function () { clearTimeout(id); d.call() }, 0);
+	var Global = (function () { return this })();
+	var cbname;
+	do {
+		cbname = "callback" + String(Math.random()).slice(2);
+	} while (typeof(Global[cbname]) != "undefined");
+
+	Global[cbname] = function () {
+		log(cbname);
+		delete Global[cbname];
+		d.call();
+	};
+
+	d.canceller = function () {
+		Global[cbname] = function () {
+			delete Global[cbname];
+		};
+	};
+
 	if (fun) d.callback.ok = fun;
-	d.canceller = function () { try { clearTimeout(id) } catch (e) {} };
+
+	location.href = "javascript:" + cbname + "()";
+
 	return d;
 };
 
