@@ -42,16 +42,10 @@ case me._enable_faster_way && me._enable_faster_way_Image:{
 var img=new Image();var handler=function(){
 d.canceller();d.call();};img.addEventListener("load",handler,false);img.addEventListener("error",handler,false);d.canceller=function(){
 img.removeEventListener("load",handler,false);img.removeEventListener("error",handler,false);};img.src="data:,/_/X";break;}
-case me._enable_faster_way && me._enable_faster_way_readystatechange:{
-var cancel=false;var script=document.createElement("script");script.type="text/javascript";script.src="javascript:";script.onreadystatechange=function(){
-if(!cancel)d.call();d.canceller();};d.canceller=function(){
-if(!cancel){
-cancel=true;script.onreadystatechange=null;document.body.removeChild(script);}
-};document.body.appendChild(script);break;}
 default:{
 var id=setTimeout(function(){clearTimeout(id);d.call()},0);d.canceller=function(){try{clearTimeout(id)}catch(e){}};}
 }
-if(fun)d.callback.ok=fun;return d;};Deferred.next._enable_faster_way=true;Deferred.next._enable_faster_way_Image=(/\b(?:Gecko\/|AppleWebKit\/|Opera\/)/.test(navigator.userAgent));Deferred.next._enable_faster_way_readystatechange=false;Deferred.call=function(f,args){
+if(fun)d.callback.ok=fun;return d;};Deferred.next._enable_faster_way=true;Deferred.next._enable_faster_way_Image=(/\b(?:Gecko\/|AppleWebKit\/|Opera\/)/.test(navigator.userAgent));Deferred.call=function(f,args){
 args=Array.prototype.slice.call(arguments);f=args.shift();return Deferred.next(function(){
 return f.apply(this,args);});};Deferred.loop=function(n,fun){
 var o={

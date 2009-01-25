@@ -105,25 +105,6 @@ Deferred.next = function (fun) {
 			img.src = "data:,/ _ / X";
 			break;
 		}
-		case me._enable_faster_way && me._enable_faster_way_readystatechange : {
-			var cancel = false;
-			var script = document.createElement("script");
-			script.type = "text/javascript";
-			script.src  = "javascript:";
-			script.onreadystatechange = function () {
-				if (!cancel) d.call();
-				d.canceller();
-			};
-			d.canceller = function () {
-				if (!cancel) {
-					cancel = true;
-					script.onreadystatechange = null;
-					document.body.removeChild(script);
-				}
-			};
-			document.body.appendChild(script);
-			break;
-		}
 		default : {
 			var id = setTimeout(function () { clearTimeout(id); d.call() }, 0);
 			d.canceller = function () { try { clearTimeout(id) } catch (e) {} };
@@ -136,7 +117,6 @@ Deferred.next = function (fun) {
 };
 Deferred.next._enable_faster_way = true;
 Deferred.next._enable_faster_way_Image = (/\b(?:Gecko\/|AppleWebKit\/|Opera\/)/.test(navigator.userAgent));
-Deferred.next._enable_faster_way_readystatechange = false;
 
 Deferred.call = function (f, args) {
 	args = Array.prototype.slice.call(arguments);
