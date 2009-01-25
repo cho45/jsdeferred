@@ -206,11 +206,15 @@ Deferred.next = function (fun) {
 	if  (Deferred.next._enable_faster_way) {
 		var img = new Image();
 		var handler = function () {
+			d.canceller();
 			d.call();
 		};
 		img.addEventListener("load", handler, false);
 		img.addEventListener("error", handler, false);
-		d.canceller = function () { img.onload = img.onerror = function () {} };
+		d.canceller = function () {
+			img.removeEventListener("load", handler, false);
+			img.removeEventListener("error", handler, false);
+		};
 		img.src = "data:,/ _ / X";
 	} else {
 		var id = setTimeout(function () { clearTimeout(id); d.call() }, 0);
