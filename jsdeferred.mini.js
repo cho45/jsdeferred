@@ -37,11 +37,11 @@ dl[i].cancel();}
 };return ret;};Deferred.wait=function(n){
 var d=new Deferred(),t=new Date();var id=setTimeout(function(){
 clearTimeout(id);d.call((new Date).getTime()-t.getTime());},n*1000);d.canceller=function(){try{clearTimeout(id)}catch(e){}};return d;};Deferred.next=function(fun){
-var d=new Deferred();if(/\b(?:Gecko\/|AppleWebKit\/|Opera\/)/.test(navigator.userAgent)){
+var d=new Deferred();if(Deferred.next._enable_faster_way){
 var img=new Image();var handler=function(){
 d.call();};img.addEventListener("load",handler,false);img.addEventListener("error",handler,false);d.canceller=function(){img.onload=img.onerror=function(){}};img.src="data:,/_/X";}else{
 var id=setTimeout(function(){clearTimeout(id);d.call()},0);d.canceller=function(){try{clearTimeout(id)}catch(e){}};}
-if(fun)d.callback.ok=fun;return d;};Deferred.call=function(f,args){
+if(fun)d.callback.ok=fun;return d;};Deferred.next._enable_faster_way=(/\b(?:Gecko\/|AppleWebKit\/|Opera\/)/.test(navigator.userAgent));Deferred.call=function(f,args){
 args=Array.prototype.slice.call(arguments);f=args.shift();return Deferred.next(function(){
 return f.apply(this,args);});};Deferred.loop=function(n,fun){
 var o={

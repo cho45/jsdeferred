@@ -88,7 +88,7 @@ Deferred.wait = function (n) {
 Deferred.next = function (fun) {
 	var d = new Deferred();
 
-	if (/\b(?:Gecko\/|AppleWebKit\/|Opera\/)/.test(navigator.userAgent)) {
+	if  (Deferred.next._enable_faster_way) {
 		var img = new Image();
 		var handler = function () {
 			d.call();
@@ -105,6 +105,7 @@ Deferred.next = function (fun) {
 
 	return d;
 };
+Deferred.next._enable_faster_way = (/\b(?:Gecko\/|AppleWebKit\/|Opera\/)/.test(navigator.userAgent));
 
 Deferred.call = function (f, args) {
 	args = Array.prototype.slice.call(arguments);
