@@ -37,7 +37,7 @@ dl[i].cancel();}
 };return ret;};Deferred.wait=function(n){
 var d=new Deferred(),t=new Date();var id=setTimeout(function(){
 clearTimeout(id);d.call((new Date).getTime()-t.getTime());},n*1000);d.canceller=function(){try{clearTimeout(id)}catch(e){}};return d;};Deferred.next=function(fun){
-var d=new Deferred();if(/Gecko\/|WebKit\/|Opera\
+var d=new Deferred();if(/\b(?:Gecko\/|AppleWebKit\/|Opera\/)/.test(navigator.userAgent)){
 var img=new Image();img.onload=img.onerror=function(){
 d.call();};img.src=".";}else{
 var id=setTimeout(function(){clearTimeout(id);d.call()},0);d.canceller=function(){try{clearTimeout(id)}catch(e){}};}

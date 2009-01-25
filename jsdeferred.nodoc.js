@@ -84,7 +84,7 @@ Deferred.wait = function (n) {
 Deferred.next = function (fun) {
 	var d = new Deferred();
 
-	if (/Gecko\/|WebKit\/|Opera\
+	if (/\b(?:Gecko\/|AppleWebKit\/|Opera\/)/.test(navigator.userAgent)) {
 		var img = new Image();
 		img.onload = img.onerror = function () {
 			d.call();
