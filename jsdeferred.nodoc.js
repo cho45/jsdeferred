@@ -86,9 +86,12 @@ Deferred.next = function (fun) {
 
 	if (/\b(?:Gecko\/|AppleWebKit\/|Opera\/)/.test(navigator.userAgent)) {
 		var img = new Image();
-		img.onload = img.onerror = function () {
+		var handler = function () {
 			d.call();
 		};
+		img.addEventListener("load", handler, false);
+		img.addEventListener("error", handler, false);
+		d.canceller = function () { img.onload = img.onerror = function () {} };
 		img.src = ".";
 	} else {
 		var id = setTimeout(function () { clearTimeout(id); d.call() }, 0);
