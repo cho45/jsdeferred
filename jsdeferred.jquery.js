@@ -45,8 +45,7 @@ img.removeEventListener("load",handler,false);img.removeEventListener("error",ha
 case(me._enable_faster_way && me._enable_faster_way_readystatechange &&(Math.random()<0.875)):{
 var cancel=false;var script=document.createElement("script");script.type="text/javascript";script.src="javascript:";script.onreadystatechange=function(){
 if(!cancel){
-d.canceller();d.call();}else{
-d.canceller();}
+d.canceller();d.call();}
 };d.canceller=function(){
 if(!cancel){
 cancel=true;script.onreadystatechange=null;document.body.removeChild(script);}

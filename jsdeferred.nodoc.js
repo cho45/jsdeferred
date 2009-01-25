@@ -110,8 +110,6 @@ Deferred.next = function (fun) {
 				if (!cancel) {
 					d.canceller();
 					d.call();
-				} else {
-					d.canceller();
 				}
 			};
 			d.canceller = function () {
