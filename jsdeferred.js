@@ -211,7 +211,7 @@ Deferred.next = function (fun) {
 		img.addEventListener("load", handler, false);
 		img.addEventListener("error", handler, false);
 		d.canceller = function () { img.onload = img.onerror = function () {} };
-		img.src = ".";
+		img.src = "data:,/ _ / X";
 	} else {
 		var id = setTimeout(function () { clearTimeout(id); d.call() }, 0);
 		d.canceller = function () { try { clearTimeout(id) } catch (e) {} };
