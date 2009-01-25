@@ -5,12 +5,14 @@ function D () {
 
 
 function Deferred () { return (this instanceof Deferred) ? this.init() : new Deferred() }
+Deferred.ok = function (x) { return x };
+Deferred.ng = function (x) { throw  x };
 Deferred.prototype = {
 	init : function () {
 		this._next    = null;
 		this.callback = {
-			ok: function (x) { return x },
-			ng: function (x) { throw  x }
+			ok: Deferred.ok,
+			ng: Deferred.ng
 		};
 		return this;
 	},
