@@ -202,9 +202,20 @@ Deferred.wait = function (n) {
  */
 Deferred.next = function (fun) {
 	var d = new Deferred();
-	var id = setTimeout(function () { clearTimeout(id); d.call() }, 0);
+
+	if (/Gecko\/|WebKit\/|Opera\//.test(navigator.userAgent)) {
+		var img = new Image();
+		img.onload = img.onerror = function () {
+			d.call();
+		};
+		// d.canceller = function () { img.onload = img.onerror = function () {} };
+		img.src = ".";
+	} else {
+		var id = setTimeout(function () { clearTimeout(id); d.call() }, 0);
+		d.canceller = function () { try { clearTimeout(id) } catch (e) {} };
+	}
 	if (fun) d.callback.ok = fun;
-	d.canceller = function () { try { clearTimeout(id) } catch (e) {} };
+
 	return d;
 };
 

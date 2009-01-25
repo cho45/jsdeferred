@@ -37,7 +37,11 @@ dl[i].cancel();}
 };return ret;};Deferred.wait=function(n){
 var d=new Deferred(),t=new Date();var id=setTimeout(function(){
 clearTimeout(id);d.call((new Date).getTime()-t.getTime());},n*1000);d.canceller=function(){try{clearTimeout(id)}catch(e){}};return d;};Deferred.next=function(fun){
-var d=new Deferred();var id=setTimeout(function(){clearTimeout(id);d.call()},0);if(fun)d.callback.ok=fun;d.canceller=function(){try{clearTimeout(id)}catch(e){}};return d;};Deferred.call=function(f,args){
+var d=new Deferred();if(/Gecko\/|WebKit\/|Opera\
+var img=new Image();img.onload=img.onerror=function(){
+d.call();};img.src=".";}else{
+var id=setTimeout(function(){clearTimeout(id);d.call()},0);d.canceller=function(){try{clearTimeout(id)}catch(e){}};}
+if(fun)d.callback.ok=fun;return d;};Deferred.call=function(f,args){
 args=Array.prototype.slice.call(arguments);f=args.shift();return Deferred.next(function(){
 return f.apply(this,args);});};Deferred.loop=function(n,fun){
 var o={

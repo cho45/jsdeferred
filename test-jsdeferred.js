@@ -411,7 +411,7 @@ next(function () {
 }).
 next(function () {
 	msg("jQuery binding test")
-	if (Global.navigator) {
+	if (!/Rhino/.test(Global.navigator.userAgent)) {
 		return next(function() {
 			expect("$.ajax should return deferred",    true, $.ajax({ url: "." }) instanceof $.deferred);
 			expect("$.get should return deferred",     true, $.get(".")           instanceof $.deferred);

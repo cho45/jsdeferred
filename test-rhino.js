@@ -171,6 +171,14 @@ addFinalizer(function () {
 		}
 	};
 
+	Global.navigator = {
+		appCodeName : "Rhino",
+		appName     : "Rhino Test",
+		appVersion  : "0.0",
+		platform    : "Rhino",
+		userAgent   : "Rhino"
+	};
+
 	// run process
 	while (runQueue.length) {
 		runQueue.process();
