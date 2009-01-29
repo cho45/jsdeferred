@@ -41,6 +41,7 @@ function show (msg, expect, result) {
 function msg (m) {
 	print(m);
 }
+log = msg;
 
 function ok () {
 	show.apply("ok", arguments);

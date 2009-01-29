@@ -80,10 +80,11 @@ Deferred.define();
 
 msg("Loaded "+testfuns.length+" tests;");
 log("Deferred.next Mode:" + uneval({
-	_enable_faster_way: Deferred.next._enable_faster_way,
-	_enable_faster_way_Image: Deferred.next._enable_faster_way_Image,
-	_enable_faster_way_readystatechange: Deferred.next._enable_faster_way_readystatechange
+	_enable_faster_way           : Deferred.next_enable_faster_way,
+	_faster_way_Image            : !!Deferred.next_faster_way_Image,
+	_faster_way_readystatechange : !!Deferred.next_faster_way_readystatechange
 }));
+log(String(Deferred.next));
 
 msg("Basic Tests::");
 

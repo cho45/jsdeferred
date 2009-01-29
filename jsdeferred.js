@@ -202,60 +202,65 @@ Deferred.wait = function (n) {
  * `next` is shorthand for creating new deferred which
  * is called after current queue.
  */
-Deferred.next = function (fun) {
+Deferred.next_default = function (fun) {
 	var d = new Deferred();
-	var me = Deferred.next;
-
-	switch (true) {
-		case (me._enable_faster_way && me._enable_faster_way_Image) : {
-			var img = new Image();
-			var handler = function () {
-				d.canceller();
-				d.call();
-			};
-			img.addEventListener("load", handler, false);
-			img.addEventListener("error", handler, false);
-			d.canceller = function () {
-				img.removeEventListener("load", handler, false);
-				img.removeEventListener("error", handler, false);
-			};
-			img.src = "data:,/ _ / X";
-			break;
-		}
-		case (me._enable_faster_way && me._enable_faster_way_readystatechange && (Math.random() < 0.875)) : {
-			var cancel = false;
-			var script = document.createElement("script");
-			script.type = "text/javascript";
-			script.src  = "javascript:";
-			script.onreadystatechange = function () {
-				if (!cancel) {
-					d.canceller();
-					d.call();
-				}
-			};
-			d.canceller = function () {
-				if (!cancel) {
-					cancel = true;
-					script.onreadystatechange = null;
-					document.body.removeChild(script);
-				}
-			};
-			document.body.appendChild(script);
-			break;
-		}
-		default : {
-			var id = setTimeout(function () { clearTimeout(id); d.call() }, 0);
-			d.canceller = function () { try { clearTimeout(id) } catch (e) {} };
-		}
-	}
-
+	var id = setTimeout(function () { clearTimeout(id); d.call() }, 0);
+	d.canceller = function () { try { clearTimeout(id) } catch (e) {} };
 	if (fun) d.callback.ok = fun;
-
 	return d;
 };
-Deferred.next._enable_faster_way = true;
-Deferred.next._enable_faster_way_Image = !!((typeof(Image) != "undefined") && document.addEventListener); // Modern Browsers
-Deferred.next._enable_faster_way_readystatechange = ('\v'=='v'); // MSIE
+Deferred.next_enable_faster_way = true;
+Deferred.next_faster_way_Image = ((typeof(Image) != "undefined") && document.addEventListener) && function (fun) {
+	// Modern Browsers
+	var d = new Deferred();
+	var img = new Image();
+	var handler = function () {
+		d.canceller();
+		d.call();
+	};
+	img.addEventListener("load", handler, false);
+	img.addEventListener("error", handler, false);
+	d.canceller = function () {
+		img.removeEventListener("load", handler, false);
+		img.removeEventListener("error", handler, false);
+	};
+	img.src = "data:,/ _ / X";
+	if (fun) d.callback.ok = fun;
+	return d;
+};
+Deferred.next_faster_way_readystatechange = ('\v'=='v') && function (fun) {
+	// MSIE
+	var d = new Deferred();
+	if (Math.random() < 0.875) {
+		var cancel = false;
+		var script = document.createElement("script");
+		script.type = "text/javascript";
+		script.src  = "javascript:";
+		script.onreadystatechange = function () {
+			if (!cancel) {
+				d.canceller();
+				d.call();
+			}
+		};
+		d.canceller = function () {
+			if (!cancel) {
+				cancel = true;
+				script.onreadystatechange = null;
+				document.body.removeChild(script);
+			}
+		};
+		document.body.appendChild(script);
+	} else {
+		var id = setTimeout(function () { clearTimeout(id); d.call() }, 0);
+		d.canceller = function () { try { clearTimeout(id) } catch (e) {} };
+	}
+	if (fun) d.callback.ok = fun;
+	return d;
+};
+if (Deferred.next_enable_faster_way)
+	Deferred.next = Deferred.next_faster_way_Image ||
+	                Deferred.next_faster_way_readystatechange ||
+	                Deferred.next_default;
 
 /* function call (fun [, args...]) //=> Deferred
  *
