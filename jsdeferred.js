@@ -254,8 +254,8 @@ Deferred.next = function (fun) {
 	return d;
 };
 Deferred.next._enable_faster_way = true;
-Deferred.next._enable_faster_way_Image = (/\b(?:Gecko\/|AppleWebKit\/|Opera\/)/.test(navigator.userAgent));
-Deferred.next._enable_faster_way_readystatechange = (/\bMSIE\b/.test(navigator.userAgent));
+Deferred.next._enable_faster_way_Image = !!((typeof(Image) != "undefined") && document.addEventListener); // Modern Browsers
+Deferred.next._enable_faster_way_readystatechange = ('\v'=='v'); // MSIE
 
 /* function call (fun [, args...]) //=> Deferred
  *

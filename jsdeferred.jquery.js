@@ -53,7 +53,7 @@ cancel=true;script.onreadystatechange=null;document.body.removeChild(script);}
 default:{
 var id=setTimeout(function(){clearTimeout(id);d.call()},0);d.canceller=function(){try{clearTimeout(id)}catch(e){}};}
 }
-if(fun)d.callback.ok=fun;return d;};Deferred.next._enable_faster_way=true;Deferred.next._enable_faster_way_Image=(/\b(?:Gecko\/|AppleWebKit\/|Opera\/)/.test(navigator.userAgent));Deferred.next._enable_faster_way_readystatechange=(/\bMSIE\b/.test(navigator.userAgent));Deferred.call=function(f,args){
+if(fun)d.callback.ok=fun;return d;};Deferred.next._enable_faster_way=true;Deferred.next._enable_faster_way_Image=(typeof(Image)!="undefined")&& document.addEventListener;Deferred.next._enable_faster_way_readystatechange=('\v'=='v');Deferred.call=function(f,args){
 args=Array.prototype.slice.call(arguments);f=args.shift();return Deferred.next(function(){
 return f.apply(this,args);});};Deferred.loop=function(n,fun){
 var o={

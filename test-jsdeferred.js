@@ -79,6 +79,11 @@ function expect (msg, expect, result) {
 Deferred.define();
 
 msg("Loaded "+testfuns.length+" tests;");
+log("Deferred.next Mode:" + uneval({
+	_enable_faster_way: Deferred.next._enable_faster_way,
+	_enable_faster_way_Image: Deferred.next._enable_faster_way_Image,
+	_enable_faster_way_readystatechange: Deferred.next._enable_faster_way_readystatechange
+}));
 
 msg("Basic Tests::");
 
