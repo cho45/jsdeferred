@@ -209,7 +209,6 @@ Deferred.next_default = function (fun) {
 	if (fun) d.callback.ok = fun;
 	return d;
 };
-Deferred.next_enable_faster_way = true;
 Deferred.next_faster_way_Image = ((typeof(Image) != "undefined") && document.addEventListener) && function (fun) {
 	// Modern Browsers
 	var d = new Deferred();
@@ -257,10 +256,9 @@ Deferred.next_faster_way_readystatechange = ('\v'=='v') && function (fun) {
 	if (fun) d.callback.ok = fun;
 	return d;
 };
-if (Deferred.next_enable_faster_way)
-	Deferred.next = Deferred.next_faster_way_Image ||
-	                Deferred.next_faster_way_readystatechange ||
-	                Deferred.next_default;
+Deferred.next = Deferred.next_faster_way_Image ||
+                Deferred.next_faster_way_readystatechange ||
+                Deferred.next_default;
 
 /* function call (fun [, args...]) //=> Deferred
  *
