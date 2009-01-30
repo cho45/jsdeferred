@@ -230,7 +230,8 @@ Deferred.next_faster_way_Image = ((typeof(Image) != "undefined") && document.add
 Deferred.next_faster_way_readystatechange = ('\v'=='v') && function (fun) {
 	// MSIE
 	var d = new Deferred();
-	if (Math.random() < 0.875) {
+	var t = new Date().getTime();
+	if (t - arguments.callee._prev_timeout_called < 150) {
 		var cancel = false;
 		var script = document.createElement("script");
 		script.type = "text/javascript";
@@ -250,6 +251,7 @@ Deferred.next_faster_way_readystatechange = ('\v'=='v') && function (fun) {
 		};
 		document.body.appendChild(script);
 	} else {
+		arguments.callee._prev_timeout_called = t;
 		var id = setTimeout(function () { clearTimeout(id); d.call() }, 0);
 		d.canceller = function () { try { clearTimeout(id) } catch (e) {} };
 	}
