@@ -111,7 +111,7 @@ Deferred.next_faster_way_Image = ((typeof(Image) != "undefined") && document.add
 	if (fun) d.callback.ok = fun;
 	return d;
 };
-Deferred.next_faster_way_readystatechange = ('\v'=='v') && function (fun) {
+Deferred.next_faster_way_readystatechange = (!window.opera && /\bMSIE\b/.test(navigator.userAgent)) && function (fun) {
 	var d = new Deferred();
 	var t = new Date().getTime();
 	if (t - arguments.callee._prev_timeout_called < 150) {
