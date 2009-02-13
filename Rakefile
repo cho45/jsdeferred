@@ -16,7 +16,7 @@ RELEASES = %w(
 Version = File.read("jsdeferred.js")[/Version:: (\d+\.\d+\.\d+)/, 1]
 
 COPYRIGHT = <<EOS
-JSDeferred #{Version} (c) Copyright (c) 2007 cho45 ( www.lowreal.net )
+JSDeferred #{Version} Copyright (c) 2007 cho45 ( www.lowreal.net )
 See http://coderepos.org/share/wiki/JSDeferred
 EOS
 
