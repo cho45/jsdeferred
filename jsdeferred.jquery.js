@@ -1,4 +1,4 @@
-// JSDeferred 0.2.2 (c) Copyright (c) 2007 cho45 ( www.lowreal.net )
+// JSDeferred 0.2.2 Copyright (c) 2007 cho45 ( www.lowreal.net )
 // See http://coderepos.org/share/wiki/JSDeferred
 function Deferred(){return(this instanceof Deferred)? this.init():new Deferred()}
 Deferred.ok=function(x){return x};Deferred.ng=function(x){throw x};Deferred.prototype={
@@ -37,10 +37,7 @@ dl[i].cancel();}
 };return ret;};Deferred.wait=function(n){
 var d=new Deferred(),t=new Date();var id=setTimeout(function(){
 clearTimeout(id);d.call((new Date).getTime()-t.getTime());},n*1000);d.canceller=function(){try{clearTimeout(id)}catch(e){}};return d;};Deferred.next_default=function(fun){
-var d=new Deferred();var id=setTimeout(function(){clearTimeout(id);d.call()},0);d.canceller=function(){try{clearTimeout(id)}catch(e){}};if(fun)d.callback.ok=fun;return d;};Deferred.next_faster_way_Image=((typeof(Image)!="undefined")&& document.addEventListener)&& function(fun){
-var d=new Deferred();var img=new Image();var handler=function(){
-d.canceller();d.call();};img.addEventListener("load",handler,false);img.addEventListener("error",handler,false);d.canceller=function(){
-img.removeEventListener("load",handler,false);img.removeEventListener("error",handler,false);};img.src="data:,/_/X";if(fun)d.callback.ok=fun;return d;};Deferred.next_faster_way_readystatechange=(!window.opera &&/\bMSIE\b/.test(navigator.userAgent))&& function(fun){
+var d=new Deferred();var id=setTimeout(function(){clearTimeout(id);d.call()},0);d.canceller=function(){try{clearTimeout(id)}catch(e){}};if(fun)d.callback.ok=fun;return d;};Deferred.next_faster_way_readystatechange=(!window.opera &&/\bMSIE\b/.test(navigator.userAgent))&& function(fun){
 var d=new Deferred();var t=new Date().getTime();if(t-arguments.callee._prev_timeout_called<150){
 var cancel=false;var script=document.createElement("script");script.type="text/javascript";script.src="javascript:";script.onreadystatechange=function(){
 if(!cancel){
@@ -50,8 +47,11 @@ if(!cancel){
 cancel=true;script.onreadystatechange=null;document.body.removeChild(script);}
 };document.body.appendChild(script);}else{
 arguments.callee._prev_timeout_called=t;var id=setTimeout(function(){clearTimeout(id);d.call()},0);d.canceller=function(){try{clearTimeout(id)}catch(e){}};}
-if(fun)d.callback.ok=fun;return d;};Deferred.next=Deferred.next_faster_way_Image ||
-Deferred.next_faster_way_readystatechange ||
+if(fun)d.callback.ok=fun;return d;};Deferred.next_faster_way_Image=((typeof(Image)!="undefined")&& document.addEventListener)&& function(fun){
+var d=new Deferred();var img=new Image();var handler=function(){
+d.canceller();d.call();};img.addEventListener("load",handler,false);img.addEventListener("error",handler,false);d.canceller=function(){
+img.removeEventListener("load",handler,false);img.removeEventListener("error",handler,false);};img.src="data:,/_/X";if(fun)d.callback.ok=fun;return d;};Deferred.next=Deferred.next_faster_way_readystatechange ||
+Deferred.next_faster_way_Image ||
 Deferred.next_default;Deferred.call=function(f,args){
 args=Array.prototype.slice.call(arguments);f=args.shift();return Deferred.next(function(){
 return f.apply(this,args);});};Deferred.loop=function(n,fun){

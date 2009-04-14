@@ -113,8 +113,25 @@ d.cancel();
 d.call();
 
 
+
 // Start Main Test
 msg("Start Main Tests::");
+next(function () {
+	msg("Process sequence");
+
+	var vs = [];
+	d = next(function () {
+		vs.push("1");
+	}).
+	next(function () {
+		vs.push("2");
+		expect("Process sequence", "0,1,2", vs.join(","));
+	});
+
+	vs.push("0");
+
+	return d;
+}).
 next(function () {
 	msg("Test Callback, Errorback chain::");
 	return next(function () { throw "Error"; }).

@@ -209,24 +209,6 @@ Deferred.next_default = function (fun) {
 	if (fun) d.callback.ok = fun;
 	return d;
 };
-Deferred.next_faster_way_Image = ((typeof(Image) != "undefined") && document.addEventListener) && function (fun) {
-	// Modern Browsers
-	var d = new Deferred();
-	var img = new Image();
-	var handler = function () {
-		d.canceller();
-		d.call();
-	};
-	img.addEventListener("load", handler, false);
-	img.addEventListener("error", handler, false);
-	d.canceller = function () {
-		img.removeEventListener("load", handler, false);
-		img.removeEventListener("error", handler, false);
-	};
-	img.src = "data:,/ _ / X";
-	if (fun) d.callback.ok = fun;
-	return d;
-};
 Deferred.next_faster_way_readystatechange = (!window.opera && /\bMSIE\b/.test(navigator.userAgent)) && function (fun) {
 	// MSIE
 	var d = new Deferred();
@@ -258,8 +240,26 @@ Deferred.next_faster_way_readystatechange = (!window.opera && /\bMSIE\b/.test(na
 	if (fun) d.callback.ok = fun;
 	return d;
 };
-Deferred.next = Deferred.next_faster_way_Image ||
-                Deferred.next_faster_way_readystatechange ||
+Deferred.next_faster_way_Image = ((typeof(Image) != "undefined") && document.addEventListener) && function (fun) {
+	// Modern Browsers
+	var d = new Deferred();
+	var img = new Image();
+	var handler = function () {
+		d.canceller();
+		d.call();
+	};
+	img.addEventListener("load", handler, false);
+	img.addEventListener("error", handler, false);
+	d.canceller = function () {
+		img.removeEventListener("load", handler, false);
+		img.removeEventListener("error", handler, false);
+	};
+	img.src = "data:,/ _ / X";
+	if (fun) d.callback.ok = fun;
+	return d;
+};
+Deferred.next = Deferred.next_faster_way_readystatechange ||
+                Deferred.next_faster_way_Image ||
                 Deferred.next_default;
 
 /* function call (fun [, args...]) //=> Deferred

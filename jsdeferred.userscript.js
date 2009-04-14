@@ -1,5 +1,5 @@
 // Usage:: with (D()) { your code }
-// JSDeferred 0.2.2 (c) Copyright (c) 2007 cho45 ( www.lowreal.net )
+// JSDeferred 0.2.2 Copyright (c) 2007 cho45 ( www.lowreal.net )
 // See http://coderepos.org/share/wiki/JSDeferred
 function D () {
 
@@ -94,23 +94,6 @@ Deferred.next_default = function (fun) {
 	if (fun) d.callback.ok = fun;
 	return d;
 };
-Deferred.next_faster_way_Image = ((typeof(Image) != "undefined") && document.addEventListener) && function (fun) {
-	var d = new Deferred();
-	var img = new Image();
-	var handler = function () {
-		d.canceller();
-		d.call();
-	};
-	img.addEventListener("load", handler, false);
-	img.addEventListener("error", handler, false);
-	d.canceller = function () {
-		img.removeEventListener("load", handler, false);
-		img.removeEventListener("error", handler, false);
-	};
-	img.src = "data:,/ _ / X";
-	if (fun) d.callback.ok = fun;
-	return d;
-};
 Deferred.next_faster_way_readystatechange = (!window.opera && /\bMSIE\b/.test(navigator.userAgent)) && function (fun) {
 	var d = new Deferred();
 	var t = new Date().getTime();
@@ -141,8 +124,25 @@ Deferred.next_faster_way_readystatechange = (!window.opera && /\bMSIE\b/.test(na
 	if (fun) d.callback.ok = fun;
 	return d;
 };
-Deferred.next = Deferred.next_faster_way_Image ||
-                Deferred.next_faster_way_readystatechange ||
+Deferred.next_faster_way_Image = ((typeof(Image) != "undefined") && document.addEventListener) && function (fun) {
+	var d = new Deferred();
+	var img = new Image();
+	var handler = function () {
+		d.canceller();
+		d.call();
+	};
+	img.addEventListener("load", handler, false);
+	img.addEventListener("error", handler, false);
+	d.canceller = function () {
+		img.removeEventListener("load", handler, false);
+		img.removeEventListener("error", handler, false);
+	};
+	img.src = "data:,/ _ / X";
+	if (fun) d.callback.ok = fun;
+	return d;
+};
+Deferred.next = Deferred.next_faster_way_readystatechange ||
+                Deferred.next_faster_way_Image ||
                 Deferred.next_default;
 
 Deferred.call = function (f, args) {
