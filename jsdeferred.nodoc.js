@@ -76,17 +76,16 @@ Deferred.parallel = function (dl) {
 Deferred.wait = function (n) {
 	var d = new Deferred(), t = new Date();
 	var id = setTimeout(function () {
-		clearTimeout(id);
 		d.call((new Date).getTime() - t.getTime());
 	}, n * 1000);
-	d.canceller = function () { try { clearTimeout(id) } catch (e) {} };
+	d.canceller = function () { clearTimeout(id) };
 	return d;
 };
 
 Deferred.next_default = function (fun) {
 	var d = new Deferred();
-	var id = setTimeout(function () { clearTimeout(id); d.call() }, 0);
-	d.canceller = function () { try { clearTimeout(id) } catch (e) {} };
+	var id = setTimeout(function () { d.call() }, 0);
+	d.canceller = function () { clearTimeout(id) };
 	if (fun) d.callback.ok = fun;
 	return d;
 };
@@ -114,8 +113,8 @@ Deferred.next_faster_way_readystatechange = (!window.opera && /\bMSIE\b/.test(na
 		document.body.appendChild(script);
 	} else {
 		arguments.callee._prev_timeout_called = t;
-		var id = setTimeout(function () { clearTimeout(id); d.call() }, 0);
-		d.canceller = function () { try { clearTimeout(id) } catch (e) {} };
+		var id = setTimeout(function () { d.call() }, 0);
+		d.canceller = function () { clearTimeout(id) };
 	}
 	if (fun) d.callback.ok = fun;
 	return d;
