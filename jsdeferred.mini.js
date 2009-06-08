@@ -52,8 +52,8 @@ var d=new Deferred();var img=new Image();var handler=function(){
 d.canceller();d.call();};img.addEventListener("load",handler,false);img.addEventListener("error",handler,false);d.canceller=function(){
 img.removeEventListener("load",handler,false);img.removeEventListener("error",handler,false);};img.src="data:,/_/X";if(fun)d.callback.ok=fun;return d;};Deferred.next=Deferred.next_faster_way_readystatechange ||
 Deferred.next_faster_way_Image ||
-Deferred.next_default;Deferred.call=function(f,args){
-args=Array.prototype.slice.call(arguments);f=args.shift();return Deferred.next(function(){
+Deferred.next_default;Deferred.call=function(f){
+var args=Array.prototype.slice.call(arguments,1);return Deferred.next(function(){
 return f.apply(this,args);});};Deferred.loop=function(n,fun){
 var o={
 begin:n.begin || 0,

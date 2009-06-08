@@ -144,9 +144,8 @@ Deferred.next = Deferred.next_faster_way_readystatechange ||
                 Deferred.next_faster_way_Image ||
                 Deferred.next_default;
 
-Deferred.call = function (f, args) {
-	args = Array.prototype.slice.call(arguments);
-	f    = args.shift();
+Deferred.call = function (f ) {
+	var args = Array.prototype.slice.call(arguments, 1);
 	return Deferred.next(function () {
 		return f.apply(this, args);
 	});
