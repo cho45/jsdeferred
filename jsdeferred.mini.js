@@ -75,10 +75,8 @@ return ret;}
 }
 return(o.begin<=o.end)? Deferred.call(_loop,o.begin):null;});};Deferred.register=function(name,fun){
 this.prototype[name]=function(){
-return this.next(Deferred.wrap(fun).apply(null,arguments));};};Deferred.wrap=function(dfun){
-return function(){
-var a=arguments;return function(){
-return dfun.apply(null,a);};};};Deferred.register("loop",Deferred.loop);Deferred.register("wait",Deferred.wait);Deferred.define=function(obj,list){
+var a=arguments;return this.next(function(){
+return fun.apply(this,a);});};};Deferred.register("loop",Deferred.loop);Deferred.register("wait",Deferred.wait);Deferred.define=function(obj,list){
 if(!list)list=["parallel","wait","next","call","loop"];if(!obj)obj=(function getGlobal(){return this})();for(var i=0;i<list.length;i++){
 var n=list[i];obj[n]=Deferred[n];}
 return Deferred;};

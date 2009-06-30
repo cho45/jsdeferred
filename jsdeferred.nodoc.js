@@ -183,16 +183,10 @@ Deferred.loop = function (n, fun) {
 
 Deferred.register = function (name, fun) {
 	this.prototype[name] = function () {
-		return this.next(Deferred.wrap(fun).apply(null, arguments));
-	};
-};
-
-Deferred.wrap = function (dfun) {
-	return function () {
 		var a = arguments;
-		return function () {
-			return dfun.apply(null, a);
-		};
+		return this.next(function () {
+			return fun.apply(this, a);
+		});
 	};
 };
 

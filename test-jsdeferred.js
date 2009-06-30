@@ -38,7 +38,9 @@ function show (msg, expect, result) {
 	window.scrollTo(0, document.body.scrollHeight);
 }
 
+var start = new Date().valueOf();
 function msg (m) {
+	$("<tr class='msg'><td colspan='3'>("+ (new Date() - start) +"sec)</td></tr>").appendTo(results);
 	$("<tr class='msg'><td colspan='3'>"+m+"</td></tr>").appendTo(results);
 	window.scrollTo(0, document.body.scrollHeight);
 }
@@ -414,11 +416,11 @@ next(function () {
 }).
 next(function () {
 	msg("Stack over flow test: check not waste stack.");
-	if (skip("too heavy", 1)) return;
+//	if (skip("too heavy", 1)) return;
 
-	var num = 1000;
+	var num = 10001;
 	return loop(num, function (n) {
-		if (n % 50 == 0) print(n);
+		if (n % 500 == 0) print(n);
 		return n;
 	}).
 	next(function (r) {

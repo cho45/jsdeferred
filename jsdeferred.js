@@ -359,27 +359,10 @@ Deferred.loop = function (n, fun) {
  */
 Deferred.register = function (name, fun) {
 	this.prototype[name] = function () {
-		return this.next(Deferred.wrap(fun).apply(null, arguments));
-	};
-};
-
-/* function Deferred.wrap (dfun) //=> Function
- *
- * Create and return function which run `dfun` with arguments.
- *
- * Sample::
- *     var dloop = Deferred.wrap(loop);
- *
- *     next(dloop(10, function (n) {
- *         print(n);
- *     }));
- */
-Deferred.wrap = function (dfun) {
-	return function () {
 		var a = arguments;
-		return function () {
-			return dfun.apply(null, a);
-		};
+		return this.next(function () {
+			return fun.apply(this, a);
+		});
 	};
 };
 
