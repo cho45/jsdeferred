@@ -126,76 +126,6 @@ Deferred.prototype = {
 	}
 };
 
-/* function parallel (deferredlist) //=> Deferred
- *
- * `parallel` wraps up `deferredlist` to one deferred.
- * This is useful when some asynchronous resources required.
- *
- * `deferredlist` can be Array or Object (Hash).
- *
- * Sample:
- *     parallel([
- *         $.get("foo.html"),
- *         $.get("bar.html")
- *     ]).next(function (values) {
- *         values[0] //=> foo.html data
- *         values[1] //=> bar.html data
- *     });
- *
- *     parallel({
- *         foo: $.get("foo.html"),
- *         bar: $.get("bar.html")
- *     }).next(function (values) {
- *         values.foo //=> foo.html data
- *         values.bar //=> bar.html data
- *     });
- */
-Deferred.parallel = function (dl) {
-	var ret = new Deferred(), values = {}, num = 0;
-	for (var i in dl) if (dl.hasOwnProperty(i)) (function (d, i) {
-		d.next(function (v) {
-			values[i] = v;
-			if (--num <= 0) {
-				if (dl instanceof Array) {
-					values.length = dl.length;
-					values = Array.prototype.slice.call(values, 0);
-				}
-				ret.call(values);
-			}
-		}).error(function (e) {
-			ret.fail(e);
-		});
-		num++;
-	})(dl[i], i);
-
-	if (!num) Deferred.next(function () { ret.call() });
-	ret.canceller = function () {
-		for (var i in dl) if (dl.hasOwnProperty(i)) {
-			dl[i].cancel();
-		}
-	};
-	return ret;
-};
-
-/* function wait (sec) //=> Deferred
- *
- * `wait` returns deferred that will be called after `sec` elapsed
- * with real elapsed time (msec)
- *
- * Sample:
- *     wait(1).next(function (elapsed) {
- *         log(elapsed); //=> may be 990-1100
- *     });
- */
-Deferred.wait = function (n) {
-	var d = new Deferred(), t = new Date();
-	var id = setTimeout(function () {
-		d.call((new Date).getTime() - t.getTime());
-	}, n * 1000);
-	d.canceller = function () { clearTimeout(id) };
-	return d;
-};
-
 /* function next (fun) //=> Deferred
  *
  * `next` is shorthand for creating new deferred which
@@ -261,11 +191,31 @@ Deferred.next = Deferred.next_faster_way_readystatechange ||
                 Deferred.next_faster_way_Image ||
                 Deferred.next_default;
 
+/* function wait (sec) //=> Deferred
+ *
+ * `wait` returns deferred that will be called after `sec` elapsed
+ * with real elapsed time (msec)
+ *
+ * Sample:
+ *     wait(1).next(function (elapsed) {
+ *         log(elapsed); //=> may be 990-1100
+ *     });
+ */
+Deferred.wait = function (n) {
+	var d = new Deferred(), t = new Date();
+	var id = setTimeout(function () {
+		d.call((new Date).getTime() - t.getTime());
+	}, n * 1000);
+	d.canceller = function () { clearTimeout(id) };
+	return d;
+};
+
 /* function call (fun [, args...]) //=> Deferred
  *
  * `call` function is for calling function asynchronous.
  *
  * Sample:
+ *     // like tail recursion
  *     next(function () {
  *         function pow (x, n) {
  *             function _pow (n, r) {
@@ -288,6 +238,58 @@ Deferred.call = function (f /* , args... */) {
 		return f.apply(this, args);
 	});
 };
+
+/* function parallel (deferredlist) //=> Deferred
+ *
+ * `parallel` wraps up `deferredlist` to one deferred.
+ * This is useful when some asynchronous resources required.
+ *
+ * `deferredlist` can be Array or Object (Hash).
+ *
+ * Sample:
+ *     parallel([
+ *         $.get("foo.html"),
+ *         $.get("bar.html")
+ *     ]).next(function (values) {
+ *         values[0] //=> foo.html data
+ *         values[1] //=> bar.html data
+ *     });
+ *
+ *     parallel({
+ *         foo: $.get("foo.html"),
+ *         bar: $.get("bar.html")
+ *     }).next(function (values) {
+ *         values.foo //=> foo.html data
+ *         values.bar //=> bar.html data
+ *     });
+ */
+Deferred.parallel = function (dl) {
+	var ret = new Deferred(), values = {}, num = 0;
+	for (var i in dl) if (dl.hasOwnProperty(i)) (function (d, i) {
+		d.next(function (v) {
+			values[i] = v;
+			if (--num <= 0) {
+				if (dl instanceof Array) {
+					values.length = dl.length;
+					values = Array.prototype.slice.call(values, 0);
+				}
+				ret.call(values);
+			}
+		}).error(function (e) {
+			ret.fail(e);
+		});
+		num++;
+	})(dl[i], i);
+
+	if (!num) Deferred.next(function () { ret.call() });
+	ret.canceller = function () {
+		for (var i in dl) if (dl.hasOwnProperty(i)) {
+			dl[i].cancel();
+		}
+	};
+	return ret;
+};
+
 
 /* function loop (n, fun) //=> Deferred
  *

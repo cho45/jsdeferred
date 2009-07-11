@@ -240,6 +240,91 @@ the given error is recovery and continue callback chain.
 				</di>
 			</div>
 			
+			<div class="section" id="next">
+				
+				
+				<h2>
+					<span class="funname">
+						next
+					</span>
+					<span class="paren">(</span>
+					<span class="args">fun</span>
+					<span class="paren">)</span>
+					//=>
+					Deferred
+				</h2>
+				
+				<div class="body">
+				<p><code><a href='#next'>next</a></code> is shorthand for creating new deferred which
+is called after current queue.
+ </p>
+				</di>
+			</div>
+			
+			<div class="section" id="wait">
+				
+				
+				<h2>
+					<span class="funname">
+						wait
+					</span>
+					<span class="paren">(</span>
+					<span class="args">sec</span>
+					<span class="paren">)</span>
+					//=>
+					Deferred
+				</h2>
+				
+				<div class="body">
+				<p><code><a href='#wait'>wait</a></code> returns deferred that will be called after <var>sec</var> elapsed
+with real elapsed time (msec)</p>
+<p>Sample:
+</p>
+<pre>wait(1).next(function (elapsed) {
+    log(elapsed); //=> may be 990-1100
+});
+ </pre>
+				</di>
+			</div>
+			
+			<div class="section" id="call">
+				
+				
+				<h2>
+					<span class="funname">
+						call
+					</span>
+					<span class="paren">(</span>
+					<span class="args">fun [, args...]</span>
+					<span class="paren">)</span>
+					//=>
+					Deferred
+				</h2>
+				
+				<div class="body">
+				<p><code><a href='#call'>call</a></code> function is for calling function asynchronous.</p>
+<p>Sample:
+</p>
+<pre>// like tail recursion
+next(function () {
+    function pow (x, n) {
+        function _pow (n, r) {
+            print([n, r]);
+            if (n == 0) return r;
+            return call(_pow, n - 1, x * r);
+        }
+        return call(_pow, n, 1);
+    }
+    return call(pow, 2, 10);
+}).
+next(function (r) {
+    print([r, "end"]);
+});
+
+ </pre>
+				</di>
+			</div>
+			
 			<div class="section" id="parallel">
 				
 				
@@ -275,90 +360,6 @@ parallel({
     values.foo //=> foo.html data
     values.bar //=> bar.html data
 });
- </pre>
-				</di>
-			</div>
-			
-			<div class="section" id="wait">
-				
-				
-				<h2>
-					<span class="funname">
-						wait
-					</span>
-					<span class="paren">(</span>
-					<span class="args">sec</span>
-					<span class="paren">)</span>
-					//=>
-					Deferred
-				</h2>
-				
-				<div class="body">
-				<p><code><a href='#wait'>wait</a></code> returns deferred that will be called after <var>sec</var> elapsed
-with real elapsed time (msec)</p>
-<p>Sample:
-</p>
-<pre>wait(1).next(function (elapsed) {
-    log(elapsed); //=> may be 990-1100
-});
- </pre>
-				</di>
-			</div>
-			
-			<div class="section" id="next">
-				
-				
-				<h2>
-					<span class="funname">
-						next
-					</span>
-					<span class="paren">(</span>
-					<span class="args">fun</span>
-					<span class="paren">)</span>
-					//=>
-					Deferred
-				</h2>
-				
-				<div class="body">
-				<p><code><a href='#next'>next</a></code> is shorthand for creating new deferred which
-is called after current queue.
- </p>
-				</di>
-			</div>
-			
-			<div class="section" id="call">
-				
-				
-				<h2>
-					<span class="funname">
-						call
-					</span>
-					<span class="paren">(</span>
-					<span class="args">fun [, args...]</span>
-					<span class="paren">)</span>
-					//=>
-					Deferred
-				</h2>
-				
-				<div class="body">
-				<p><code><a href='#call'>call</a></code> function is for calling function asynchronous.</p>
-<p>Sample:
-</p>
-<pre>next(function () {
-    function pow (x, n) {
-        function _pow (n, r) {
-            print([n, r]);
-            if (n == 0) return r;
-            return call(_pow, n - 1, x * r);
-        }
-        return call(_pow, n, 1);
-    }
-    return call(pow, 2, 10);
-}).
-next(function (r) {
-    print([r, "end"]);
-});
-
  </pre>
 				</di>
 			</div>

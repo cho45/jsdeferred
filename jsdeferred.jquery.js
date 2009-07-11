@@ -23,20 +23,7 @@ if(value instanceof Deferred){
 value._next=this._next;}else{
 if(this._next)this._next._fire(next,value);}
 return this;}
-};Deferred.parallel=function(dl){
-var ret=new Deferred(),values={},num=0;for(var i in dl)if(dl.hasOwnProperty(i))(function(d,i){
-d.next(function(v){
-values[i]=v;if(--num<=0){
-if(dl instanceof Array){
-values.length=dl.length;values=Array.prototype.slice.call(values,0);}
-ret.call(values);}
-}).error(function(e){
-ret.fail(e);});num++;})(dl[i],i);if(!num)Deferred.next(function(){ret.call()});ret.canceller=function(){
-for(var i in dl)if(dl.hasOwnProperty(i)){
-dl[i].cancel();}
-};return ret;};Deferred.wait=function(n){
-var d=new Deferred(),t=new Date();var id=setTimeout(function(){
-d.call((new Date).getTime()-t.getTime());},n*1000);d.canceller=function(){clearTimeout(id)};return d;};Deferred.next_default=function(fun){
+};Deferred.next_default=function(fun){
 var d=new Deferred();var id=setTimeout(function(){d.call()},0);d.canceller=function(){clearTimeout(id)};if(fun)d.callback.ok=fun;return d;};Deferred.next_faster_way_readystatechange=(!window.opera &&/\bMSIE\b/.test(navigator.userAgent))&& function(fun){
 var d=new Deferred();var t=new Date().getTime();if(t-arguments.callee._prev_timeout_called<150){
 var cancel=false;var script=document.createElement("script");script.type="text/javascript";script.src="javascript:";script.onreadystatechange=function(){
@@ -52,9 +39,22 @@ var d=new Deferred();var img=new Image();var handler=function(){
 d.canceller();d.call();};img.addEventListener("load",handler,false);img.addEventListener("error",handler,false);d.canceller=function(){
 img.removeEventListener("load",handler,false);img.removeEventListener("error",handler,false);};img.src="data:,/_/X";if(fun)d.callback.ok=fun;return d;};Deferred.next=Deferred.next_faster_way_readystatechange ||
 Deferred.next_faster_way_Image ||
-Deferred.next_default;Deferred.call=function(f){
+Deferred.next_default;Deferred.wait=function(n){
+var d=new Deferred(),t=new Date();var id=setTimeout(function(){
+d.call((new Date).getTime()-t.getTime());},n*1000);d.canceller=function(){clearTimeout(id)};return d;};Deferred.call=function(f){
 var args=Array.prototype.slice.call(arguments,1);return Deferred.next(function(){
-return f.apply(this,args);});};Deferred.loop=function(n,fun){
+return f.apply(this,args);});};Deferred.parallel=function(dl){
+var ret=new Deferred(),values={},num=0;for(var i in dl)if(dl.hasOwnProperty(i))(function(d,i){
+d.next(function(v){
+values[i]=v;if(--num<=0){
+if(dl instanceof Array){
+values.length=dl.length;values=Array.prototype.slice.call(values,0);}
+ret.call(values);}
+}).error(function(e){
+ret.fail(e);});num++;})(dl[i],i);if(!num)Deferred.next(function(){ret.call()});ret.canceller=function(){
+for(var i in dl)if(dl.hasOwnProperty(i)){
+dl[i].cancel();}
+};return ret;};Deferred.loop=function(n,fun){
 var o={
 begin:n.begin || 0,
 end:(typeof n.end=="number")? n.end:n-1,
