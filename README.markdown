@@ -9,16 +9,16 @@ Simple and clean asynchronous processing.
 Sample
 ------
 
-http://cho45.github.com/jsdeferred-sample.html
+[JSDeferred Samples]( http://cho45.github.com/jsdeferred-sample.html )
 
 
 Download
 --------
 
- * http://github.com/cho45/jsdeferred/raw/master/jsdeferred.js 
- * No comments: http://github.com/cho45/jsdeferred/raw/master/jsdeferred.nodoc.js
- * Compressed: http://github.com/cho45/jsdeferred/raw/master/jsdeferred.mini.js
- * With jQuery supports: http://github.com/cho45/jsdeferred/raw/master/jsdeferred.jquery.js
+ * [jsdeferred.js]( http://github.com/cho45/jsdeferred/raw/master/jsdeferred.js )
+ * No comments: [jsdeferred.nodoc.js]( http://github.com/cho45/jsdeferred/raw/master/jsdeferred.nodoc.js )
+ * Compressed: [jsdeferred.mini.js]( http://github.com/cho45/jsdeferred/raw/master/jsdeferred.mini.js )
+ * With jQuery supports: [jsdeferred.jquery.js]( http://github.com/cho45/jsdeferred/raw/master/jsdeferred.jquery.js )
 
 	git clone git://github.com/cho45/cho45.github.com.git
 
@@ -27,7 +27,7 @@ For userscript
 
 Copy and paste following at end of your userscript:
 
- * http://github.com/cho45/jsdeferred/raw/master/jsdeferred.userscript.js 
+ * [jsdeferred.userscript.js]( http://github.com/cho45/jsdeferred/raw/master/jsdeferred.userscript.js )
 
 	with (D()) {
 	
@@ -48,24 +48,27 @@ Copy and paste following at end of your userscript:
 	...JSDeferred...
 	}
 
-See http://github.com/cho45/jsdeferred/raw/master/binding/userscript.js to get more information of utility functions (http.get/xhttp.get)
+See [binding/userscript.js]( http://github.com/cho45/jsdeferred/raw/master/binding/userscript.js )
+to get more information of utility functions (http.get/xhttp.get)
 
 Documentation
 -------------
 
 See source.
 
-http://cho45.github.com/jsdeferred-doc.html
+[doc/index.html]( http://cho45.github.com/jsdeferred-doc.html )
 
 Tests
 -----
 
-http://cho45.github.com/jsdeferred-test.html
+[test.html]( http://cho45.github.com/jsdeferred-test.html )
 
 License
 -------
 
-MIT. See header of http://github.com/cho45/jsdeferred/raw/master/jsdeferred.js 
+Copyright 2007-2009 cho45 &lt;cho45@lowreal.net&gt;
+
+MIT. See header of [jsdeferred.js]( http://github.com/cho45/jsdeferred/raw/master/jsdeferred.js )
 
 Concept
 -------
@@ -205,3 +208,13 @@ The error thrown in callback is propagated by error-back chain. If the error-bac
 
  * MochiKit Deferred has chain by Array. JSDeferred has chain by chain of Deferred.
  * MochiKit Deferred separates parent chain and child chain, JSDeferred not.
+
+
+Author
+-------
+
+Copyright 2007-2009 cho45 &lt;cho45@lowreal.net&gt;
+
+ * Portfolio: [www.lowreal.net]( http://www.lowreal.net/ )
+ * Diary (Japanese): [subtech]( http://subtech.g.hatena.ne.jp/cho45/ )
+
