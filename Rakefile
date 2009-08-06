@@ -36,6 +36,7 @@ def mini(js, commentonly=false)
 end
 
 task :default => [:test]
+task :create  => RELEASES
 
 desc "Test JSDeferred"
 task :test => RELEASES do
@@ -44,35 +45,22 @@ end
 
 desc "Make all release file and tagging #{Version}"
 task :release => [:update, :clean, :test] do
-	# Additional Tests
-#	[".nodoc", ".mini"].each do |f|
-#		sleep 3
-#		sh %{rhino test-rhino.js jsdeferred#{f}.js}
-#	end
 	ENV["LANG"] = "C"
-	info = `svn info`
-#	day = Time.now.strftime("%Y-%m-%d")
-#	rev = info[/Revision: (\d+)/, 1].to_i
-#	ver = "#{day}.r#{rev}"
 
 	ver = Version
 	puts "Releasing:: #{ver}"
 
-	st = `svn st`
-	unless st.empty?
+	st = `git status`
+	unless st =~ /nothing to commit/
 		puts "Any changes remain?"
 		puts st
 		exit
 	end
 
-	require "uri"
-	url = URI(info[/URL: (\S+)/, 1]) + "."
-	puts url
-	com = %{svn cp #{url + "trunk"} #{url + "tags/release-#{ver}"}}
-	puts com
-	puts "Tag to press any key."
-	$stdin.gets
-	sh com
+	tag = "release-#{ver}"
+
+	sh *%w|git tag #{tag}|
+	sh *%w|git push --tags|
 end
 
 desc "Create Documentation"
@@ -80,7 +68,7 @@ task :doc => ["doc/index.html"] do |t|
 end
 
 task :update do
-	sh %{svn up}
+	sh %{git pull}
 end
 
 file "jsdeferred.nodoc.js" => ["jsdeferred.js"] do |t|
