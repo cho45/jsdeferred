@@ -1,0 +1,207 @@
+JSDeferred
+==========
+
+![JSDeferred Structure]( http://f.hatena.ne.jp/images/fotolife/c/cho45/20071208/20071208021643.png )
+
+Simple and clean asynchronous processing.
+
+
+Sample
+------
+
+http://cho45.github.com/jsdeferred-sample.html
+
+
+Download
+--------
+
+ * http://github.com/cho45/jsdeferred/raw/master/jsdeferred.js 
+ * No comments: http://github.com/cho45/jsdeferred/raw/master/jsdeferred.nodoc.js
+ * Compressed: http://github.com/cho45/jsdeferred/raw/master/jsdeferred.mini.js
+ * With jQuery supports: http://github.com/cho45/jsdeferred/raw/master/jsdeferred.jquery.js
+
+	git clone git://github.com/cho45/cho45.github.com.git
+
+For userscript
+--------------
+
+Copy and paste following at end of your userscript:
+
+ * http://github.com/cho45/jsdeferred/raw/master/jsdeferred.userscript.js 
+
+	with (D()) {
+	
+	next(fun...);
+	
+	// normal xhr
+	http.get("...").
+	next(fun...);
+	
+	// cross site
+	xhttp.get("...").
+	next(fun...);
+	
+	}
+	
+	// pasted code
+	function D () {
+	...JSDeferred...
+	}
+
+See http://github.com/cho45/jsdeferred/raw/master/binding/userscript.js to get more information of utility functions (http.get/xhttp.get)
+
+Documentation
+-------------
+
+See source.
+
+http://cho45.github.com/jsdeferred-doc.html
+
+Tests
+-----
+
+http://cho45.github.com/jsdeferred-test.html
+
+License
+-------
+
+MIT. See header of http://github.com/cho45/jsdeferred/raw/master/jsdeferred.js 
+
+Concept
+-------
+
+ * Compact
+ * Greasemonkey friendly (standalone and compact...)
+ * Method chain
+ * Short and meaning function names
+ * Useful shorthand ways
+
+Internal
+--------
+
+This sections use some words as following meanings.
+
+ chain::
+    a sequence of processes.
+ child::
+    the Deferred which returns from a callback.
+ Deferred#foobar::
+    Deferred.prototype.foobar
+
+### Deferred structure and chain structure ###
+
+A Deferred object has only one callback as its process. Deferred object packages a process (function) as callback and has reference to next Deferred (this is thought like continuation).
+
+Example for understanding Deferred structure.
+
+	var d1 = new Deferred();
+	d1.callback.ok = function () {
+		alert("1");
+	};
+	
+	var d2 = new Deferred();
+	d2.callback.ok = function () {
+		alert("2");
+	};
+	
+	// Set d2 as continuation of d1.
+	d1._next = d2;
+	
+	// Invoke the chain.
+	d1.call();
+
+And example for usual use.
+
+	next(function () { // this `next` is global function
+		alert("1");
+	}).
+	next(function () { // this `next` is Deferred#next
+		alert("2");
+	}).
+	next(function () {
+		alert("3");
+	});
+
+Deferred#next creates new Deferred, sets the passed functions to process of it, sets it as continuation of `this` and returns it.
+
+
+This structure makes easy to chain child Deferreds.
+
+	next(function () {
+		alert("1");
+	}).
+	next(function () {
+		alert("2");
+		// child Deferred
+		return next(function () {
+			alert("3");
+		});
+	}).
+	next(function () {
+		alert("4");
+	});
+
+When the callback returns Deferred, the Deferred calling the callback only sets its continuation (`_next`) to returned Deferred's continuation.
+
+	next(function () {
+		alert("1");
+	}).
+	next(function () {
+		alert("2");
+		var d = next(function () {
+			alert("3");
+		});
+		d._next = this._next;
+		this.cancel();
+	}).
+	next(function () {
+		alert("4");
+	});
+
+After the process, above code is same as following:
+
+	next(function () {
+		alert("1");
+	}).
+	next(function () {
+		alert("2");
+		next(function () {
+			alert("3");
+		}).
+		next(function () {
+			alert("4");
+		});
+	});
+
+![Chain child deferred]( http://f.hatena.ne.jp/images/fotolife/c/cho45/20071207/20071207014817.png )
+
+### Error processing and recovering ###
+
+A Deferred has also error-back for error processing. Let's just see a example (from test):
+
+	next(function () {
+		throw "Error";
+	}).
+	error(function (e) {
+		expect("Errorback called", "Error", e);
+		return e; // recovering error
+	}).
+	next(function (e) {
+		expect("Callback called", "Error", e);
+		throw "Error2";
+	}).
+	next(function (e) {
+		// This process is not called because
+		// the error is not recovered.
+		ng("Must not be called!!");
+	}).
+	error(function (e) {
+		expect("Errorback called", "Error2", e);
+	});
+
+The error thrown in callback is propagated by error-back chain. If the error-back returns normal value, the error is considered as recovery, and the callback chain continues.
+
+### Difference between MochiKit and JSDeferred ###
+
+ * MochiKit Deferred has chain by Array. JSDeferred has chain by chain of Deferred.
+ * MochiKit Deferred separates parent chain and child chain, JSDeferred not.
