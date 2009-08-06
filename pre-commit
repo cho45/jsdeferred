@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require "pathname"
+
+base = Pathname.new("jsdeferred.js").mtime
+unless Pathname.glob("jsdeferred.*.js").all? {|f| f.mtime > base }
+	system("rake", "create")
+	exit 1
+end
