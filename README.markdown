@@ -20,6 +20,8 @@ Download
  * Compressed: [jsdeferred.mini.js]( http://github.com/cho45/jsdeferred/raw/master/jsdeferred.mini.js )
  * With jQuery supports: [jsdeferred.jquery.js]( http://github.com/cho45/jsdeferred/raw/master/jsdeferred.jquery.js )
 
+Repository:
+
 	git clone git://github.com/cho45/cho45.github.com.git
 
 For userscript
@@ -28,6 +30,8 @@ For userscript
 Copy and paste following at end of your userscript:
 
  * [jsdeferred.userscript.js]( http://github.com/cho45/jsdeferred/raw/master/jsdeferred.userscript.js )
+
+Example:
 
 	with (D()) {
 	
