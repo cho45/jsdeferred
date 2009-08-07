@@ -9,7 +9,7 @@ Simple and clean asynchronous processing.
 Sample
 ------
 
-[JSDeferred Samples]( http://cho45.github.com/jsdeferred-sample.html )
+[JSDeferred Samples]( http://cho45.stfuawsc.com/jsdeferred/sample.html )
 
 
 Download
@@ -22,7 +22,7 @@ Download
 
 Repository:
 
-	git clone git://github.com/cho45/cho45.github.com.git
+	git clone git://github.com/cho45/jsdeferred.git
 
 For userscript
 --------------
@@ -60,12 +60,12 @@ Documentation
 
 See source.
 
-[doc/index.html]( http://cho45.github.com/jsdeferred-doc.html )
+[doc/index.html]( http://cho45.stfuawsc.com/jsdeferred/doc/index.html )
 
 Tests
 -----
 
-[test.html]( http://cho45.github.com/jsdeferred-test.html )
+[test.html]( http://cho45.stfuawsc.com/jsdeferred/test.html )
 
 License
 -------
