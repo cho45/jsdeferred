@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>JSDeferred 紹介</title>
+		<!-- <script type="text/javascript" src="/site-script.js"></script> -->
+		<style type="text/css">
+			#top {
+				font-size: 80%;
+				position: absolute;
+				top: 0;
+				right: 0;
+				padding: 0 1em;
+			}
+
+			#top a:link ,
+			#top a:visited {
+				text-decoration: none;
+				color: #333;
+			}
+
+			#content {
+				max-width: 60em;
+				margin: 0 auto;
+				line-height: 1.66;
+			}
+
+			pre {
+				background: #efefef;
+				font-size: 80%;
+				line-height: 1.33;
+				padding: 0.5em;
+			}
+
+			#footer {
+				font-size: 80%;
+				text-align: center;
+				padding: 1em;
+			}
+
+			#footer address {
+				font-style: normal;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="whole">
+			<h1 id="top"><a href="/">JSDeferred 紹介</a></h1>
+
+			<div id="content">
+				<div class="section">
+					<h2>JSDeferred について</h2>
+					<p>
+						JSDeferred は JavaScript のコールバックによる非同期処理を直列的に書けるようにするために作られたライブラリです。
+					</p>
+					<pre>
+foofunc(function () {
+	barfunc(function () {
+		bazfunc(function () {
+		});
+	});
+});
+</pre>
+					<pre>
+foofunc().next(barfunc).next(bazfunc);
+</pre>
+				</div>
+				<div class="section">
+					<h2>簡単な使いかた</h2>
+
+					<h3>読み込み</h3>
+
+					<p>まずは JSDeferred を使うために、HTML に script 要素を追加します。</p>
+					<pre>
+&lt;script type="text/javascript" src="jsdeferred.js">&lt;/script>
+&lt;script type="text/javascript" src="my.js">&lt;/script>
+</pre>
+					<p>JSDeferred は外部ライブラリに依存しておらず、単体で動くため、jsdeferred.js を読みこめば十分です。これから先のコードは my.js に書いていくことにします。</p>
+
+					<h3>最初の一歩</h3>
+					<p>JSDeferred を読みこむと、Deferred というオブジェクトが定義されます。
+					便宜上 Deferred.define() を使って関数をグローバルにエクスポートします。もちろん、エクスポートせずに使うこともできます。</p>
+					<pre>
+Deferred.define();
+</pre>
+					<p>これより、グローバルな関数として、next() や loop(), call(), parallel(), wait() といった便利な関数が使えるようになります。
+					簡単な非同期処理を書いてみます。</p>
+					<pre>
+next(function () {
+	alert("Hello!");
+	return wait(5);
+}).
+next(function () {
+	alert("World!");
+});
+</pre>
+					<p>これは、まず <sample>Hello!</sample> が alert されたあと、5秒待ってから <sample>World!</sample> が alert される処理になります。</p>
+					<p>Deferred.define() で関数をエクスポートしない場合は以下のようになります。上記コードと全く同じ意味です。
+					</p>
+					<pre>
+Deferred.next(function () {
+	alert("Hello!");
+	return Deferred.wait(5);
+}).
+next(function () {
+	alert("World!");
+});
+</pre>
+
+					<!--
+					<h3>atdk</h3>
+
+					<strong>非同期処理を行う関数ではとりあえず Deferred オブジェクトを返しておく。</strong>
+					-->
+				</div>
+				<div class="section">
+					<h2>通常のコールバックと比べて</h2>
+					<p>さて、このように書けることで、何が嬉しいのでしょうか。</p>
+				</div>
+				<div class="section">
+					<h2>チェイン</h2>
+					<p>Deferred 手続き内で返された値が Deferred の場合</p>
+				</div>
+				<div class="section">
+					<h2>エラー処理</h2>
+				</div>
+				<div class="section">
+					<h2>関数を Deferred 化する</h2>
+				</div>
+				<div class="section">
+					<h2>使用例</h2>
+					<ul>
+						<li><a href="http://svn.coderepos.org/share/lang/javascript/userscripts/hatena.haiku.expandrepliestree.user.js?">hatena.haiku.expandrepliestree.user.js</a>
+							http リクエストの再帰的な処理をしています。
+						</li>
+						<li><a href="http://gist.github.com/146239">hatena.group.recententries.user.js</a>
+							http リクエストをループしつつ、必要なデータが集った時点で動的に処理をうちきっています。
+						</li>
+					</ul>
+				</div>
+				<div class="section">
+					<h2>実装について</h2>
+					<h3>概念</h3>
+					<h3>Deferred オブジェクト</h3>
+				</div>
+				<div class="section">
+					<h2>JavaScript における「高速化」</h2>
+					<p>JavaScript における「高速化」では、単純に処理速度の高速化というよりは、ユーザ経験をいかにストレスなく行えるようにするかがとても重要です。</p>
+					<p>処理速度がいくら早くても、UIスレッドが長時間ブロックするような処理はユーザに対して大きなストレスを与えます。
+					JavaScript においては、総合的な速度の早さよりも、<strong>UIスレッドの最短ブロック時間</strong>のほうが重要なのです。</p>
+
+					<p>JSDeferred を用いると、loop() などによって処理の分割をしやすくなり、簡単に、重いループを分割して実行させたりすることができるようになります。
+					トータルの実行時間的には十分早いはずなのに、ブラウザのスクロール (UI) が固まったりしたとき、すぐにこういった対処をできることは、
+					ウェブアプリケーション開発においてとても有意なことだと考えています。</p>
+				</div>
+			</div>
+
+			<div id="footer">
+				<address>2009 <a href="mailto:cho45@lowreal.net">cho45@lowreal.net</a></address>
+			</div>
+		</div>
+	</body>
+</html>
