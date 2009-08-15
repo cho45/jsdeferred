@@ -18,6 +18,16 @@
 				color: #333;
 			}
 
+			h2,
+			h3,
+			h4 {
+				margin: 2em 0 1em 0;
+				padding: 0 0 0 15px;
+				border-style: solid;
+				border-color: #364941;
+				border-width: 0 0 0 5px;
+			}
+
 			#content {
 				max-width: 60em;
 				margin: 0 auto;
@@ -39,6 +49,14 @@
 
 			#footer address {
 				font-style: normal;
+			}
+
+			.note {
+				background: #ebf4de;
+				font-size: 90%;
+				color: #000;
+				margin: 3em 0 1em 0;
+				padding: 0.1em 1em 1em 1em;
 			}
 		</style>
 	</head>
@@ -365,15 +383,17 @@ function aloop (n, f) {
 					<p>とりあえずは <a href="http://cho45.stfuawsc.com/jsdeferred/">README</a> を見てみてください。</p>
 				</div>
 
-				<div class="section">
-					<h2>JavaScript における「高速化」</h2>
-					<p>JavaScript における「高速化」では、単純に処理速度の高速化というよりは、ユーザ体験のストレスをいかになくすかがとても重要です。</p>
-					<p>処理速度がいくら早くても、UIスレッドが長時間ブロックするような処理はユーザに対して大きなストレスを与えます。
-					JavaScript においては、総合的な速度の早さよりも、<strong>UIスレッドの最短ブロック時間</strong>のほうが重要なのです。</p>
+				<div class="note">
+					<div class="section">
+						<h2>JavaScript における「高速化」</h2>
+						<p>JavaScript における「高速化」では、単純に処理速度の高速化というよりは、ユーザ体験のストレスをいかになくすかがとても重要です。</p>
+						<p>処理速度がいくら早くても、UIスレッドが長時間ブロックするような処理はユーザに対して大きなストレスを与えます。
+						JavaScript においては、総合的な速度の早さよりも、<strong>UIスレッドの最短ブロック時間</strong>のほうが重要なのです。</p>
 
-					<p>JSDeferred を用いると、loop() などによって処理の分割をしやすくなり、簡単に、重いループを分割して実行させたりすることができるようになります。
-					トータルの実行時間的には十分早いはずなのに、ブラウザのスクロール (UI) が固まったりしたとき、すぐにこういった対処をできることは、
-					ウェブアプリケーション開発においてとても有意なことだと考えています。</p>
+						<p>JSDeferred を用いると、loop() などによって処理の分割をしやすくなり、簡単に、重いループを分割して実行させたりすることができるようになります。
+						トータルの実行時間的には十分早いはずなのに、ブラウザのスクロール (UI) が固まったりしたとき、すぐにこういった対処をできることは、
+						ウェブアプリケーション開発においてとても有意なことだと考えています。</p>
+					</div>
 				</div>
 			</div>
 
