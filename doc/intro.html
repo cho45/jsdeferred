@@ -268,12 +268,86 @@ next(function () {
 				</div>
 				<div class="section">
 					<h2>関数を Deferred 化する</h2>
-					<!--
-					<h3>atdk</h3>
+					<p>JSDeferred を実際に使用するさい、標準に組込まれている非同期関数のほかに、既存のコールバックを渡す方法をとっている関数を Deferred を返すようにしたい場合が、
+					多々あるでしょう。これは実際、とても簡単です。XMLHttpRequest を例にして、何度かでてきていた http.get を実装してみます。</p>
+					<pre>
+http = {}
+http.get = function (uri) {
+	var deferred = new Deferred();
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState == 4) {
+			if (xhr.status == 200) {
+				deferred.call(xhr);
+			} else {
+				deferred.fail(xhr);
+			}
+		}
+	};
+	deferred.canceller = function () { xhr.abort() };
+	return deferred;
+}
+</pre>
+					<p>new Deferred() で新しい Deferred オブジェクトを作成し、非同期なコールバック内でインスタンスの call() メソッドを呼ぶようにします。
+					これにより、Deferred に関連付けられた処理が実行されます。</p>
+					<p>同様に、fail() メソッドを呼ぶことによって、エラーを発生させることができます。.error() によってエラーをキャッチしたい場合には、
+					適切に fail() を呼んであげる必要があります。</p>
+					<p>canceller というものも定義していますが、これは Deferred インスタンスの cancel() を呼んだときに実行されるものです。
+					通常はあまり設定する機会はないでしょうが、存在ぐらいは心にとめておいてください。</p>
 
-					<strong>非同期処理を行う関数ではとりあえず Deferred オブジェクトを返しておく。</strong>
-					-->
+					<h3>自分で非同期関数を書く場合</h3>
+					<p>設計上の指針の話になってしまいますが、Deferred に依存したコードを書く場合、非同期処理を行う関数はのきなみ Deferred を返すようにしておくと、
+					あとあと便利になります。例えすぐにその非同期処理の後続処理を書く必要がなくても、簡単に Deferred のチェインの中に組込めるようになります。</p>
+					<p>もし汎用的なライブラリを書きたいのであれば、とりあえずコールバックをとる関数にしておいて、
+					あとから JSDeferred と繋ぐような関数を作ってもいいかもしれません。</p>
 				</div>
+
+				<div class="section">
+					<h2>重い処理を分割する</h2>
+					<p>JavaScript で DOM を連続して大量に操作する必要がある場合、ブラウザによらず大抵は処理速度が悪化し、
+					それを処理している間はブラウザ側のスクロールなどのUI処理が止まります。
+					これはユーザにしてみれば非常にストレスフルなので、できるだけそういったことがないようにしたいものです。</p>
+					<p>そもそも処理自体を高速化するのは当然として、DOM 操作などはどうしようもなかったりもします。
+					ので、こういった場合、処理を分割して非同期に実行し、適切にブラウザのUIに処理が戻るようにします。</p>
+					<p>JSDeferred は組み込みで loop() という関数があり、これによって、ループ毎にブラウザに制御を返すことができるようになっています。</p>
+					<pre>
+loop(1000, function (n) {
+	// heavy process
+});
+</pre>
+					<p>これを JSDeferred なしでやろうとすると…… 面倒なのでコードは書きません。</p>
+
+					<h3>長いループを自動で分割する</h3>
+					<p>loop() 関数は、ループ毎に処理が分割されるため、1ループがそれなりに重い場合には効果的ですが、1ループ自体は軽いのに、ループ回数が膨大な場合、非効率的になってしまいます。
+					そこで、aloop() という関数を実装してみます。</p>
+<pre>
+function aloop (n, f) {
+    var i   = 0;
+    var end = new Object;
+    var ret = null;
+    return Deferred.next(function () {
+        var t = (new Date()).getTime();
+        try {
+            do {
+                ret = f(i)
+                i++;
+                if (i >= n) throw end;
+            } while ((new Date()).getTime() - t < 20);
+            return Deferred.call(arguments.callee);
+        } catch (e) {
+            if (e == end) {
+                return ret;
+            } else {
+                throw e;
+            }
+        }
+    });
+}
+</pre>
+					<p>この関数は、ループを繰替えしていき、20msec 以上実行した時点で処理を分割します。loop() と違い、
+					Deferred オブジェクトをループ関数内で返してもそれの実行を待ったりはしません (できません)。</p>
+				</div>
+
 				<div class="section">
 					<h2>使用例</h2>
 					<ul>
@@ -285,11 +359,12 @@ next(function () {
 						</li>
 					</ul>
 				</div>
+
 				<div class="section">
 					<h2>実装について</h2>
-					<h3>概念</h3>
-					<h3>Deferred オブジェクト</h3>
+					<p>とりあえずは <a href="http://cho45.stfuawsc.com/jsdeferred/">README</a> を見てみてください。</p>
 				</div>
+
 				<div class="section">
 					<h2>JavaScript における「高速化」</h2>
 					<p>JavaScript における「高速化」では、単純に処理速度の高速化というよりは、ユーザ体験のストレスをいかになくすかがとても重要です。</p>
