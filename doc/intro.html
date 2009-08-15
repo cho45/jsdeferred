@@ -172,7 +172,7 @@ next(function () {
 var wants = ["/foo.json", "/bar.json", "/baz.json"];
 var results = [];
 loop(wants.length, function (i) {
-	return http.get(i).next(function (data) {
+	return http.get(wants[i]).next(function (data) {
 		results.push(data);
 	});
 }).
