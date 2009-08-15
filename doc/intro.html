@@ -179,11 +179,64 @@ next(function (results) {
 					<p>と書けば終りです。parallel では、複数の Deferred オブジェクトを渡すと、全てが揃ったときに次の処理が実行されます。簡単でしょ？</p>
 				</div>
 				<div class="section">
-					<h2>チェイン</h2>
-					<p>Deferred 手続き内で返された値が Deferred の場合</p>
+					<h2>エラー処理</h2>
+					<p>さて、Deferred で地味に便利なのは、エラー処理です。Firefox などのブラウザでは、非同期処理中に発生したエラーは、エラーコンソールさえ出ずに黙殺されます。
+					一体どうやってデバッグしろっていうんでしょうか？</p>
+					<p>筆者はしばしば、こういった場面に遭遇したとき、とにかく try {} catch (e) { alert(e) } で非同期処理を囲む、といったことをしますが、毎回やるのは、億劫ですしバカみたいです。</p>
+					<p>JSDeferred の場合、通常の処理の流れとは別に、エラー処理の流れを作ることができます。例えば、</p>
+					<pre>
+next(function () {
+	// 何か1
+}).
+next(function () {
+	// 非同期処理
+	throw "error!";
+}).
+next(function () {
+	// 何か2 (直前でエラーが発生しているので実行されない)
+});
+</pre>
+					<p>のようなコードにエラー処理を付け加えたい場合</p>
+					<pre>
+next(function () {
+	// 何か1
+}).
+next(function () {
+	// 非同期処理
+	throw "error!";
+}).
+next(function () {
+	// 何か2 (直前でエラーが発生しているので実行されない)
+}).
+error(function (e) {
+	alert(e);
+});
+</pre>
+					<p>と、.error() を加えるだけです。これだけで、.error() をつけくわえる前の非同期処理で発生したエラーを全てキャッチすることができます。</p>
+					<p>また、上記コードでは「何か2」はエラーの後の処理のため実行されませんが、エラーの有無に関係なく実行させたい場合、</p>
+					<pre>
+next(function () {
+	// 何か1
+}).
+next(function () {
+	// 非同期処理
+	throw "error!";
+}).
+error(function (e) {
+	alert(e);
+}).
+next(function () {
+	// 何か2 (error が処理されたあとのため実行される)
+}).
+error(function (e) {
+	alert(e);
+});
+</pre>
+					<p>のように、エラー処理を途中に挟みこむことができます。</p>
 				</div>
 				<div class="section">
-					<h2>エラー処理</h2>
+					<h2>チェイン</h2>
+					<p>Deferred 手続き内で返された値が Deferred の場合</p>
 				</div>
 				<div class="section">
 					<h2>関数を Deferred 化する</h2>
