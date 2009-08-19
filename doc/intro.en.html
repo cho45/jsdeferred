@@ -1,0 +1,345 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Introduction to JSDeferred</title>
+		<!-- <script type="text/javascript" src="/site-script.js"></script> -->
+		<link rel="stylesheet" href="style-intro.css" type="text/css" media="all"/>
+	</head>
+	<body>
+		<div id="whole">
+			<h1 id="top"><a href="/">Introduction to JSDeferred</a></h1>
+
+			<div id="content">
+				<div class="section">
+					<h2>About JSDeferred</h2>
+					<p>
+						JSDeferred is a library that makes it possible to write asynchronous JavaScript callback processes serially.
+					</p>
+					<pre>
+foofunc(function () {
+	barfunc(function () {
+		bazfunc(function () {
+		});
+	});
+});
+</pre>
+					<pre>
+foofunc().next(barfunc).next(bazfunc);
+</pre>
+				</div>
+				<div class="section">
+					<h2>Simple Usage</h2>
+
+					<h3>Loading</h3>
+
+					<p>To use JSDeferred, add a script element to the HTML</p>
+					<pre>
+&lt;script type="text/javascript" src="jsdeferred.js">&lt;/script>
+&lt;script type="text/javascript" src="my.js">&lt;/script>
+</pre>
+					<p>JSDeferred is stand-alone, and does not depend on any external libraries, so that loading jsdeferred.js is sufficient in order to use it. The codes below are what would be written in my.js.</p>
+
+					<h3>The First Step</h3>
+					<p>Loading JSDeferred defines the Deferred object.
+					For convenience, we export a set of functions to the global scope by Deferred.define(). You don't, of course, need to export those functions at all.</p>
+					<pre>
+Deferred.define();
+</pre>
+					<p>By doing this, you can use useful functions such as next(), loop(), call(), parallel() and wait() as global functions.
+					Let's write some asynchronous process. </p>
+					<pre>
+next(function () {
+	alert("Hello!");
+	return wait(5);
+}).
+next(function () {
+	alert("World!");
+});
+</pre>
+					<p>This is a process that alerts <sample>Hello!</sample>, then alerts <sample>World!</sample> after 5 seconds of delay.</p>
+					<p>The above code is exactly the same as the following. It can be used even if you don't choose to export the functions using Deferred.define().
+					</p>
+					<pre>
+Deferred.next(function () {
+	alert("Hello!");
+	return Deferred.wait(5);
+}).
+next(function () {
+	alert("World!");
+});
+</pre>
+
+				</div>
+				<div class="section">
+					<h2>Comparison with ordinary callback processes</h2>
+					<p>What's the advantage of writing in such style.</p>
+					<p>If you give a function as a callback, then asynchronous processes are written as a nest of functions. For example, if you want to fetch /foo.json, /bar.json, /baz.json in this order.</p>
+					<pre>
+// http.get is assumed to be a function that takes a URI and a callback function as arguments
+http.get("/foo.json", function (dataOfFoo) {
+	http.get("/bar.json", function (dataOfBar) {
+		http.get("/baz.json", function (dataOfBaz) {
+			alert([dataOfFoo, dataOfBar, dataOfBaz]);
+		});
+	});
+});
+</pre>
+					<p>You see here that the nesting of functions get deeper and deeper as you have more asynchronous processes. What if you want get an arbitrary number of data?</p>
+					<pre>
+var wants = ["/foo.json", "/bar.json", "/baz.json"];
+// How would you write that?
+</pre>
+					<p>It's too cumbersome to do it. Let's do it with the Deferred.</p>
+					<pre>
+// http.get is assumed to be a function that takes a URI as an argument and returns a Deferred instance
+var results = [];
+next(function () {
+	return http.get("/foo.json").next(function (data) {
+		results.push(data);
+	});
+}).
+next(function () {
+	return http.get("/baz.json").next(function (data) {
+		results.push(data);
+	});
+}).
+next(function () {
+	return http.get("/baz.json").next(function (data) {
+		results.push(data);
+	});
+}).
+next(function () {
+	alert(results);
+});
+</pre>
+					<p>The code is longer, but the processes are in serial. I can even combine the part occurring three times.</p>
+					<pre>
+var wants = ["/foo.json", "/bar.json", "/baz.json"];
+var results = [];
+loop(wants.length, function (i) {
+	return http.get(wants[i]).next(function (data) {
+		results.push(data);
+	});
+}).
+next(function () {
+	alert(results);
+});
+</pre>
+					<p>Now it's shorter, and can handle any number of requests. "loop" is a function that, if a Deferred instance is returned in the argument function, 
+					it waits until the deferred process to finish and then execute the following process.</p>
+					<p>The above is a code to fire requests sequentially, i.e. load foo.json then bar.json and so on,
+					you probably have more situations where you want to load them all at once. In that case, you can simply write as this.</p>
+					<pre>
+parallel([
+	http.get("/foo.json"),
+	http.get("/bar.json"),
+	http.get("/baz.json")
+]).
+next(function (results) {
+	alert(results);
+});
+</pre>
+					<p>"parallel" is a function that executes the following process after all Deferred instances have finished their processes. It's that simple, isn't it?</p>
+				</div>
+				<div class="section">
+					<h2>Error Handling</h2>
+					<p>What's useful about Deferred is its error handling. Browsers like Firefox kills errors occurred during an asynchronous process without raising the error console.
+					How would you debug such a case?</p>
+					<p>I normally surround the asynchronous process with a "try {} catch (e) { alert(e) }", but it's tedious to do it every time.</p>
+					<p>JSDeferred can create an error-back flow apart from its normal callback flow. For example, have a code like this.</p>
+					<pre>
+next(function () {
+	// something 1
+}).
+next(function () {
+	// asynchronous process
+	throw "error!";
+}).
+next(function () {
+	// something 2 (not executed as an error occurs in the previous process)
+});
+</pre>
+					<p>Now you want to handle exceptions.</p>
+					<pre>
+next(function () {
+	// something 1
+}).
+next(function () {
+	// asynchronous process
+	throw "error!";
+}).
+next(function () {
+	// something 2 (not executed as an error occurs in the previous process)
+}).
+error(function (e) {
+	alert(e);
+});
+</pre>
+					<p>You just need add .error(). It can catch all the exceptions that occur before the .error() part.</p>
+					<p>In the above code the "something 2" won't be executed because of the exception, but if you want to execute it no matter if you get an error, then write like this.</p>
+					<pre>
+next(function () {
+	// something 1
+}).
+next(function () {
+	// asynchronous process
+	throw "error!";
+}).
+error(function (e) {
+	alert(e);
+}).
+next(function () {
+	// something 2 (executed since the exception would already be handled)
+}).
+error(function (e) {
+	alert(e);
+});
+</pre>
+					<p>You can slide an error handling in the middle. The process after the error() is always executed unless you get another exception in the error() process.</p>
+				</div>
+				<div class="section">
+					<h2>Chain</h2>
+					<p>If a Deferred instance is returned in a function given to a Deferred process, it waits for the returned Deferred.</p>
+					<pre>
+next(function () {
+	alert("Hello!");
+	return wait(5);
+}).
+next(function () {
+	alert("World!");
+});
+</pre>
+					<p>In the code above, wait() is a function to return a Deferred that "waits for 5 seconds". In this case, the following process waits for the returned Deferred to execute. You can return any other function than wait, which returns a Deferred.</p>
+					<p>next() also returns a Deferred instance, so you can write as this.</p>
+					<pre>
+next(function () {
+	alert(1);
+	return next(function () {
+		alert(2);
+	}).
+	next(function () {
+		alert(3);
+	});
+}).
+next(function () {
+	alert(4);
+});
+</pre>
+					<p>This is executed in the numerical order.</p>
+				</div>
+				<div class="section">
+					<h2>"Deferredize" a Function</h2>
+					<p>When you use JSDeferred, you will often find it useful to define a custom function return a Deferred, rather than having it take a callback in a normal fashion.
+					It's very easy to do it indeed. As an example of XMLHttpRequest, I'm going to define the http.get which we saw a few times above.</p>
+					<pre>
+http = {}
+http.get = function (uri) {
+	var deferred = new Deferred();
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState == 4) {
+			if (xhr.status == 200) {
+				deferred.call(xhr);
+			} else {
+				deferred.fail(xhr);
+			}
+		}
+	};
+	deferred.canceller = function () { xhr.abort() };
+	return deferred;
+}
+</pre>
+					<p>Create a Deferred instance with "new Deferred()", and call its "call()" method within an asynchronous callback.
+					It will execute processes associated to the callback chain of the Deferred.</p>
+					<p>Similarly, calling the "fail()" method fires an error. If you want to catch the exception using ".error()", you need to call the "fail()" appropreately.</p>
+					<p>I also defined the canceller. It's executed when the cancel() method of the Deferred instance is called.
+					Normally you don't use it much, but you can remember that it exists.</p>
+
+					<h3>Coding an Asynchronous Process</h3>
+					<p>When you write a code that depends on Deferred, it is convenient if you write all asynchronous processes as functions to return a Deferred instance.
+					Even if you don't need any process to follow it, it makes you easy to put it into a Deferred chain.</p>
+					<p>If you are writing a general library, it may be good to first write functions to take callback functions, and then create a function to Deferredize them.</p>
+				</div>
+
+				<div class="section">
+					<h2>Dividing a Heavy Process</h2>
+					<div class="note">
+						<div class="section">
+							<h2>"Speeding Up" JavaScript</h2>
+							<p>When you say "Speed Up" JavaScript, it is very important to reduce user's stress rather than speeding up of the process.</p>
+							<p>No matter how fast the process is, if it blocks the UI thread for a long time it gives a big stress to the user.
+							In JavaScript, <strong>shortest blocking time of UI thread</strong> is more important than the overall time of execution.</p>
+
+							<p>JSDeferred makes it easy to divide a heavy process, for example, using loop() and execute it in batches.
+							When you create an application that is fast in the sense of total execution time, but blocks browsers' scrolling (UI), being able to fix it quickly is important in web application development.</p>
+						</div>
+					</div>
+
+					<p>Handling DOM a large number of times with JavaScript can be very heavy for some browsers.
+					As a result, browser's UI process such as scrolling gets stuck.
+					This can be very stressful for the users, so you should avoid such a thing to happen.</p>
+					<p>Of course, it is essential to write an efficient code, but the DOM handling could be inevitable.
+					In that case, dividing a process and running asynchronously can make the browser UI smooth.</p>
+					<p>The loop() function of JSDeferred can give back control to the browser after each loop.</p>
+					<pre>
+loop(1000, function (n) {
+	// heavy process
+});
+</pre>
+					<p>Imagine writing this without JSDeferred…… I wouldn't dare to do it.</p>
+
+					<h3>Automatically Divide a Long Loop</h3>
+					<p>loop() function is effective when each loop is a heavy process. However, when a single loop is not so heavy but the number of iteration is numerous, it's not efficient.
+					Here I define a function called aloop()</p>
+<pre>
+function aloop (n, f) {
+    var i   = 0;
+    var end = new Object;
+    var ret = null;
+    return Deferred.next(function () {
+        var t = (new Date()).getTime();
+        try {
+            do {
+                ret = f(i)
+                i++;
+                if (i >= n) throw end;
+            } while ((new Date()).getTime() - t < 20);
+            return Deferred.call(arguments.callee);
+        } catch (e) {
+            if (e == end) {
+                return ret;
+            } else {
+                throw e;
+            }
+        }
+    });
+}
+</pre>
+					<p>This is a loop that is automatically divided up every 20 msec.
+					Unlike the ordinary loop(), it cannot wait even if a Deferred instance is returned in a loop.</p>
+				</div>
+
+				<div class="section">
+					<h2>Examples</h2>
+					<ul>
+						<li><a href="http://svn.coderepos.org/share/lang/javascript/userscripts/hatena.haiku.expandrepliestree.user.js?">hatena.haiku.expandrepliestree.user.js</a>
+							http リクエストの再帰的な処理をしています。
+						</li>
+						<li><a href="http://gist.github.com/146239">hatena.group.recententries.user.js</a>
+							http リクエストをループしつつ、必要なデータが集った時点で動的に処理をうちきっています。
+						</li>
+					</ul>
+				</div>
+
+				<div class="section">
+					<h2>About Implementation</h2>
+					<p>Please read <a href="http://cho45.stfuawsc.com/jsdeferred/">README</a>.</p>
+				</div>
+			</div>
+
+			<div id="footer">
+				<address>2009 <a href="mailto:cho45@lowreal.net">cho45@lowreal.net</a></address>
+			</div>
+		</div>
+	</body>
+</html>
