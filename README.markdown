@@ -60,6 +60,11 @@ Documentation
 
 See source.
 
+## Introduction ##
+
+ * [doc/intro.html (Japanese)]( http://cho45.stfuawsc.com/jsdeferred/doc/intro.html )
+ * [doc/intro.en.html (English)]( http://cho45.stfuawsc.com/jsdeferred/doc/intro.en.html )
+
 [doc/index.html]( http://cho45.stfuawsc.com/jsdeferred/doc/index.html )
 
 Tests
