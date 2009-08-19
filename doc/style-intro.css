@@ -32,6 +32,24 @@
 	-webkit-border-radius: 0.5em;
 }
 
+#navigation {
+	
+}
+
+#navigation a ,
+#navigation a:link ,
+#navigation a:visited {
+	display: block;
+	font-weight: bold;
+	font-size: 80%;
+	width: 2em;
+	padding: 0.5em;
+	background: #33527f;
+	color: #fff;
+	text-align: center;
+	text-decoration: none;
+}
+
 pre {
 	-moz-border-radius: 0.5em;
 	-webkit-border-radius: 0.5em;
