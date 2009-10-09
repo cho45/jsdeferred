@@ -24,7 +24,7 @@ value._next=this._next;}else{
 if(this._next)this._next._fire(next,value);}
 return this;}
 };Deferred.next_default=function(fun){
-var d=new Deferred();var id=setTimeout(function(){d.call()},0);d.canceller=function(){clearTimeout(id)};if(fun)d.callback.ok=fun;return d;};Deferred.next_faster_way_readystatechange=(!window.opera &&/\bMSIE\b/.test(navigator.userAgent))&& function(fun){
+var d=new Deferred();var id=setTimeout(function(){d.call()},0);d.canceller=function(){clearTimeout(id)};if(fun)d.callback.ok=fun;return d;};Deferred.next_faster_way_readystatechange=((location.protocol=="http:")&& !window.opera &&/\bMSIE\b/.test(navigator.userAgent))&& function(fun){
 var d=new Deferred();var t=new Date().getTime();if(t-arguments.callee._prev_timeout_called<150){
 var cancel=false;var script=document.createElement("script");script.type="text/javascript";script.src="javascript:";script.onreadystatechange=function(){
 if(!cancel){
