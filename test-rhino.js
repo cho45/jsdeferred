@@ -180,6 +180,10 @@ addFinalizer(function () {
 		userAgent   : "Rhino"
 	};
 
+	Global.location = {
+		protocol: "file:///"
+	};
+
 	// run process
 	while (runQueue.length) {
 		runQueue.process();
