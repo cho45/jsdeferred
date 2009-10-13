@@ -193,6 +193,33 @@ Deferred.register = function (name, fun) {
 
 Deferred.register("loop", Deferred.loop);
 Deferred.register("wait", Deferred.wait);
+Deferred.ResultList = function (args) { this.args = Array.prototype.slice.call(args, 0) }
+
+Deferred.bind = function (func, target, callbackArgIndex, errorbackArgIndex) {
+	return function () {
+		var d = new Deferred();
+
+		d.next = function (fun) { return this._post("ok", function () {
+			fun.apply(fun, (arguments[0] instanceof Deferred.ResultList) ? arguments[0].args : arguments);
+		}) };
+
+		var args = Array.prototype.slice.call(arguments, 0);
+		if (!isNaN(callbackArgIndex) && callbackArgIndex !== null) {
+			var callback = function () { d.call(new Deferred.ResultList(arguments)) };
+			args.splice(callbackArgIndex, 0, callback);
+		}
+		if (!isNaN(errorbackArgIndex) && errorbackArgIndex !== null) {
+			var errorback = function () { d.fail(arguments) };
+			args.splice(errorbackArgIndex, 0, errorback);
+		}
+		Deferred.next(function () { func.apply(target, args) });
+		return d;
+	}
+}
+
+Deferred.curry = function(func) {
+	return Deferred.bind(func, null, 0);
+}
 
 Deferred.define = function (obj, list) {
 	if (!list) list = ["parallel", "wait", "next", "call", "loop"];
