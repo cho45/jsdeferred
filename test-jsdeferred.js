@@ -449,6 +449,19 @@ next(function () {
 	});
 }).
 next(function () {
+	var _this = new Object();
+	var f = function (callback) {
+		var self = this;
+		setTimeout(function () {
+			callback(_this === self);
+		}, 10);
+	};
+	var fd = Deferred.bind(f, _this, 0);
+	return fd().next(function (r) {
+		expect("bind this", true, r);
+	});
+}).
+next(function () {
 	msg("Curry Tests::");
 	var f = function(callback, arg1, arg2) {
 		callback(arg1 + arg2);
