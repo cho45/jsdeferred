@@ -208,14 +208,15 @@ Deferred.bind = function (func, target, callbackArgIndex, errorbackArgIndex) {
 		}) };
 
 		var args = Array.prototype.slice.call(arguments, 0);
-		if (!isNaN(callbackArgIndex) && callbackArgIndex !== null) {
-			var callback = function () { d.call(new Deferred.ResultList(arguments)) };
-			args.splice(callbackArgIndex, 0, callback);
-		}
-		if (!isNaN(errorbackArgIndex) && errorbackArgIndex !== null) {
+		if (isFinite(errorbackArgIndex) && errorbackArgIndex !== null) {
 			var errorback = function () { d.fail(arguments) };
 			args.splice(errorbackArgIndex, 0, errorback);
 		}
+		if (!(isFinite(callbackArgIndex) && callbackArgIndex !== null)) {
+			callbackArgIndex = args.length;
+		}
+		var callback = function () { d.call(new Deferred.ResultList(arguments)) };
+		args.splice(callbackArgIndex, 0, callback);
 		Deferred.next(function () { func.apply(target, args) });
 		return d;
 	}

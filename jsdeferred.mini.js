@@ -80,11 +80,11 @@ return fun.apply(this,a);});};};Deferred.register("loop",Deferred.loop);Deferred
 Deferred.bind=function(func,target,callbackArgIndex,errorbackArgIndex){
 return function(){
 var d=new Deferred();d.next=function(fun){return this._post("ok",function(){
-fun.apply(fun,(arguments[0] instanceof Deferred.ResultList)? arguments[0].args:arguments);})};var args=Array.prototype.slice.call(arguments,0);if(!isNaN(callbackArgIndex)&& callbackArgIndex !==null){
-var callback=function(){d.call(new Deferred.ResultList(arguments))};args.splice(callbackArgIndex,0,callback);}
-if(!isNaN(errorbackArgIndex)&& errorbackArgIndex !==null){
+fun.apply(fun,(arguments[0] instanceof Deferred.ResultList)? arguments[0].args:arguments);})};var args=Array.prototype.slice.call(arguments,0);if(isFinite(errorbackArgIndex)&& errorbackArgIndex !==null){
 var errorback=function(){d.fail(arguments)};args.splice(errorbackArgIndex,0,errorback);}
-Deferred.next(function(){func.apply(target,args)});return d;}
+if(!(isFinite(callbackArgIndex)&& callbackArgIndex !==null)){
+callbackArgIndex=args.length;}
+var callback=function(){d.call(new Deferred.ResultList(arguments))};args.splice(callbackArgIndex,0,callback);Deferred.next(function(){func.apply(target,args)});return d;}
 }
 Deferred.curry=function(func){
 return Deferred.bind(func,null,0);}
