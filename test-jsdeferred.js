@@ -437,6 +437,17 @@ next(function () {
 	});
 }).
 next(function () {
+	var f = function(arg1, arg2, callback) {
+		setTimeout(function() {
+			callback(arg1 + arg2);
+		}, 10);
+	}
+	var fd = Deferred.bind(f);
+	return fd(2,3).next(function(r) {
+		expect('bind unset callbackArgIndex', 5, r);
+	});
+}).
+next(function () {
 	var f = function(arg1, arg2, callback, errorback) {
 		setTimeout(function() {
 			errorback(arg1, arg2);
