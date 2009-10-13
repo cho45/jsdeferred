@@ -415,6 +415,50 @@ next(function () {
 	});
 }).
 next(function () {
+	msg("Bind Tests::");
+	var f = function(arg1, arg2, callback) {
+		callback(arg1 + arg2);
+	}
+	var fd = Deferred.bind(f, null, 2);
+	return fd(2,3).next(function(r) {
+		expect('bind f', 5, r);
+	});
+}).
+next(function () {
+	var f = function(arg1, arg2, callback) {
+		setTimeout(function() {
+			callback(arg1, arg2);
+		}, 10);
+	}
+	var fd = Deferred.bind(f, null, 2);
+	return fd(2,3).next(function(r0, r1) {
+		expect('bind f', 2, r0);
+		expect('bind f', 3, r1);
+	});
+}).
+next(function () {
+	var f = function(arg1, arg2, callback, errorback) {
+		setTimeout(function() {
+			errorback(arg1, arg2);
+		}, 10);
+	}
+	var fd = Deferred.bind(f, null, 2, 3);
+	return fd(2,3).error(function(r) {
+		expect('bind f errorback', 2, r[0]);
+		expect('bind f errorback', 3, r[1]);
+	});
+}).
+next(function () {
+	msg("Curry Tests::");
+	var f = function(callback, arg1, arg2) {
+		callback(arg1 + arg2);
+	}
+	var fd = Deferred.curry(f);
+	return fd(2, 3).next(function(r) {
+		expect('curry', 5, r);
+	});
+}).
+next(function () {
 	msg("Stack over flow test: check not waste stack.");
 //	if (skip("too heavy", 1)) return;
 
