@@ -371,9 +371,19 @@ Deferred.register = function (name, fun) {
 Deferred.register("loop", Deferred.loop);
 Deferred.register("wait", Deferred.wait);
 
+/* Deferred.connect (func, target, callbackArgIndex, errorbackArgIndex) //=> Function //=> Deferred
+ *
+ * Connect function taking callback with Deferred.
+ *
+ * Sample::
+ *     var timeout = Deferred.connect(setTimeout, window, 0);
+ *     timeout(1).next(function () {
+ *         alert('after 1 sec');
+ *     });
+ *
+ */
 // Allow to pass multiple values to next.
 Deferred.ResultList = function (args) { this.args = Array.prototype.slice.call(args, 0) }
-
 Deferred.connect = function (func, target, callbackArgIndex, errorbackArgIndex) {
 	return function () {
 		var d = new Deferred();

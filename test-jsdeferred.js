@@ -425,6 +425,12 @@ next(function () {
 	});
 }).
 next(function () {
+	var timeout = Deferred.connect(setTimeout, window, 0);
+	return timeout(0.1).next(function () {
+		ok('connect setTimeout');
+	});
+}).
+next(function () {
 	var f = function(arg1, arg2, callback) {
 		setTimeout(function() {
 			callback(arg1, arg2);
