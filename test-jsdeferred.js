@@ -419,13 +419,13 @@ next(function () {
 	var f = function(arg1, arg2, callback) {
 		callback(arg1 + arg2);
 	}
-	var fd = Deferred.connect(f, null, 2);
+	var fd = Deferred.connect(f, { ok: 2 });
 	return fd(2,3).next(function(r) {
 		expect('connect f', 5, r);
 	});
 }).
 next(function () {
-	var timeout = Deferred.connect(setTimeout, window, 0);
+	var timeout = Deferred.connect(setTimeout, { target: window, ok: 0 });
 	return timeout(0.1).next(function () {
 		ok('connect setTimeout');
 	});
@@ -436,7 +436,7 @@ next(function () {
 			callback(arg1, arg2);
 		}, 10);
 	}
-	var fd = Deferred.connect(f, null, 2);
+	var fd = Deferred.connect(f, { ok: 2 });
 	return fd(2,3).next(function(r0, r1) {
 		expect('connect f', 2, r0);
 		expect('connect f', 3, r1);
@@ -459,7 +459,7 @@ next(function () {
 			errorback(arg1, arg2, arg3);
 		}, 10);
 	}
-	var fd = Deferred.connect(f, null, 2, 3);
+	var fd = Deferred.connect(f, { ok: 2, ng: 3 });
 	return fd(2,3,4).error(function(r) {
 		expect('connect f errorback', 2, r[0]);
 		expect('connect f errorback', 3, r[1]);
@@ -474,7 +474,7 @@ next(function () {
 			callback(_this === self);
 		}, 10);
 	};
-	var fd = Deferred.connect(f, _this, 0);
+	var fd = Deferred.connect(f, { target: _this, ok: 0 });
 	return fd().next(function (r) {
 		expect("connect this", true, r);
 	});

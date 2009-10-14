@@ -77,8 +77,8 @@ return(o.begin<=o.end)? Deferred.call(_loop,o.begin):null;});};Deferred.register
 this.prototype[name]=function(){
 var a=arguments;return this.next(function(){
 return fun.apply(this,a);});};};Deferred.register("loop",Deferred.loop);Deferred.register("wait",Deferred.wait);Deferred.ResultList=function(args){this.args=Array.prototype.slice.call(args,0)}
-Deferred.connect=function(func,target,callbackArgIndex,errorbackArgIndex){
-return function(){
+Deferred.connect=function(func,obj){
+if(!obj)obj={};var callbackArgIndex=obj.ok;var errorbackArgIndex=obj.ng;var target=obj.target;return function(){
 var d=new Deferred();d.next=function(fun){return this._post("ok",function(){
 fun.apply(this,(arguments[0] instanceof Deferred.ResultList)? arguments[0].args:arguments);})};var args=Array.prototype.slice.call(arguments,0);if(!(isFinite(callbackArgIndex)&& callbackArgIndex !==null)){
 callbackArgIndex=args.length;}

@@ -30,7 +30,7 @@ if (typeof Deferred.chrome == 'undefined')
                 continue;
             }
             var t = hash[key];
-            target[key] = Deferred.connect(chromeTarget[key], chromeTarget, t[0], t[1]);
+            target[key] = Deferred.connect(chromeTarget[key], { target: chromeTarget, ok: t[0], ng: t[1] });
         }
     }
 

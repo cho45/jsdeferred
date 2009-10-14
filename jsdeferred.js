@@ -371,20 +371,25 @@ Deferred.register = function (name, fun) {
 Deferred.register("loop", Deferred.loop);
 Deferred.register("wait", Deferred.wait);
 
-/* Deferred.connect (func [, target [, callbackArgIndex [, errorbackArgIndex]]]) //=> Function //=> Deferred
+/* Deferred.connect (func [, opts: { ok : 0, ng : null, target: null} ) //=> Function //=> Deferred
  *
  * Connect a function with Deferred.  That is, transform a function
  * that takes a callback into one that returns a Deferred object.
  *
  * Sample::
- *     var timeout = Deferred.connect(setTimeout, window, 0);
+ *     var timeout = Deferred.connect(setTimeout, { target: window, ok: 0 });
  *     timeout(1).next(function () {
  *         alert('after 1 sec');
  *     });
  */
 // Allow to pass multiple values to next.
 Deferred.ResultList = function (args) { this.args = Array.prototype.slice.call(args, 0) }
-Deferred.connect = function (func, target, callbackArgIndex, errorbackArgIndex) {
+Deferred.connect = function (func, obj) {
+	if (!obj) obj = {};
+	var callbackArgIndex  = obj.ok;
+	var errorbackArgIndex = obj.ng;
+	var target            = obj.target;
+
 	return function () {
 		var d = new Deferred();
 

@@ -194,7 +194,12 @@ Deferred.register = function (name, fun) {
 Deferred.register("loop", Deferred.loop);
 Deferred.register("wait", Deferred.wait);
 Deferred.ResultList = function (args) { this.args = Array.prototype.slice.call(args, 0) }
-Deferred.connect = function (func, target, callbackArgIndex, errorbackArgIndex) {
+Deferred.connect = function (func, obj) {
+	if (!obj) obj = {};
+	var callbackArgIndex  = obj.ok;
+	var errorbackArgIndex = obj.ng;
+	var target            = obj.target;
+
 	return function () {
 		var d = new Deferred();
 
