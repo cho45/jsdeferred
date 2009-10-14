@@ -199,7 +199,7 @@ Deferred.register("loop", Deferred.loop);
 Deferred.register("wait", Deferred.wait);
 Deferred.ResultList = function (args) { this.args = Array.prototype.slice.call(args, 0) }
 
-Deferred.bind = function (func, target, callbackArgIndex, errorbackArgIndex) {
+Deferred.connect = function (func, target, callbackArgIndex, errorbackArgIndex) {
 	return function () {
 		var d = new Deferred();
 
@@ -220,10 +220,6 @@ Deferred.bind = function (func, target, callbackArgIndex, errorbackArgIndex) {
 		Deferred.next(function () { func.apply(target, args) });
 		return d;
 	}
-}
-
-Deferred.curry = function(func) {
-	return Deferred.bind(func, null, 0);
 }
 
 Deferred.define = function (obj, list) {

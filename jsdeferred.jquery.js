@@ -77,7 +77,7 @@ return(o.begin<=o.end)? Deferred.call(_loop,o.begin):null;});};Deferred.register
 this.prototype[name]=function(){
 var a=arguments;return this.next(function(){
 return fun.apply(this,a);});};};Deferred.register("loop",Deferred.loop);Deferred.register("wait",Deferred.wait);Deferred.ResultList=function(args){this.args=Array.prototype.slice.call(args,0)}
-Deferred.bind=function(func,target,callbackArgIndex,errorbackArgIndex){
+Deferred.connect=function(func,target,callbackArgIndex,errorbackArgIndex){
 return function(){
 var d=new Deferred();d.next=function(fun){return this._post("ok",function(){
 fun.apply(fun,(arguments[0] instanceof Deferred.ResultList)? arguments[0].args:arguments);})};var args=Array.prototype.slice.call(arguments,0);if(isFinite(errorbackArgIndex)&& errorbackArgIndex !==null){
@@ -86,8 +86,6 @@ if(!(isFinite(callbackArgIndex)&& callbackArgIndex !==null)){
 callbackArgIndex=args.length;}
 var callback=function(){d.call(new Deferred.ResultList(arguments))};args.splice(callbackArgIndex,0,callback);Deferred.next(function(){func.apply(target,args)});return d;}
 }
-Deferred.curry=function(func){
-return Deferred.bind(func,null,0);}
 Deferred.define=function(obj,list){
 if(!list)list=["parallel","wait","next","call","loop"];if(!obj)obj=(function getGlobal(){return this})();for(var i=0;i<list.length;i++){
 var n=list[i];obj[n]=Deferred[n];}
