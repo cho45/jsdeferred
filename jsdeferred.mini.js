@@ -80,11 +80,11 @@ return fun.apply(this,a);});};};Deferred.register("loop",Deferred.loop);Deferred
 Deferred.connect=function(func,target,callbackArgIndex,errorbackArgIndex){
 return function(){
 var d=new Deferred();d.next=function(fun){return this._post("ok",function(){
-fun.apply(fun,(arguments[0] instanceof Deferred.ResultList)? arguments[0].args:arguments);})};var args=Array.prototype.slice.call(arguments,0);if(isFinite(errorbackArgIndex)&& errorbackArgIndex !==null){
-var errorback=function(){d.fail(arguments)};args.splice(errorbackArgIndex,0,errorback);}
-if(!(isFinite(callbackArgIndex)&& callbackArgIndex !==null)){
+fun.apply(this,(arguments[0] instanceof Deferred.ResultList)? arguments[0].args:arguments);})};var args=Array.prototype.slice.call(arguments,0);if(!(isFinite(callbackArgIndex)&& callbackArgIndex !==null)){
 callbackArgIndex=args.length;}
-var callback=function(){d.call(new Deferred.ResultList(arguments))};args.splice(callbackArgIndex,0,callback);Deferred.next(function(){func.apply(target,args)});return d;}
+var callback=function(){d.call(new Deferred.ResultList(arguments))};args.splice(callbackArgIndex,0,callback);if(isFinite(errorbackArgIndex)&& errorbackArgIndex !==null){
+var errorback=function(){d.fail(arguments)};args.splice(errorbackArgIndex,0,errorback);}
+Deferred.next(function(){func.apply(target,args)});return d;}
 }
 Deferred.define=function(obj,list){
 if(!list)list=["parallel","wait","next","call","loop"];if(!obj)obj=(function getGlobal(){return this})();for(var i=0;i<list.length;i++){

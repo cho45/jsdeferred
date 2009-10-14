@@ -454,15 +454,16 @@ next(function () {
 	});
 }).
 next(function () {
-	var f = function(arg1, arg2, callback, errorback) {
+	var f = function(arg1, arg2, callback, errorback, arg3) {
 		setTimeout(function() {
-			errorback(arg1, arg2);
+			errorback(arg1, arg2, arg3);
 		}, 10);
 	}
 	var fd = Deferred.connect(f, null, 2, 3);
-	return fd(2,3).error(function(r) {
+	return fd(2,3,4).error(function(r) {
 		expect('connect f errorback', 2, r[0]);
 		expect('connect f errorback', 3, r[1]);
+		expect('connect f errorback', 4, r[2]);
 	});
 }).
 next(function () {

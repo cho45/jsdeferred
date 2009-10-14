@@ -371,16 +371,16 @@ Deferred.register = function (name, fun) {
 Deferred.register("loop", Deferred.loop);
 Deferred.register("wait", Deferred.wait);
 
-/* Deferred.connect (func, target, callbackArgIndex, errorbackArgIndex) //=> Function //=> Deferred
+/* Deferred.connect (func [, target [, callbackArgIndex [, errorbackArgIndex]]]) //=> Function //=> Deferred
  *
- * Connect function taking callback with Deferred.
+ * Connect a function with Deferred.  That is, transform a function
+ * that takes a callback into one that returns a Deferred object.
  *
  * Sample::
  *     var timeout = Deferred.connect(setTimeout, window, 0);
  *     timeout(1).next(function () {
  *         alert('after 1 sec');
  *     });
- *
  */
 // Allow to pass multiple values to next.
 Deferred.ResultList = function (args) { this.args = Array.prototype.slice.call(args, 0) }
@@ -389,19 +389,19 @@ Deferred.connect = function (func, target, callbackArgIndex, errorbackArgIndex) 
 		var d = new Deferred();
 
 		d.next = function (fun) { return this._post("ok", function () {
-			fun.apply(fun, (arguments[0] instanceof Deferred.ResultList) ? arguments[0].args : arguments);
+			fun.apply(this, (arguments[0] instanceof Deferred.ResultList) ? arguments[0].args : arguments);
 		}) };
 
 		var args = Array.prototype.slice.call(arguments, 0);
-		if (isFinite(errorbackArgIndex) && errorbackArgIndex !== null) {
-			var errorback = function () { d.fail(arguments) };
-			args.splice(errorbackArgIndex, 0, errorback);
-		}
 		if (!(isFinite(callbackArgIndex) && callbackArgIndex !== null)) {
 			callbackArgIndex = args.length;
 		}
 		var callback = function () { d.call(new Deferred.ResultList(arguments)) };
 		args.splice(callbackArgIndex, 0, callback);
+		if (isFinite(errorbackArgIndex) && errorbackArgIndex !== null) {
+			var errorback = function () { d.fail(arguments) };
+			args.splice(errorbackArgIndex, 0, errorback);
+		}
 		Deferred.next(function () { func.apply(target, args) });
 		return d;
 	}

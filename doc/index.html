@@ -430,6 +430,25 @@ loop(10, function (n) {
 				</di>
 			</div>
 			
+			<div class="section" id="14">
+				
+				
+				<h2>Deferred.connect (func [, target [, callbackArgIndex [, errorbackArgIndex]]]) //=&gt; Function //=&gt; Deferred
+ *
+ * Connect a function with Deferred.  That is, transform a function
+ * that takes a callback into one that returns a Deferred object.
+ *
+ * Sample::</h2>
+				
+				<div class="body">
+				<pre>var timeout = Deferred.connect(setTimeout, window, 0);
+timeout(1).next(function () {
+    alert('after 1 sec');
+});
+ </pre>
+				</di>
+			</div>
+			
 		</div>
 	</body>
 </html>
