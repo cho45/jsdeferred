@@ -371,7 +371,7 @@ Deferred.register = function (name, fun) {
 Deferred.register("loop", Deferred.loop);
 Deferred.register("wait", Deferred.wait);
 
-/* Deferred.connect (func [, opts: { ok : 0, ng : null, target: null} ) //=> Function //=> Deferred
+/* Deferred.connect (func [, opts: { ok : 0, ng : null, target: null} ]) //=> Function //=> Deferred
  *
  * Connect a function with Deferred.  That is, transform a function
  * that takes a callback into one that returns a Deferred object.
