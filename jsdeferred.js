@@ -383,7 +383,7 @@ Deferred.register("wait", Deferred.wait);
  *     });
  */
 // Allow to pass multiple values to next.
-Deferred.ResultList = function (args) { this.args = Array.prototype.slice.call(args, 0) }
+Deferred.Arguments = function (args) { this.args = Array.prototype.slice.call(args, 0) }
 Deferred.connect = function (func, obj) {
 	if (!obj) obj = {};
 	var callbackArgIndex  = obj.ok;
@@ -394,14 +394,14 @@ Deferred.connect = function (func, obj) {
 		var d = new Deferred();
 
 		d.next = function (fun) { return this._post("ok", function () {
-			fun.apply(this, (arguments[0] instanceof Deferred.ResultList) ? arguments[0].args : arguments);
+			fun.apply(this, (arguments[0] instanceof Deferred.Arguments) ? arguments[0].args : arguments);
 		}) };
 
 		var args = Array.prototype.slice.call(arguments, 0);
 		if (!(isFinite(callbackArgIndex) && callbackArgIndex !== null)) {
 			callbackArgIndex = args.length;
 		}
-		var callback = function () { d.call(new Deferred.ResultList(arguments)) };
+		var callback = function () { d.call(new Deferred.Arguments(arguments)) };
 		args.splice(callbackArgIndex, 0, callback);
 		if (isFinite(errorbackArgIndex) && errorbackArgIndex !== null) {
 			var errorback = function () { d.fail(arguments) };
