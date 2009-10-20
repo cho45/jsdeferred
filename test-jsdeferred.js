@@ -480,6 +480,33 @@ next(function () {
 	});
 }).
 next(function () {
+	var count = 0;
+	var successThird = function() {
+		var deferred = new Deferred;
+		setTimeout(function() {
+			var c = ++count;
+			if (c == 3) {
+				deferred.call('third');
+			} else {
+				deferred.fail('no third');
+			}
+		}, 10);
+		return deferred;
+	}
+	Deferred.retry(4, successThird).next(function(mes) {
+		expect('retry third called', 'third', mes)
+		count = 0;
+		Deferred.retry(2, successThird).next(function(e) {
+			ng(e);
+		}).error(function(mes) {
+			ok(true, 'retry over');
+			d.call();
+		});
+	}).error(function(e) {
+		ng(e);
+	});
+}).
+next(function () {
 	msg("Stack over flow test: check not waste stack.");
 //	if (skip("too heavy", 1)) return;
 
