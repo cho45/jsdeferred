@@ -4,11 +4,10 @@ require "rake"
 require "rake/clean"
 
 
-CLEAN.include ["jsdeferred.{nodoc,mini,jquery,userscript}.js"]
+CLEAN.include ["jsdeferred.{nodoc,jquery,userscript}.js"]
 RELEASES = %w(
 	jsdeferred.js
 	jsdeferred.nodoc.js
-	jsdeferred.mini.js
 	jsdeferred.jquery.js
 	jsdeferred.userscript.js
 	doc/index.html
@@ -20,7 +19,7 @@ JSDeferred #{Version} Copyright (c) 2007 cho45 ( www.lowreal.net )
 See http://coderepos.org/share/wiki/JSDeferred
 EOS
 
-def mini(js, commentonly=false)
+def mini(js, commentonly=true)
 	js = js.dup
 	js.gsub!(%r|\n?/\*.*?\*/|m, "")
 	js.gsub!(%r|\n?\s*//.*|, "")
@@ -73,13 +72,13 @@ end
 
 file "jsdeferred.nodoc.js" => ["jsdeferred.js"] do |t|
 	File.open(t.name, "w") {|f|
-		f << mini(File.read("jsdeferred.js"), true)
+		f << mini(File.read("jsdeferred.js"))
 	}
 end
 
 file "jsdeferred.mini.js" => ["jsdeferred.js"] do |t|
 	File.open(t.name, "w") {|f|
-		f << mini(File.read("jsdeferred.js"))
+		f << mini(File.read("jsdeferred.js"), false)
 	}
 end
 
@@ -92,7 +91,7 @@ end
 file "jsdeferred.userscript.js" => ["jsdeferred.js", "binding/userscript.js"] do |t|
 	File.open(t.name, "w") {|f|
 		f.puts "// Usage:: with (D()) { your code }"
-		f << mini(File.read("binding/userscript.js").sub("/*include JSDeferred*/", File.read("jsdeferred.js")), true)
+		f << mini(File.read("binding/userscript.js").sub("/*include JSDeferred*/", File.read("jsdeferred.js")))
 		f.puts "// End of JSDeferred"
 	}
 end
