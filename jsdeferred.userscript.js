@@ -228,8 +228,6 @@ Deferred.connect = function (func, obj) {
 }
 
 Deferred.retry = function (retryCount, funcDeffered, options) {
-	if (typeof retryCount == 'undefined')
-		retryCount == 1;
 	if (!options) options = {};
 
 	var wait = options.wait || 0;
