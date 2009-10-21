@@ -1,5 +1,9 @@
 2009-10-22  SATOH Hiroh <cho45@lowreal.net>
 
+	* Released 0.3.0
+
+2009-10-21  SATOH Hiroh <cho45@lowreal.net>
+
 	* Added Deferred#retry
 	* Added Deferred.connect
 	* Added Deferred.onerror (for debug)
