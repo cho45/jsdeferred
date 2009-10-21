@@ -412,24 +412,26 @@ Deferred.connect = function (func, obj) {
 	}
 }
 
-Deferred.retry = function(retryCount, funcDeffered/* funcDeffered() return Deferred */, options) {
+Deferred.retry = function (retryCount, funcDeffered/* funcDeffered() return Deferred */, options) {
 	if (typeof retryCount == 'undefined')
 		retryCount == 1;
 	if (!options) options = {};
 
 	var wait = options.wait || 0;
 	var d = new Deferred();
-	var retry = function() {
+	var retry = function () {
 		var m = funcDeffered(retryCount);
-		m.next(function(mes) {
-			d.call(mes);
-		}).error(function(e) {
-			if (--retryCount <= 0) {
-				d.fail(['retry failed', e]);
-			} else {
-				setTimeout(retry, wait * 1000);
-			}
-		});
+		m.
+			next(function (mes) {
+				d.call(mes);
+			}).
+			error(function (e) {
+				if (--retryCount <= 0) {
+					d.fail(['retry failed', e]);
+				} else {
+					setTimeout(retry, wait * 1000);
+				}
+			});
 	};
 	setTimeout(retry, 0);
 	return d;

@@ -481,7 +481,7 @@ next(function () {
 }).
 next(function () {
 	var count = 0;
-	var successThird = function() {
+	var successThird = function () {
 		var deferred = new Deferred;
 		setTimeout(function() {
 			var c = ++count;
@@ -493,16 +493,25 @@ next(function () {
 		}, 10);
 		return deferred;
 	}
-	Deferred.retry(4, successThird).next(function(mes) {
-		expect('retry third called', 'third', mes)
-		count = 0;
-		Deferred.retry(2, successThird).next(function(e) {
+
+	return next(function () {
+		return Deferred.retry(4, successThird).next(function (mes) {
+			expect('retry third called', 'third', mes)
+			count = 0;
+		}).
+		error(function (e) {
 			ng(e);
-		}).error(function(mes) {
-			ok(true, 'retry over');
-			d.call();
 		});
-	}).error(function(e) {
+	}).
+	next(function () {
+		return Deferred.retry(2, successThird).next(function (e) {
+			ng(e);
+		}).
+		error(function (mes) {
+			ok(true, 'retry over');
+		});
+	}).
+	error(function (e) {
 		ng(e);
 	});
 }).

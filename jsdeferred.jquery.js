@@ -222,6 +222,29 @@ Deferred.connect = function (func, obj) {
 	}
 }
 
+Deferred.retry = function(retryCount, funcDeffered, options) {
+	if (typeof retryCount == 'undefined')
+		retryCount == 1;
+	if (!options) options = {};
+
+	var wait = options.wait || 0;
+	var d = new Deferred();
+	var retry = function() {
+		var m = funcDeffered(retryCount);
+		m.next(function(mes) {
+			d.call(mes);
+		}).error(function(e) {
+			if (--retryCount <= 0) {
+				d.fail(['retry failed', e]);
+			} else {
+				setTimeout(retry, wait * 1000);
+			}
+		});
+	};
+	setTimeout(retry, 0);
+	return d;
+}
+
 Deferred.define = function (obj, list) {
 	if (!list) list = ["parallel", "wait", "next", "call", "loop"];
 	if (!obj)  obj  = (function getGlobal () { return this })();
@@ -234,6 +257,12 @@ Deferred.define = function (obj, list) {
 
 (function ($) {
 	$.deferred = Deferred;
+	$.fn.extend({
+		deferred: function(name) {
+			var args = Array.prototype.slice.call(arguments, 1);
+			return Deferred.connect(this[name], { target:this }).apply(null, args);
+		}
+	});
 	var orig_ajax = $.ajax; $.ajax = function (opts) {
 		var d = $.deferred(), orig = {};
 		$.extend(orig, opts);
