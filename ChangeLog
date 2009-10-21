@@ -1,3 +1,10 @@
+2009-10-22  SATOH Hiroh <cho45@lowreal.net>
+
+	* Added Deferred#retry
+	* Added Deferred.connect
+	* Added Deferred.onerror (for debug)
+	* Added jQuery.fn.deferred (jquery binding)
+
 2008-08-02  SATOH Hiroh <cho45@lowreal.net>
 
 	* Released 0.2.2
