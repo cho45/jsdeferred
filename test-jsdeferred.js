@@ -496,11 +496,21 @@ next(function () {
 
 	return next(function () {
 		return Deferred.retry(4, successThird).next(function (mes) {
-			expect('retry third called', 'third', mes)
+			expect('retry third called', 'third', mes);
+			expect('retry third called', 3, count);
 			count = 0;
 		}).
 		error(function (e) {
 			ng(e);
+		});
+	}).
+	next(function () {
+		return Deferred.retry(3, successThird).next(function (e) {
+			expect('retry third called', 'third', mes);
+			expect('retry third called', 3, count);
+			count = 0;
+		}).
+		error(function (mes) {
 		});
 	}).
 	next(function () {
