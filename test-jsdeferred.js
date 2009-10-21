@@ -114,7 +114,21 @@ d.callback.ok = function () {
 d.cancel();
 d.call();
 
+var d = Deferred();
+var r = undefined;
+Deferred.onerror = function (e) {
+	r = e;
+};
+d.fail("error");
+expect("Deferred.onerror", "error", r);
+var r = undefined;
+delete Deferred.onerror;
+d.fail("error");
+expect("Deferred.onerror", undefined, r);
 
+Deferred.onerror = function (e) {
+	log("DEBUG: Errorback will invoke:" + e);
+};
 
 // Start Main Test
 msg("Start Main Tests::");

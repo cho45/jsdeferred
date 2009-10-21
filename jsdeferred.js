@@ -116,6 +116,7 @@ Deferred.prototype = {
 		} catch (e) {
 			next  = "ng";
 			value = e;
+			if (Deferred.onerror) Deferred.onerror(e);
 		}
 		if (value instanceof Deferred) {
 			value._next = this._next;
