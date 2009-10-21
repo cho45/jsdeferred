@@ -505,12 +505,13 @@ next(function () {
 		});
 	}).
 	next(function () {
-		return Deferred.retry(3, successThird).next(function (e) {
+		return Deferred.retry(3, successThird).next(function (mes) {
 			expect('retry third called', 'third', mes);
 			expect('retry third called', 3, count);
 			count = 0;
 		}).
-		error(function (mes) {
+		error(function (e) {
+			ng(e);
 		});
 	}).
 	next(function () {
