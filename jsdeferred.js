@@ -413,6 +413,21 @@ Deferred.connect = function (func, obj) {
 	}
 }
 
+/* Deferred.retry(retryCount, func [, options = { wait : 0 } ])
+ *
+ * Try func (returns Deferred) max `retryCount`.
+ *
+ * Sample::
+ *     Deferred.retry(3, function () {
+ *         return http.get(...);
+ *     }).
+ *     next(function (res) {
+ *         res //=> response if succeeded
+ *     }).
+ *     error(function (e) {
+ *         e //=> error if all try failed
+ *     });
+ */
 Deferred.retry = function (retryCount, funcDeffered/* funcDeffered() return Deferred */, options) {
 	if (!options) options = {};
 
