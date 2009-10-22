@@ -291,6 +291,34 @@ Deferred.parallel = function (dl) {
 	return ret;
 };
 
+/* function parallel (deferredlist) //=> Deferred
+ */
+Deferred.earlier = function (dl) {
+	var ret = new Deferred(), values = {}, num = 0;
+	for (var i in dl) if (dl.hasOwnProperty(i)) (function (d, i) {
+		d.next(function (v) {
+			values[i] = v;
+			if (dl instanceof Array) {
+				values.length = dl.length;
+				values = Array.prototype.slice.call(values, 0);
+			}
+			ret.canceller();
+			ret.call(values);
+		}).error(function (e) {
+			ret.fail(e);
+		});
+		num++;
+	})(dl[i], i);
+
+	if (!num) Deferred.next(function () { ret.call() });
+	ret.canceller = function () {
+		for (var i in dl) if (dl.hasOwnProperty(i)) {
+			dl[i].cancel();
+		}
+	};
+	return ret;
+};
+
 
 /* function loop (n, fun) //=> Deferred
  *
@@ -341,6 +369,23 @@ Deferred.loop = function (n, fun) {
 			}
 		}
 		return (o.begin <= o.end) ? Deferred.call(_loop, o.begin) : null;
+	});
+};
+
+
+/* function repeat (n, fun) //=> Deferred
+ */
+Deferred.repeat = function (n, f) {
+	var i = 0, end = {}, ret = null;
+	return Deferred.next(function () {
+		var t = (new Date()).getTime();
+		divide: {
+			do {
+				if (i >= n) break divide;
+				ret = f(i++);
+			} while ((new Date()).getTime() - t < 20);
+			return Deferred.call(arguments.callee);
+		}
 	});
 };
 
@@ -452,7 +497,7 @@ Deferred.retry = function (retryCount, funcDeffered/* funcDeffered() return Defe
 }
 
 Deferred.define = function (obj, list) {
-	if (!list) list = ["parallel", "wait", "next", "call", "loop"];
+	if (!list) list = ["parallel", "wait", "next", "call", "loop", "repeat"];
 	if (!obj)  obj  = (function getGlobal () { return this })();
 	for (var i = 0; i < list.length; i++) {
 		var n = list[i];

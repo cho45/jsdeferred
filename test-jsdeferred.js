@@ -402,6 +402,25 @@ next(function () {
 		});
 	}).
 	next(function () {
+		var r = [];
+		return repeat(0, function (i) {
+			r.push(i);
+		}).
+		next(function (ret) {
+			expect("repeat 0 ret val", undefined, ret);
+			expect("repeat 0", [].join(), r.join());
+		});
+	}).
+	next(function () {
+		var r = [];
+		return repeat(10, function (i) {
+			r.push(i);
+		}).
+		next(function (ret) {
+			expect("repeat 10", [0,1,2,3,4,5,6,7,8,9].join(), r.join());
+		});
+	}).
+	next(function () {
 		return parallel([]).
 		next(function () {
 			ok("parallel no values");
@@ -421,6 +440,50 @@ next(function () {
 			print(uneval(values));
 			expect("parallel named values foo", 0, values.foo);
 			expect("parallel named values bar", 1, values.bar);
+		});
+	}).
+	next(function () {
+		return Deferred.earlier([
+			wait(0).next(function () { return 1 }),
+			wait(1).next(function () { return 2 })
+		]).
+		next(function (values) {
+			print(uneval(values));
+			expect("earlier named values 0", 1, values[0]);
+			expect("earlier named values 1", undefined, values[1]);
+		});
+	}).
+	next(function () {
+		return Deferred.earlier([
+			wait(1).next(function () { return 1 }),
+			wait(0).next(function () { return 2 })
+		]).
+		next(function (values) {
+			print(uneval(values));
+			expect("earlier named values 0", undefined, values[0]);
+			expect("earlier named values 1", 2, values[1]);
+		});
+	}).
+	next(function () {
+		return Deferred.earlier({
+			foo : wait(0).next(function () { return 1 }),
+			bar : wait(1).next(function () { return 2 })
+		}).
+		next(function (values) {
+			print(uneval(values));
+			expect("earlier named values foo", 1, values.foo);
+			expect("earlier named values bar", undefined, values.bar);
+		});
+	}).
+	next(function () {
+		return Deferred.earlier({
+			foo : wait(1).next(function () { return 1 }),
+			bar : wait(0).next(function () { return 2 })
+		}).
+		next(function (values) {
+			print(uneval(values));
+			expect("earlier named values foo", undefined, values.foo);
+			expect("earlier named values bar", 2, values.bar);
 		});
 	}).
 	error(function (e) {

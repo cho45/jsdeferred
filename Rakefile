@@ -58,8 +58,8 @@ task :release => [:update, :clean, :test] do
 
 	tag = "release-#{ver}"
 
-	sh *%w|git tag #{tag}|
-	sh *%w|git push --tags|
+	sh %|git tag #{tag}|
+	sh %|git push --tags|
 end
 
 desc "Create Documentation"
