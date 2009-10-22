@@ -303,24 +303,15 @@ loop(1000, function (n) {
 					そこで、aloop() という関数を実装してみます。</p>
 <pre>
 function aloop (n, f) {
-    var i   = 0;
-    var end = new Object;
-    var ret = null;
+    var i = 0, end = {}, ret = null;
     return Deferred.next(function () {
         var t = (new Date()).getTime();
-        try {
+        divide: {
             do {
-                ret = f(i)
-                i++;
-                if (i >= n) throw end;
+                if (i >= n) break divide;
+                ret = f(i++);
             } while ((new Date()).getTime() - t < 20);
             return Deferred.call(arguments.callee);
-        } catch (e) {
-            if (e == end) {
-                return ret;
-            } else {
-                throw e;
-            }
         }
     });
 }
