@@ -364,12 +364,12 @@ parallel({
 				</di>
 			</div>
 			
-			<div class="section" id="parallel">
+			<div class="section" id="earlier">
 				
 				
 				<h2>
 					<span class="funname">
-						parallel
+						earlier
 					</span>
 					<span class="paren">(</span>
 					<span class="args">deferredlist</span>
@@ -379,7 +379,9 @@ parallel({
 				</h2>
 				
 				<div class="body">
-				
+				<p>Continue process when one deferred in <var>deferredlist</var> has completed. Others will cancel.
+parallel ('and' processing) &lt;=> earlier ('or' processing)
+ </p>
 				</di>
 			</div>
 			
@@ -432,7 +434,15 @@ loop(10, function (n) {
 				</h2>
 				
 				<div class="body">
-				
+				<p>Loop <var>n</var> tiems with <var>fun</var>.
+This function automatically return control to browser, if loop time over 20msec.
+This is useful for huge loop  not to block browser UI.</p>
+<p>Sample::
+</p>
+<pre>repeat(10, function (i) {
+    i //=> 0,1,2,3,4,5,6,7,8,9
+});
+ </pre>
 				</di>
 			</div>
 			

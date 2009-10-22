@@ -291,7 +291,10 @@ Deferred.parallel = function (dl) {
 	return ret;
 };
 
-/* function parallel (deferredlist) //=> Deferred
+/* function earlier (deferredlist) //=> Deferred
+ *
+ * Continue process when one deferred in `deferredlist` has completed. Others will cancel.
+ * parallel ('and' processing) <=> earlier ('or' processing)
  */
 Deferred.earlier = function (dl) {
 	var ret = new Deferred(), values = {}, num = 0;
@@ -374,6 +377,15 @@ Deferred.loop = function (n, fun) {
 
 
 /* function repeat (n, fun) //=> Deferred
+ *
+ * Loop `n` tiems with `fun`.
+ * This function automatically return control to browser, if loop time over 20msec.
+ * This is useful for huge loop  not to block browser UI.
+ *
+ * Sample::
+ *     repeat(10, function (i) {
+ *         i //=> 0,1,2,3,4,5,6,7,8,9
+ *     });
  */
 Deferred.repeat = function (n, f) {
 	var i = 0, end = {}, ret = null;
