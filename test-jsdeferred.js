@@ -502,6 +502,7 @@ next(function () {
 	});
 }).
 next(function () {
+	return skip('setTimeout.apply is unavailable in IE', 1);
 	var timeout = Deferred.connect(setTimeout, { target: window, ok: 0 });
 	return timeout(0.1).next(function () {
 		ok('connect setTimeout');
