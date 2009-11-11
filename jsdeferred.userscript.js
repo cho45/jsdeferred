@@ -268,13 +268,13 @@ Deferred.connect = function (func, obj) {
 	}
 }
 
-Deferred.retry = function (retryCount, funcDeffered, options) {
+Deferred.retry = function (retryCount, funcDeferred, options) {
 	if (!options) options = {};
 
 	var wait = options.wait || 0;
 	var d = new Deferred();
 	var retry = function () {
-		var m = funcDeffered(retryCount);
+		var m = funcDeferred(retryCount);
 		m.
 			next(function (mes) {
 				d.call(mes);
