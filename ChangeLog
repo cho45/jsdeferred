@@ -3,6 +3,10 @@
 	* Accept multiple deferred objects as argument in `parallel`
 	(Thank SHIMODA Hiroshi)
 
+2009-10-23  SATOH Hiroh <cho45@lowreal.net>
+
+	* Add Deferred#earlier, Deferred#repeat
+
 2009-10-22  SATOH Hiroh <cho45@lowreal.net>
 
 	* Released 0.3.0
