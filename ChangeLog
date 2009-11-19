@@ -1,3 +1,8 @@
+2009-11-20  SATOH Hiroh <cho45@lowreal.net>
+
+	* Accept multiple deferred objects as argument in `parallel`
+	(Thank SHIMODA Hiroshi)
+
 2009-10-22  SATOH Hiroh <cho45@lowreal.net>
 
 	* Released 0.3.0
