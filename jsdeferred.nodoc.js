@@ -122,6 +122,7 @@ Deferred.call = function (f ) {
 };
 
 Deferred.parallel = function (dl) {
+	if (arguments.length > 1) dl = Array.prototype.slice.call(arguments);
 	var ret = new Deferred(), values = {}, num = 0;
 	for (var i in dl) if (dl.hasOwnProperty(i)) (function (d, i) {
 		d.next(function (v) {
