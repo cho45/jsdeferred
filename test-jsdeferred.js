@@ -443,6 +443,14 @@ next(function () {
 		});
 	}).
 	next(function () {
+		return parallel(next(function () { return 0 }), next(function () { return 1 })).
+		next(function (values) {
+			print(uneval(values));
+			expect("parallel values 0", 0, values[0]);
+			expect("parallel values 1", 1, values[1]);
+		});
+	}).
+	next(function () {
 		return Deferred.earlier([
 			wait(0).next(function () { return 1 }),
 			wait(1).next(function () { return 2 })
