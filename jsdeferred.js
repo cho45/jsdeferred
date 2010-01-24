@@ -309,7 +309,9 @@ Deferred.call = function (f /* , args... */) {
  * `parallel` wraps up `deferredlist` to one deferred.
  * This is useful when some asynchronous resources required.
  *
- * `deferredlist` can be Array or Object (Hash).
+ * `deferredlist` can be Array or Object (Hash). If you specify
+ * multiple objects as arguments, then they are wrapped into
+ * an Array.
  *
  * Sample:
  *     parallel([
@@ -363,6 +365,7 @@ Deferred.parallel = function (dl) {
  * parallel ('and' processing) <=> earlier ('or' processing)
  */
 Deferred.earlier = function (dl) {
+	if (arguments.length > 1) dl = Array.prototype.slice.call(arguments);
 	var ret = new Deferred(), values = {}, num = 0;
 	for (var i in dl) if (dl.hasOwnProperty(i)) (function (d, i) {
 		d.next(function (v) {
