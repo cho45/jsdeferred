@@ -473,6 +473,17 @@ next(function () {
 		});
 	}).
 	next(function () {
+		return Deferred.earlier(
+			wait(1).next(function () { return 1 }),
+			wait(0).next(function () { return 2 })
+		).
+		next(function (values) {
+			print(uneval(values));
+			expect("earlier named values 0", undefined, values[0]);
+			expect("earlier named values 1", 2, values[1]);
+		});
+	}).
+	next(function () {
 		return Deferred.earlier({
 			foo : wait(0).next(function () { return 1 }),
 			bar : wait(1).next(function () { return 2 })
