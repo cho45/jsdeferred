@@ -542,22 +542,37 @@ next(function () {
 next(function () {
 	msg("Connect Tests::");
 	return next(function () {
-		var f = function(arg1, arg2, callback) {
+		var f = function (arg1, arg2, callback) {
 			callback(arg1 + arg2);
 		}
 		var fd = Deferred.connect(f, { ok: 2 });
 		return fd(2,3).next(function(r) {
-			expect('connect f', 5, r);
+			expect('connect f 2 arguments', 5, r);
 		});
 	}).
 	next(function () {
-		var f = function(arg1, arg2, callback) {
+		var obj = {
+			f : function (arg1, arg2, callback) {
+				callback(this.plus(arg1, arg2));
+			},
+
+			plus : function (a, b) {
+				return a + b;
+			}
+		};
+		var fd = Deferred.connect(obj, "f", { ok: 2 });
+		return fd(2,3).next(function(r) {
+			expect('connect f 3 arguments', 5, r);
+		});
+	}).
+	next(function () {
+		var f = function (arg1, arg2, callback) {
 			callback(arg1 + arg2);
 		}
 		var fd = Deferred.connect(f, { ok: 2, args: [2, 3] });
 
 		return fd().next(function(r) {
-			expect('connect f', 5, r);
+			expect('connect f bind args', 5, r);
 		});
 	});
 }).
@@ -576,8 +591,8 @@ next(function () {
 	}
 	var fd = Deferred.connect(f, { ok: 2 });
 	return fd(2,3).next(function(r0, r1) {
-		expect('connect f', 2, r0);
-		expect('connect f', 3, r1);
+		expect('connect f callback multiple values', 2, r0);
+		expect('connect f callback multiple values', 3, r1);
 	});
 }).
 next(function () {
