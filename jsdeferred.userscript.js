@@ -269,14 +269,14 @@ Deferred.register("wait", Deferred.wait);
 Deferred.Arguments = function (args) { this.args = Array.prototype.slice.call(args, 0) }
 Deferred.connect = function () {
 	var target, func, obj;
-	if (arguments.length <= 2) {
-		func   = arguments[0];
-		obj    = arguments[1] || {};
-		target = obj.target;
-	} else {
+	if (typeof arguments[1] == "string") {
 		target = arguments[0];
 		func   = target[arguments[1]];
 		obj    = arguments[2] || {};
+	} else {
+		func   = arguments[0];
+		obj    = arguments[1] || {};
+		target = obj.target;
 	}
 
 	var partialArgs       = obj.args ? Array.prototype.slice.call(obj.args, 0) : [];

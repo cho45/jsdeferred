@@ -562,7 +562,22 @@ next(function () {
 		};
 		var fd = Deferred.connect(obj, "f", { ok: 2 });
 		return fd(2,3).next(function(r) {
-			expect('connect f 3 arguments', 5, r);
+			expect('connect f target, "method"', 5, r);
+		});
+	}).
+	next(function () {
+		var obj = {
+			f : function (arg1, arg2, callback) {
+				callback(this.plus(arg1, arg2));
+			},
+
+			plus : function (a, b) {
+				return a + b;
+			}
+		};
+		var fd = Deferred.connect(obj, "f");
+		return fd(2,3).next(function(r) {
+			expect('connect f target, "method"', 5, r);
 		});
 	}).
 	next(function () {
