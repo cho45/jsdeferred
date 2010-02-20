@@ -269,17 +269,18 @@ is called after current queue.
 						chain
 					</span>
 					<span class="paren">(</span>
-					<span class="args">array</span>
+					<span class="args">fun...</span>
 					<span class="paren">)</span>
 					//=>
 					Deferred
 				</h2>
 				
 				<div class="body">
-				<p>Construct Deferred chain with array and return its Deferred.</p>
+				<p>Construct Deferred chain with array and return its Deferred.
+This is shorthand for construct Deferred chains.</p>
 <p>Sample:
 </p>
-<pre>return chain([
+<pre>return chain(
     function () {
         return wait(0.5);
     },
@@ -310,7 +311,7 @@ is called after current queue.
     function error (e) {
         alert(e);
     }
-]);
+);
  </pre>
 				</di>
 			</div>

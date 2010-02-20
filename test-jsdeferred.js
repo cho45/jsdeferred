@@ -500,7 +500,7 @@ next(function () {
 	});
 }).
 next(function () {
-	return Deferred.chain([
+	return Deferred.chain(
 		function () {
 			ok("called");
 			return wait(0.5);
@@ -537,7 +537,7 @@ next(function () {
 		function error (e) {
 			ng(e);
 		}
-	]);
+	);
 }).
 next(function () {
 	msg("Connect Tests::");

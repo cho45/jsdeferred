@@ -192,12 +192,13 @@ Deferred.next = Deferred.next_faster_way_readystatechange ||
                 Deferred.next_faster_way_Image ||
                 Deferred.next_default;
 
-/* function chain (array) //=> Deferred
+/* function chain (fun...) //=> Deferred
  *
  * Construct Deferred chain with array and return its Deferred.
+ * This is shorthand for construct Deferred chains.
  *
  * Sample:
- *     return chain([
+ *     return chain(
  *         function () {
  *             return wait(0.5);
  *         },
@@ -228,11 +229,11 @@ Deferred.next = Deferred.next_faster_way_readystatechange ||
  *         function error (e) {
  *             alert(e);
  *         }
- *     ]);
+ *     );
  */
-Deferred.chain = function (array) {
+Deferred.chain = function () {
 	var chain = next();
-	for (var i = 0, len = array.length; i < len; i++) (function (obj) {
+	for (var i = 0, len = arguments.length; i < len; i++) (function (obj) {
 		switch (typeof obj) {
 			case "function":
 				var name = null;
@@ -251,7 +252,7 @@ Deferred.chain = function (array) {
 			default:
 				throw "unknown type in process chains";
 		}
-	})(array[i]);
+	})(arguments[i]);
 	return chain;
 }
 

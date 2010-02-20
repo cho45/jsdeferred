@@ -105,9 +105,9 @@ Deferred.next = Deferred.next_faster_way_readystatechange ||
                 Deferred.next_faster_way_Image ||
                 Deferred.next_default;
 
-Deferred.chain = function (array) {
+Deferred.chain = function () {
 	var chain = next();
-	for (var i = 0, len = array.length; i < len; i++) (function (obj) {
+	for (var i = 0, len = arguments.length; i < len; i++) (function (obj) {
 		switch (typeof obj) {
 			case "function":
 				var name = null;
@@ -126,7 +126,7 @@ Deferred.chain = function (array) {
 			default:
 				throw "unknown type in process chains";
 		}
-	})(array[i]);
+	})(arguments[i]);
 	return chain;
 }
 
