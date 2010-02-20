@@ -268,7 +268,7 @@ Deferred.connect = function (func, obj) {
 	var callbackArgIndex  = obj.ok;
 	var errorbackArgIndex = obj.ng;
 	var target            = obj.target;
-	var partialArgs       = obj.args || [];
+	var partialArgs       = obj.args ? Array.prototype.slice.call(obj.args, 0) : [];
 
 	return function () {
 		var d = new Deferred();
