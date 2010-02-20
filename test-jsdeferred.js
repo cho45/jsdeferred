@@ -569,10 +569,45 @@ next(function () {
 		var f = function (arg1, arg2, callback) {
 			callback(arg1 + arg2);
 		}
-		var fd = Deferred.connect(f, { ok: 2, args: [2, 3] });
+		var fd = Deferred.connect(f, { args: [2, 3] });
 
 		return fd().next(function(r) {
 			expect('connect f bind args', 5, r);
+		});
+	}).
+	next(function () {
+		var f = function (arg1, arg2, callback) {
+			callback(arg1 + arg2);
+		}
+		var fd = Deferred.connect(f, { args: [2, 3] });
+
+		return fd(undefined).next(function(r) {
+			expect('connect f bind args', 5, r);
+		});
+	}).
+	next(function () {
+		var f = function (arg1, arg2, arg3, callback) {
+			callback(arg1 + arg2 + arg3);
+		}
+		var fd = Deferred.connect(f, { ok: 3, args: [2, 3] });
+
+		return fd(5).next(function(r) {
+			expect('connect f bind args', 10, r);
+		});
+	}).
+	next(function () {
+		var obj = {
+			f : function (arg1, arg2, callback) {
+				callback(this.plus(arg1, arg2));
+			},
+
+			plus : function (a, b) {
+				return a + b;
+			}
+		};
+		var fd = Deferred.connect(obj, "f", { args: [2, 3] });
+		return fd().next(function(r) {
+			expect('connect f bind args 2', 5, r);
 		});
 	});
 }).
