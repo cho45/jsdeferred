@@ -272,6 +272,7 @@ Deferred.connect = function (func, obj) {
 	var callbackArgIndex  = obj.ok;
 	var errorbackArgIndex = obj.ng;
 	var target            = obj.target;
+	var partialArgs       = obj.args || [];
 
 	return function () {
 		var d = new Deferred();
@@ -280,7 +281,7 @@ Deferred.connect = function (func, obj) {
 			fun.apply(this, (arguments[0] instanceof Deferred.Arguments) ? arguments[0].args : arguments);
 		}) };
 
-		var args = Array.prototype.slice.call(arguments, 0);
+		var args = partialArgs.concat(Array.prototype.slice.call(arguments, 0));
 		if (!(isFinite(callbackArgIndex) && callbackArgIndex !== null)) {
 			callbackArgIndex = args.length;
 		}
