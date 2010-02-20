@@ -500,6 +500,46 @@ next(function () {
 	});
 }).
 next(function () {
+	return Deferred.chain([
+		function () {
+			ok("called");
+			return wait(0.5);
+		},
+		function (w) {
+			ok("called");
+			throw "error";
+		},
+		function error (e) {
+			ok("error called: " + e);
+		},
+		[
+			function () {
+				ok("callled");
+				return next(function () { return 1 });
+			},
+			function () {
+				ok("callled");
+				return next(function () { return 2 });
+			}
+		],
+		function (result) {
+			expect("array is run in parallel", result[0], 1); 
+			expect("array is run in parallel", result[1], 2); 
+		},
+		{
+			foo: function () { return 1 },
+			bar: function () { return 2 }
+		},
+		function (result) {
+			expect("object is run in parallel", result.foo, 1); 
+			expect("object is run in parallel", result.bar, 2); 
+		},
+		function error (e) {
+			ng(e);
+		}
+	]);
+}).
+next(function () {
 	msg("Connect Tests::");
 	var f = function(arg1, arg2, callback) {
 		callback(arg1 + arg2);
@@ -680,6 +720,7 @@ next(function () {
 	} else {
 		skip("Not in browser", 8);
 	}
+	return null;
 }).
 next(function () {
 	msg("Canceling Test:");
@@ -744,6 +785,7 @@ if (typeof uneval != "function") {
 						throw TypeError("unknown type:"+o);
 				}
 		}
+		return null;
 	}
 }
 

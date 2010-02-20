@@ -192,6 +192,69 @@ Deferred.next = Deferred.next_faster_way_readystatechange ||
                 Deferred.next_faster_way_Image ||
                 Deferred.next_default;
 
+/* function chain (array) //=> Deferred
+ *
+ * Construct Deferred chain with array and return its Deferred.
+ *
+ * Sample:
+ *     return chain([
+ *         function () {
+ *             return wait(0.5);
+ *         },
+ *         function (w) {
+ *             throw "foo";
+ *         },
+ *         function error (e) {
+ *             alert(e);
+ *         },
+ *         [
+ *             function () {
+ *                 return wait(1);
+ *             },
+ *             function () {
+ *                 return wait(2);
+ *             }
+ *         ],
+ *         function (result) {
+ *             alert([ result[0], result[1] ]);
+ *         },
+ *         {
+ *             foo: wait(1),
+ *             bar: wait(1)
+ *         },
+ *         function (result) {
+ *             alert([ result.foo, result.bar ]);
+ *         },
+ *         function error (e) {
+ *             alert(e);
+ *         }
+ *     ]);
+ */
+Deferred.chain = function (array) {
+	var chain = next();
+	for (var i = 0, len = array.length; i < len; i++) (function (obj) {
+		switch (typeof obj) {
+			case "function":
+				var name = null;
+				try {
+					name = obj.toString().match(/^\s*function\s+([^\s()]+)/)[1];
+				} catch (e) { }
+				if (name != "error") {
+					chain = chain.next(obj);
+				} else {
+					chain = chain.error(obj);
+				}
+				break;
+			case "object":
+				chain = chain.next(function() { return parallel(obj) });
+				break;
+			default:
+				throw "unknown type in process chains";
+		}
+	})(array[i]);
+	return chain;
+}
+
 /* function wait (sec) //=> Deferred
  *
  * `wait` returns deferred that will be called after `sec` elapsed
@@ -268,6 +331,7 @@ Deferred.parallel = function (dl) {
 	if (arguments.length > 1) dl = Array.prototype.slice.call(arguments);
 	var ret = new Deferred(), values = {}, num = 0;
 	for (var i in dl) if (dl.hasOwnProperty(i)) (function (d, i) {
+		if (typeof d == "function") d = next(d);
 		d.next(function (v) {
 			values[i] = v;
 			if (--num <= 0) {

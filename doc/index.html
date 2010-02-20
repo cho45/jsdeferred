@@ -261,6 +261,60 @@ is called after current queue.
 				</di>
 			</div>
 			
+			<div class="section" id="chain">
+				
+				
+				<h2>
+					<span class="funname">
+						chain
+					</span>
+					<span class="paren">(</span>
+					<span class="args">array</span>
+					<span class="paren">)</span>
+					//=>
+					Deferred
+				</h2>
+				
+				<div class="body">
+				<p>Construct Deferred chain with array and return its Deferred.</p>
+<p>Sample:
+</p>
+<pre>return chain([
+    function () {
+        return wait(0.5);
+    },
+    function (w) {
+        throw "foo";
+    },
+    function error (e) {
+        alert(e);
+    },
+    [
+        function () {
+            return wait(1);
+        },
+        function () {
+            return wait(2);
+        }
+    ],
+    function (result) {
+        alert([ result[0], result[1] ]);
+    },
+    {
+        foo: wait(1),
+        bar: wait(1)
+    },
+    function (result) {
+        alert([ result.foo, result.bar ]);
+    },
+    function error (e) {
+        alert(e);
+    }
+]);
+ </pre>
+				</di>
+			</div>
+			
 			<div class="section" id="wait">
 				
 				
