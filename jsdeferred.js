@@ -592,9 +592,9 @@ Deferred.retry = function (retryCount, funcDeferred/* funcDeferred() return Defe
 	return d;
 }
 
-Deferred.export = ["parallel", "wait", "next", "call", "loop", "repeat", "chain"];
+Deferred.methods = ["parallel", "wait", "next", "call", "loop", "repeat", "chain"];
 Deferred.define = function (obj, list) {
-	if (!list) list = Deferred.export;
+	if (!list) list = Deferred.methods;
 	if (!obj)  obj  = (function getGlobal () { return this })();
 	for (var i = 0; i < list.length; i++) {
 		var n = list[i];
