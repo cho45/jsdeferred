@@ -397,7 +397,9 @@ next(function (r) {
 				<div class="body">
 				<p><code><a href='#parallel'>parallel</a></code> wraps up <var>deferredlist</var> to one deferred.
 This is useful when some asynchronous resources required.</p>
-<p><var>deferredlist</var> can be Array or Object (Hash).</p>
+<p><var>deferredlist</var> can be Array or Object (Hash). If you specify
+multiple objects as arguments, then they are wrapped into
+an Array.</p>
 <p>Sample:
 </p>
 <pre>parallel([
