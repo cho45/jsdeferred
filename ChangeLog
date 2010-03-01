@@ -1,3 +1,9 @@
+2010-03-02  SATOH Hiroh <cho45@lowreal.net>
+
+	* Change Deferred.export to Deferred.methods for Safari
+	(failed parsing becaseof 'export' is reserved word in Safari)
+	(Thank Atsushi Takayama)
+
 2009-11-20  SATOH Hiroh <cho45@lowreal.net>
 
 	* Accept multiple deferred objects as argument in `parallel`
