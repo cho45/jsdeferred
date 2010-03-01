@@ -139,7 +139,7 @@ Deferred.next_default = function (fun) {
 	if (fun) d.callback.ok = fun;
 	return d;
 };
-Deferred.next_faster_way_readystatechange = ((location.protocol == "http:") && !window.opera && /\bMSIE\b/.test(navigator.userAgent)) && function (fun) {
+Deferred.next_faster_way_readystatechange = ((typeof window === 'object') && (location.protocol == "http:") && !window.opera && /\bMSIE\b/.test(navigator.userAgent)) && function (fun) {
 	// MSIE
 	var d = new Deferred();
 	var t = new Date().getTime();
@@ -170,7 +170,7 @@ Deferred.next_faster_way_readystatechange = ((location.protocol == "http:") && !
 	if (fun) d.callback.ok = fun;
 	return d;
 };
-Deferred.next_faster_way_Image = ((typeof(Image) != "undefined") && document.addEventListener) && function (fun) {
+Deferred.next_faster_way_Image = ((typeof window === 'object') && (typeof(Image) != "undefined") && document.addEventListener) && function (fun) {
 	// Modern Browsers
 	var d = new Deferred();
 	var img = new Image();
