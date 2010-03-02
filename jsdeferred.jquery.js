@@ -362,4 +362,4 @@ Deferred.define = function (obj, list) {
 
 		return d;
 	};
-})(jQuery);
+})(window.jQuery || window.$);
