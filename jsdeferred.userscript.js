@@ -58,7 +58,7 @@ Deferred.next_default = function (fun) {
 	if (fun) d.callback.ok = fun;
 	return d;
 };
-Deferred.next_faster_way_readystatechange = ((location.protocol == "http:") && !window.opera && /\bMSIE\b/.test(navigator.userAgent)) && function (fun) {
+Deferred.next_faster_way_readystatechange = ((typeof window === 'object') && (location.protocol == "http:") && !window.opera && /\bMSIE\b/.test(navigator.userAgent)) && function (fun) {
 	var d = new Deferred();
 	var t = new Date().getTime();
 	if (t - arguments.callee._prev_timeout_called < 150) {
@@ -88,7 +88,7 @@ Deferred.next_faster_way_readystatechange = ((location.protocol == "http:") && !
 	if (fun) d.callback.ok = fun;
 	return d;
 };
-Deferred.next_faster_way_Image = ((typeof(Image) != "undefined") && document.addEventListener) && function (fun) {
+Deferred.next_faster_way_Image = ((typeof window === 'object') && (typeof(Image) != "undefined") && document.addEventListener) && function (fun) {
 	var d = new Deferred();
 	var img = new Image();
 	var handler = function () {
@@ -180,6 +180,7 @@ Deferred.parallel = function (dl) {
 };
 
 Deferred.earlier = function (dl) {
+	if (arguments.length > 1) dl = Array.prototype.slice.call(arguments);
 	var ret = new Deferred(), values = {}, num = 0;
 	for (var i in dl) if (dl.hasOwnProperty(i)) (function (d, i) {
 		d.next(function (v) {
@@ -328,9 +329,9 @@ Deferred.retry = function (retryCount, funcDeferred, options) {
 	return d;
 }
 
-Deferred.export = ["parallel", "wait", "next", "call", "loop", "repeat", "chain"];
+Deferred.methods = ["parallel", "wait", "next", "call", "loop", "repeat", "chain"];
 Deferred.define = function (obj, list) {
-	if (!list) list = Deferred.export;
+	if (!list) list = Deferred.methods;
 	if (!obj)  obj  = (function getGlobal () { return this })();
 	for (var i = 0; i < list.length; i++) {
 		var n = list[i];
