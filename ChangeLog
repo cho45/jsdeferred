@@ -1,3 +1,7 @@
+2010-03-10  SATOH Hiroh <cho45@lowreal.net>
+
+	* Released 0.3.1
+
 2010-03-02  SATOH Hiroh <cho45@lowreal.net>
 
 	* Change Deferred.export to Deferred.methods for Safari
