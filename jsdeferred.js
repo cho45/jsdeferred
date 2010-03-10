@@ -4,7 +4,7 @@
  *
  * http://coderepos.org/share/wiki/JSDeferred
  *
- * Version:: 0.3.0
+ * Version:: 0.3.1
  * License:: MIT
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy

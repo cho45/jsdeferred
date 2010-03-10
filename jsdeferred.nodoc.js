@@ -1,4 +1,4 @@
-// JSDeferred 0.3.0 Copyright (c) 2007 cho45 ( www.lowreal.net )
+// JSDeferred 0.3.1 Copyright (c) 2007 cho45 ( www.lowreal.net )
 // See http://coderepos.org/share/wiki/JSDeferred
 function Deferred () { return (this instanceof Deferred) ? this.init() : new Deferred() }
 Deferred.ok = function (x) { return x };

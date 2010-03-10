@@ -1,5 +1,5 @@
 // Usage:: with (D()) { your code }
-// JSDeferred 0.3.0 Copyright (c) 2007 cho45 ( www.lowreal.net )
+// JSDeferred 0.3.1 Copyright (c) 2007 cho45 ( www.lowreal.net )
 // See http://coderepos.org/share/wiki/JSDeferred
 function D () {
 
