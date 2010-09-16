@@ -284,7 +284,7 @@ Deferred.connect = function () {
 		var d = new Deferred();
 
 		d.next = function (fun) { return this._post("ok", function () {
-			fun.apply(this, (arguments[0] instanceof Deferred.Arguments) ? arguments[0].args : arguments);
+			return fun.apply(this, (arguments[0] instanceof Deferred.Arguments) ? arguments[0].args : arguments);
 		}) };
 
 		var args = partialArgs.concat(Array.prototype.slice.call(arguments, 0));
@@ -336,10 +336,12 @@ Deferred.define = function (obj, list) {
 	return Deferred;
 };
 
+this.Deferred = Deferred;
+
 (function ($) {
 	$.deferred = Deferred;
 	$.fn.extend({
-		deferred: function(name) {
+		deferred: function (name) {
 			var args = Array.prototype.slice.call(arguments, 1);
 			return Deferred.connect(this[name], { target:this }).apply(null, args);
 		}

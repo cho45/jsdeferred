@@ -288,7 +288,7 @@ Deferred.connect = function () {
 		var d = new Deferred();
 
 		d.next = function (fun) { return this._post("ok", function () {
-			fun.apply(this, (arguments[0] instanceof Deferred.Arguments) ? arguments[0].args : arguments);
+			return fun.apply(this, (arguments[0] instanceof Deferred.Arguments) ? arguments[0].args : arguments);
 		}) };
 
 		var args = partialArgs.concat(Array.prototype.slice.call(arguments, 0));
@@ -340,25 +340,8 @@ Deferred.define = function (obj, list) {
 	return Deferred;
 };
 
+this.Deferred = Deferred;
 
-
-function xhttp (opts) {
-	var d = Deferred();
-	if (opts.onload)  d = d.next(opts.onload);
-	if (opts.onerror) d = d.error(opts.onerror);
-	opts.onload = function (res) {
-		d.call(res);
-	};
-	opts.onerror = function (res) {
-		d.fail(res);
-	};
-	setTimeout(function () {
-		GM_xmlhttpRequest(opts);
-	}, 0);
-	return d;
-}
-xhttp.get  = function (url)       { return xhttp({method:"get",  url:url}) };
-xhttp.post = function (url, data) { return xhttp({method:"post", url:url, data:data, headers:{"Content-Type":"application/x-www-form-urlencoded"}}) };
 
 
 function http (opts) {
@@ -411,8 +394,28 @@ http.jsonp = function (url, params) {
 	return d;
 };
 
+function xhttp (opts) {
+	var d = Deferred();
+	if (opts.onload)  d = d.next(opts.onload);
+	if (opts.onerror) d = d.error(opts.onerror);
+	opts.onload = function (res) {
+		d.call(res);
+	};
+	opts.onerror = function (res) {
+		d.fail(res);
+	};
+	setTimeout(function () {
+		GM_xmlhttpRequest(opts);
+	}, 0);
+	return d;
+}
+xhttp.get  = function (url)       { return xhttp({method:"get",  url:url}) };
+xhttp.post = function (url, data) { return xhttp({method:"post", url:url, data:data, headers:{"Content-Type":"application/x-www-form-urlencoded"}}) };
+
+
+
 Deferred.Deferred = Deferred;
 Deferred.http     = http;
-Deferred.xhttp    = xhttp;
+Deferred.xhttp    = (typeof(GM_xmlhttpRequest) == 'undefined') ? http : xhttp;
 return Deferred;
 }// End of JSDeferred

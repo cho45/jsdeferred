@@ -149,6 +149,22 @@ next(function () {
 	return d;
 }).
 next(function () {
+	msg("Process sequence (Complex)");
+
+	var vs = [];
+	return next(function () {
+		expect("Process sequence (Complex)", "", vs.join(","));
+		vs.push("1");
+		return next(function() {
+			expect("Process sequence (Complex)", "1", vs.join(","));
+			vs.push("2");
+		});
+	}).
+	next(function () {
+		expect("Process sequence (Complex)", "1,2", vs.join(","));
+	});
+}).
+next(function () {
 	msg("Test Callback, Errorback chain::");
 	return next(function () { throw "Error"; }).
 	error(function (e) {
@@ -635,13 +651,33 @@ next(function () {
 		return fd().next(function(r) {
 			expect('connect f bind args 2', 5, r);
 		});
-	});
-}).
-next(function () {
-	return skip('setTimeout.apply is unavailable in IE', 1);
-	var timeout = Deferred.connect(setTimeout, { target: window, ok: 0 });
-	return timeout(0.1).next(function () {
-		ok('connect setTimeout');
+	}).
+	next(function () {
+		var timeout = Deferred.connect(function (n, cb) {
+			setTimeout(cb, n);
+		});
+
+		return timeout(1).next(function () {
+			ok('connect setTimeout');
+		});
+	}).
+	next(function () {
+		var timeout = Deferred.connect(function (n, cb) {
+			setTimeout(cb, n);
+		});
+
+		var seq = [0];
+		return timeout(1).next(function () {
+			expect('sequence of connect', '0', seq.join(','));
+			seq.push(1);
+			return next(function () {
+				expect('sequence of connect', '0,1', seq.join(','));
+				seq.push(2);
+			});
+		}).
+		next(function () {
+			expect('sequence of connect', '0,1,2', seq.join(','));
+		});
 	});
 }).
 next(function () {
@@ -761,7 +797,7 @@ next(function () {
 }).
 next(function () {
 	msg("jQuery binding test")
-	if (!/Rhino/.test(Global.navigator.userAgent)) {
+	if (Global.navigator && !/Rhino/.test(Global.navigator.userAgent)) {
 		return next(function() {
 			expect("$.ajax should return deferred",    true, $.ajax({ url: "." }) instanceof $.deferred);
 			expect("$.get should return deferred",     true, $.get(".")           instanceof $.deferred);

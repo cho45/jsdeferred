@@ -39,7 +39,8 @@ task :create  => RELEASES
 
 desc "Test JSDeferred"
 task :test => RELEASES do
-	sh %{rhino -opt 0 -w -strict test-rhino.js jsdeferred.js}
+	# sh %{rhino -opt 0 -w -strict test-rhino.js jsdeferred.js}
+	sh %{node test-node.js}
 end
 
 desc "Make all release file and tagging #{Version}"
@@ -87,6 +88,7 @@ file "jsdeferred.jquery.js" => ["jsdeferred.js", "binding/jquery.js"] do |t|
 		f << mini(File.read("jsdeferred.js") + File.read("binding/jquery.js"))
 	}
 end
+
 
 file "jsdeferred.userscript.js" => ["jsdeferred.js", "binding/userscript.js"] do |t|
 	File.open(t.name, "w") {|f|

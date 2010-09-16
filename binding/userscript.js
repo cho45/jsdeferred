@@ -1,32 +1,6 @@
 function D () {
 /*include JSDeferred*/
 
-/* function xhttp (opts) //=> Deferred
- * Cross site version of `http`.
- */
-/* function xhttp.get (url) //=> Deferred
- */
-/* function xhttp.post (url, data) //=> Deferred
- */
-function xhttp (opts) {
-	var d = Deferred();
-	if (opts.onload)  d = d.next(opts.onload);
-	if (opts.onerror) d = d.error(opts.onerror);
-	opts.onload = function (res) {
-		d.call(res);
-	};
-	opts.onerror = function (res) {
-		d.fail(res);
-	};
-	setTimeout(function () {
-		GM_xmlhttpRequest(opts);
-	}, 0);
-	return d;
-}
-xhttp.get  = function (url)       { return xhttp({method:"get",  url:url}) };
-xhttp.post = function (url, data) { return xhttp({method:"post", url:url, data:data, headers:{"Content-Type":"application/x-www-form-urlencoded"}}) };
-
-
 /* function http (opts) //=> Deferred
  * Sample:
  *     http.get("http://example.com/hogehoge")
@@ -91,8 +65,35 @@ http.jsonp = function (url, params) {
 	return d;
 };
 
+/* function xhttp (opts) //=> Deferred
+ * Cross site version of `http`.
+ */
+/* function xhttp.get (url) //=> Deferred
+ */
+/* function xhttp.post (url, data) //=> Deferred
+ */
+function xhttp (opts) {
+	var d = Deferred();
+	if (opts.onload)  d = d.next(opts.onload);
+	if (opts.onerror) d = d.error(opts.onerror);
+	opts.onload = function (res) {
+		d.call(res);
+	};
+	opts.onerror = function (res) {
+		d.fail(res);
+	};
+	setTimeout(function () {
+		GM_xmlhttpRequest(opts);
+	}, 0);
+	return d;
+}
+xhttp.get  = function (url)       { return xhttp({method:"get",  url:url}) };
+xhttp.post = function (url, data) { return xhttp({method:"post", url:url, data:data, headers:{"Content-Type":"application/x-www-form-urlencoded"}}) };
+
+
+
 Deferred.Deferred = Deferred;
 Deferred.http     = http;
-Deferred.xhttp    = xhttp;
+Deferred.xhttp    = (typeof(GM_xmlhttpRequest) == 'undefined') ? http : xhttp;
 return Deferred;
 }
