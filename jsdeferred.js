@@ -1,8 +1,7 @@
-/* Header::
- * JSDeferred
- * Copyright (c) 2007 cho45 ( www.lowreal.net )
+/**
+ * @license JSDeferred Copyright (c) 2007 cho45 ( www.lowreal.net )
  *
- * http://coderepos.org/share/wiki/JSDeferred
+ * http://github.com/cho45/jsdeferred
  *
  * Version:: 0.3.1
  * License:: MIT
@@ -25,65 +24,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-/* Usage (with jQuery)::
- *
- *     $.deferred.define();
- *
- *     $.get("/hoge").next(function (data) {
- *         alert(data);
- *     }).
- *
- *     parallel([$.get("foo.html"), $.get("bar.html")]).next(function (values) {
- *         log($.map(values, function (v) { return v.length }));
- *         if (values[1].match(/nextUrl:\s*(\S+)/)) {
- *             return $.get(RegExp.$1).next(function (d) {
- *                 return d;
- *             });
- *         }
- *     }).
- *     next(function (d) {
- *         log(d.length);
- *     });
- *
+/*
+ * doc comment
+ * http://code.google.com/intl/ja/closure/compiler/docs/js-for-compiler.html
  */
 
-
-/* function Deferred () //=> constructor
+/**
+ * Create a Deferred object
  *
- * `Deferred` function is constructor of Deferred.
+ * @example
+ *   var d = new Deferred();
+ *   // or this is shothand of above.
+ *   var d = Deferred();
  *
- * Sample:
- *     var d = new Deferred();
- *     // or this is shothand of above.
- *     var d = Deferred();
- */
-/* function Deferred.prototype.next   (fun) //=> Deferred
+ * @example
+ *   $.deferred.define();
  *
- * Create new Deferred and sets `fun` as its callback.
- */
-/* function Deferred.prototype.error  (fun) //=> Deferred
+ *   $.get("/hoge").next(function (data) {
+ *       alert(data);
+ *   }).
  *
- * Create new Deferred and sets `fun` as its errorback.
+ *   parallel([$.get("foo.html"), $.get("bar.html")]).next(function (values) {
+ *       log($.map(values, function (v) { return v.length }));
+ *       if (values[1].match(/nextUrl:\s*(\S+)/)) {
+ *           return $.get(RegExp.$1).next(function (d) {
+ *               return d;
+ *           });
+ *       }
+ *   }).
+ *   next(function (d) {
+ *       log(d.length);
+ *   });
  *
- * If `fun` not throws error but returns normal value, Deferred treats
- * the given error is recovery and continue callback chain.
- */
-/* function Deferred.prototype.call   (val) //=> this
- *
- * Invokes self callback chain.
- */
-/* function Deferred.prototype.fail   (err) //=> this
- *
- * Invokes self errorback chain.
- */
-/* function Deferred.prototype.cancel (err) //=> this
- *
- * Cancels self callback chain.
+ * @constructor
  */
 function Deferred () { return (this instanceof Deferred) ? this.init() : new Deferred() }
 Deferred.ok = function (x) { return x };
 Deferred.ng = function (x) { throw  x };
 Deferred.prototype = {
+	/**
+	 * @private
+	 * @return Deferred this
+	 */
 	init : function () {
 		this._next    = null;
 		this.callback = {
@@ -93,11 +75,45 @@ Deferred.prototype = {
 		return this;
 	},
 
+	/**
+	 * Create new Deferred and sets `fun` as its callback.
+	 *
+	 * @param {function(...[*]):*} fun Callback of continuation.
+	 * @return {Deferred} next deferred
+	 */
 	next  : function (fun) { return this._post("ok", fun) },
+
+	/**
+	 * Create new Deferred and sets `fun` as its errorback.
+	 * 
+	 * If `fun` not throws error but returns normal value, Deferred treats
+	 * the given error is recovery and continue callback chain.
+	 * @param {function(...[*]):*} fun Errorback of continuation.
+	 * @return {Deferred} next deferred
+	 */
 	error : function (fun) { return this._post("ng", fun) },
+
+	/**
+	 * Invokes self callback chain.
+	 *
+	 * @param {*} val Value passed to continuation.
+	 * @return {Deferred} this
+	 */
 	call  : function (val) { return this._fire("ok", val) },
+
+	/**
+	 * Invokes self errorback chain
+	 *
+	 * @param {*} val Value of error.
+	 * @return {Deferred} this
+	 */
 	fail  : function (err) { return this._fire("ng", err) },
 
+	/**
+	 * Cancel receiver callback (this is only valid before invoking any callbacks)
+	 *
+	 * @return {Deferred} this
+	 */
 	cancel : function () {
 		(this.canceller || function () {})();
 		return this.init();
@@ -127,10 +143,14 @@ Deferred.prototype = {
 	}
 };
 
-/* function next (fun) //=> Deferred
- *
+/**
  * `next` is shorthand for creating new deferred which
  * is called after current queue.
+ *
+ * @function
+ * @name Deferred.next
+ * @param {function():*} fun callback
+ * @return Deferred
  */
 Deferred.next_default = function (fun) {
 	var d = new Deferred();
@@ -192,44 +212,45 @@ Deferred.next = Deferred.next_faster_way_readystatechange ||
                 Deferred.next_faster_way_Image ||
                 Deferred.next_default;
 
-/* function chain (fun...) //=> Deferred
- *
+/**
  * Construct Deferred chain with array and return its Deferred.
  * This is shorthand for construct Deferred chains.
  *
- * Sample:
- *     return chain(
- *         function () {
- *             return wait(0.5);
- *         },
- *         function (w) {
- *             throw "foo";
- *         },
- *         function error (e) {
- *             alert(e);
- *         },
- *         [
- *             function () {
- *                 return wait(1);
- *             },
- *             function () {
- *                 return wait(2);
- *             }
- *         ],
- *         function (result) {
- *             alert([ result[0], result[1] ]);
- *         },
- *         {
- *             foo: wait(1),
- *             bar: wait(1)
- *         },
- *         function (result) {
- *             alert([ result.foo, result.bar ]);
- *         },
- *         function error (e) {
- *             alert(e);
- *         }
- *     );
+ * @example
+ *  return chain(
+ *      function () {
+ *          return wait(0.5);
+ *      },
+ *      function (w) {
+ *          throw "foo";
+ *      },
+ *      function error (e) {
+ *          alert(e);
+ *      },
+ *      [
+ *          function () {
+ *              return wait(1);
+ *          },
+ *          function () {
+ *              return wait(2);
+ *          }
+ *      ],
+ *      function (result) {
+ *          alert([ result[0], result[1] ]);
+ *      },
+ *      {
+ *          foo: wait(1),
+ *          bar: wait(1)
+ *      },
+ *      function (result) {
+ *          alert([ result.foo, result.bar ]);
+ *      },
+ *      function error (e) {
+ *          alert(e);
+ *      }
+ *  );
+ *
+ * @param {...[(Array.<function(*):*>|Object.<string,function(*):*>|function(*):*)]} arguments process chains
  */
 Deferred.chain = function () {
 	var chain = next();
@@ -256,15 +277,17 @@ Deferred.chain = function () {
 	return chain;
 }
 
-/* function wait (sec) //=> Deferred
- *
+/**
  * `wait` returns deferred that will be called after `sec` elapsed
  * with real elapsed time (msec)
  *
- * Sample:
- *     wait(1).next(function (elapsed) {
- *         log(elapsed); //=> may be 990-1100
- *     });
+ * @example
+ *   wait(1).next(function (elapsed) {
+ *       log(elapsed); //=> may be 990-1100
+ *   });
+ *
+ * @param {number} sec second to wait
+ * @return Deferred
  */
 Deferred.wait = function (n) {
 	var d = new Deferred(), t = new Date();
@@ -275,37 +298,38 @@ Deferred.wait = function (n) {
 	return d;
 };
 
-/* function call (fun [, args...]) //=> Deferred
- *
+/**
  * `call` function is for calling function asynchronous.
  *
- * Sample:
- *     // like tail recursion
- *     next(function () {
- *         function pow (x, n) {
- *             function _pow (n, r) {
- *                 print([n, r]);
- *                 if (n == 0) return r;
- *                 return call(_pow, n - 1, x * r);
- *             }
- *             return call(_pow, n, 1);
- *         }
- *         return call(pow, 2, 10);
- *     }).
- *     next(function (r) {
- *         print([r, "end"]);
- *     });
+ * @example
+ *   // like tail recursion
+ *   next(function () {
+ *       function pow (x, n) {
+ *           function _pow (n, r) {
+ *               print([n, r]);
+ *               if (n == 0) return r;
+ *               return call(_pow, n - 1, x * r);
+ *           }
+ *           return call(_pow, n, 1);
+ *       }
+ *       return call(pow, 2, 10);
+ *   }).
+ *   next(function (r) {
+ *       print([r, "end"]);
+ *   });
  *
+ * @param {function(...[*]):*} fun function to call
+ * @param {...*} args arguments passed to fun
+ * @return Deferred
  */
-Deferred.call = function (f /* , args... */) {
+Deferred.call = function (fun) {
 	var args = Array.prototype.slice.call(arguments, 1);
 	return Deferred.next(function () {
-		return f.apply(this, args);
+		return fun.apply(this, args);
 	});
 };
 
-/* function parallel (deferredlist) //=> Deferred
- *
+/**
  * `parallel` wraps up `deferredlist` to one deferred.
  * This is useful when some asynchronous resources required.
  *
@@ -313,22 +337,25 @@ Deferred.call = function (f /* , args... */) {
  * multiple objects as arguments, then they are wrapped into
  * an Array.
  *
- * Sample:
- *     parallel([
- *         $.get("foo.html"),
- *         $.get("bar.html")
- *     ]).next(function (values) {
- *         values[0] //=> foo.html data
- *         values[1] //=> bar.html data
- *     });
+ * @example
+ *   parallel([
+ *       $.get("foo.html"),
+ *       $.get("bar.html")
+ *   ]).next(function (values) {
+ *       values[0] //=> foo.html data
+ *       values[1] //=> bar.html data
+ *   });
  *
- *     parallel({
- *         foo: $.get("foo.html"),
- *         bar: $.get("bar.html")
- *     }).next(function (values) {
- *         values.foo //=> foo.html data
- *         values.bar //=> bar.html data
- *     });
+ *   parallel({
+ *       foo: $.get("foo.html"),
+ *       bar: $.get("bar.html")
+ *   }).next(function (values) {
+ *       values.foo //=> foo.html data
+ *       values.bar //=> bar.html data
+ *   });
+ *
+ * @param {(Array.<Deferred>|Object.<string,Deferred>)} dl Deferreds wanted to wait
+ * @return Deferred
  */
 Deferred.parallel = function (dl) {
 	if (arguments.length > 1) dl = Array.prototype.slice.call(arguments);
@@ -359,10 +386,12 @@ Deferred.parallel = function (dl) {
 	return ret;
 };
 
-/* function earlier (deferredlist) //=> Deferred
- *
+/**
  * Continue process when one deferred in `deferredlist` has completed. Others will cancel.
  * parallel ('and' processing) <=> earlier ('or' processing)
+ *
+ * @param {(Array.<Deferred>|Object.<string,Deferred>)} dl Deferreds wanted to wait
+ * @return Deferred
  */
 Deferred.earlier = function (dl) {
 	if (arguments.length > 1) dl = Array.prototype.slice.call(arguments);
@@ -392,23 +421,27 @@ Deferred.earlier = function (dl) {
 };
 
 
-/* function loop (n, fun) //=> Deferred
- *
+/**
  * `loop` function provides browser-non-blocking loop.
  * This loop is slow but not stop browser's appearance.
  *
- * Sample:
- *     //=> loop 1 to 100
- *     loop({begin:1, end:100, step:10}, function (n, o) {
- *         for (var i = 0; i < o.step; i++) {
- *             log(n+i);
- *         }
- *     });
+ * @example
+ *   //=> loop 1 to 100
+ *   loop({begin:1, end:100, step:10}, function (n, o) {
+ *       for (var i = 0; i < o.step; i++) {
+ *           log(n+i);
+ *       }
+ *   });
  *
- *     //=> loop 10 times
- *     loop(10, function (n) {
- *         log(n);
- *     });
+ * @example
+ *   //=> loop 10 times
+ *   loop(10, function (n) {
+ *       log(n);
+ *   });
+ *
+ * @param {(number|{begin:number, end:number, step:number})} n loop definition
+ * @param {function(number):*} fun loop function
+ * @return Deferred
  */
 Deferred.loop = function (n, fun) {
 	var o = {
@@ -445,46 +478,51 @@ Deferred.loop = function (n, fun) {
 };
 
 
-/* function repeat (n, fun) //=> Deferred
- *
+/**
  * Loop `n` tiems with `fun`.
  * This function automatically return control to browser, if loop time over 20msec.
  * This is useful for huge loop  not to block browser UI.
  *
- * Sample::
- *     repeat(10, function (i) {
- *         i //=> 0,1,2,3,4,5,6,7,8,9
- *     });
+ * @example
+ *   repeat(10, function (i) {
+ *       i //=> 0,1,2,3,4,5,6,7,8,9
+ *   });
+ *
+ * @param {number} n loop count
+ * @param {function(number)} fun loop function
+ * @return Deferred
  */
-Deferred.repeat = function (n, f) {
+Deferred.repeat = function (n, fun) {
 	var i = 0, end = {}, ret = null;
 	return Deferred.next(function () {
 		var t = (new Date()).getTime();
 		divide: {
 			do {
 				if (i >= n) break divide;
-				ret = f(i++);
+				ret = fun(i++);
 			} while ((new Date()).getTime() - t < 20);
 			return Deferred.call(arguments.callee);
 		}
 	});
 };
 
-/* function Deferred.register (name, fun) //=> void 0
- *
+/**
  * Register `fun` to Deferred prototype for method chain.
  *
- * Sample::
- *     // Deferred.register("loop", loop);
+ * @example
+ *   // Deferred.register("loop", loop);
  *
- *     // Global Deferred function
- *     loop(10, function (n) {
- *         print(n);
- *     }).
- *     // Registered Deferred.prototype.loop
- *     loop(10, function (n) {
- *         print(n);
- *     });
+ *   // Global Deferred function
+ *   loop(10, function (n) {
+ *       print(n);
+ *   }).
+ *   // Registered Deferred.prototype.loop
+ *   loop(10, function (n) {
+ *       print(n);
+ *   });
+ *
+ * @param {string} name name of method
+ * @param {function(*):Deferred} fun actual function of method
  */
 Deferred.register = function (name, fun) {
 	this.prototype[name] = function () {
@@ -498,25 +536,27 @@ Deferred.register = function (name, fun) {
 Deferred.register("loop", Deferred.loop);
 Deferred.register("wait", Deferred.wait);
 
-/* Deferred.connect (func [, opts: { ok : 0, ng : null, target: null} ]) //=> Function //=> Deferred
- *
+/**
  * Connect a function with Deferred.  That is, transform a function
  * that takes a callback into one that returns a Deferred object.
  *
- * Sample::
- *     var timeout = Deferred.connect(setTimeout, { target: window, ok: 0 });
- *     timeout(1).next(function () {
- *         alert('after 1 sec');
- *     });
+ * @example
+ *   var timeout = Deferred.connect(setTimeout, { target: window, ok: 0 });
+ *   timeout(1).next(function () {
+ *       alert('after 1 sec');
+ *   });
  *
- *     var timeout = Deferred.connect(window, "setTimeout");
- *     timeout(1).next(function () {
- *         alert('after 1 sec');
- *     });
+ *   var timeout = Deferred.connect(window, "setTimeout");
+ *   timeout(1).next(function () {
+ *       alert('after 1 sec');
+ *   });
+ *
+ * @param {(function(*):*|*)} funo target function or object
+ * @param {({ok:number, ng:number, target:*}|string)} options options or method name of object in arguments[0]
+ * @return {function(*):Deferred}
  */
 // Allow to pass multiple values to next.
-Deferred.Arguments = function (args) { this.args = Array.prototype.slice.call(args, 0) }
-Deferred.connect = function () {
+Deferred.connect = function (funo, options) {
 	var target, func, obj;
 	if (typeof arguments[1] == "string") {
 		target = arguments[0];
@@ -553,23 +593,28 @@ Deferred.connect = function () {
 		return d;
 	}
 }
+Deferred.Arguments = function (args) { this.args = Array.prototype.slice.call(args, 0) }
 
-/* Deferred.retry(retryCount, func [, options = { wait : 0 } ])
- *
+/**
  * Try func (returns Deferred) max `retryCount`.
  *
- * Sample::
- *     Deferred.retry(3, function () {
- *         return http.get(...);
- *     }).
- *     next(function (res) {
- *         res //=> response if succeeded
- *     }).
- *     error(function (e) {
- *         e //=> error if all try failed
- *     });
+ * @example
+ *   Deferred.retry(3, function () {
+ *       return http.get(...);
+ *   }).
+ *   next(function (res) {
+ *       res //=> response if succeeded
+ *   }).
+ *   error(function (e) {
+ *       e //=> error if all try failed
+ *   });
+ *
+ * @param {number} retryCount
+ * @param {function(*):Deferred} funcDeferred
+ * @param {{wait:number}} options
+ * @return Deferred
  */
-Deferred.retry = function (retryCount, funcDeferred/* funcDeferred() return Deferred */, options) {
+Deferred.retry = function (retryCount, funcDeferred, options) {
 	if (!options) options = {};
 
 	var wait = options.wait || 0;
@@ -592,7 +637,16 @@ Deferred.retry = function (retryCount, funcDeferred/* funcDeferred() return Defe
 	return d;
 }
 
+/**
+ * default export methods
+ */
 Deferred.methods = ["parallel", "wait", "next", "call", "loop", "repeat", "chain"];
+/**
+ * export functions to obj.
+ * @param {Object} obj
+ * @param {Array.<string>=} list (default Deferred.methods)
+ * @return Deferred
+ */
 Deferred.define = function (obj, list) {
 	if (!list) list = Deferred.methods;
 	if (!obj)  obj  = (function getGlobal () { return this })();

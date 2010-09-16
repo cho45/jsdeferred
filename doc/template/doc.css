@@ -1,0 +1,142 @@
+
+body {
+	line-height: 1.5;
+	padding: 1em 5em;
+	font-size: 13px;
+	background: #11141b;
+	color: #fff;
+	font-family: "Verdana", sans-serif;
+}
+
+a:link ,
+a:visited {
+	color: #002EBE;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+pre {
+	font-size: 90%;
+	background: #efefef;
+	line-height: 1.33;
+	padding: 1em;
+	-moz-border-radius: 1em;
+}
+
+header,
+footer,
+section {
+	display: block;
+}
+
+table {
+	background: #fff;
+	color: #222;
+	width: 100%;
+	margin: 1em 0;
+	border: 1px solid #666;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+table caption {
+	font-weight: bold;
+	font-size: 120%;
+	padding: 0.25em 1em;
+	background: #666;
+	color: #fff;
+	text-align: left;
+}
+
+table thead {
+	display: none;
+}
+
+table td.attr {
+	width: 10em;
+	border-style: solid;
+	border-color: #666;
+	border-width: 0 1px 0 0;
+	color: #888;
+	text-align: center;
+	padding: 0.25em 0.5em;
+	font-family: monospace;
+}
+
+table td.description {
+	padding: 0.25em 0.5em;
+	font-family: monospace;
+}
+
+table td.description a {
+	font-weight: bold;
+}
+
+section.constructor ,
+section.value ,
+section.method {
+	margin: 1em 0 4em 0;
+	padding: 0 1em 1em;
+	background: #fff;
+	color: #222;
+	-webkit-box-shadow:  0 0 20px 1px rgba(0, 0, 0, 0.7);
+	-moz-box-shadow:  0 0 20px 1px rgba(0, 0, 0, 0.7);
+}
+
+section.constructor h1 ,
+section.value h1 ,
+section.method h1 {
+	text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+	font-size: 100%;
+	font-family: monospace;
+	font-weight: normal;
+	margin: 0 -1em;
+	padding: 0.5em 1em;
+	background: #336666;
+	color: #fff;
+}
+
+section.method h1 .attr {
+	color: #ccc;
+}
+
+section.method h1 .type {
+	color: #ccc;
+}
+
+section.method h1 .name {
+	font-weight: bold;
+}
+
+section.method h1 .signature {
+}
+
+section.method header {
+	padding: 0.5em 0;
+}
+
+section.method section {
+	margin: 0;
+	padding: 0;
+}
+
+section.method section h1 {
+	margin: 0;
+	padding: 0;
+	color: #000;
+	background: transparent;
+	font-weight: bold;
+	font-size: 100%;
+}
+
+section.method section dl {
+	margin: 0;
+	padding: 0;
+}
+
+section.method section dl dt {
+	font-family: monospace;
+}

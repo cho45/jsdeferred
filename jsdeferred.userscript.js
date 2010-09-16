@@ -3,11 +3,11 @@
 // See http://coderepos.org/share/wiki/JSDeferred
 function D () {
 
-
 function Deferred () { return (this instanceof Deferred) ? this.init() : new Deferred() }
 Deferred.ok = function (x) { return x };
 Deferred.ng = function (x) { throw  x };
 Deferred.prototype = {
+	
 	init : function () {
 		this._next    = null;
 		this.callback = {
@@ -17,11 +17,19 @@ Deferred.prototype = {
 		return this;
 	},
 
+	
 	next  : function (fun) { return this._post("ok", fun) },
+
+	
 	error : function (fun) { return this._post("ng", fun) },
+
+	
 	call  : function (val) { return this._fire("ok", val) },
+
+	
 	fail  : function (err) { return this._fire("ng", err) },
 
+	
 	cancel : function () {
 		(this.canceller || function () {})();
 		return this.init();
@@ -143,10 +151,10 @@ Deferred.wait = function (n) {
 	return d;
 };
 
-Deferred.call = function (f ) {
+Deferred.call = function (fun) {
 	var args = Array.prototype.slice.call(arguments, 1);
 	return Deferred.next(function () {
-		return f.apply(this, args);
+		return fun.apply(this, args);
 	});
 };
 
@@ -242,14 +250,14 @@ Deferred.loop = function (n, fun) {
 };
 
 
-Deferred.repeat = function (n, f) {
+Deferred.repeat = function (n, fun) {
 	var i = 0, end = {}, ret = null;
 	return Deferred.next(function () {
 		var t = (new Date()).getTime();
 		divide: {
 			do {
 				if (i >= n) break divide;
-				ret = f(i++);
+				ret = fun(i++);
 			} while ((new Date()).getTime() - t < 20);
 			return Deferred.call(arguments.callee);
 		}
@@ -267,8 +275,7 @@ Deferred.register = function (name, fun) {
 
 Deferred.register("loop", Deferred.loop);
 Deferred.register("wait", Deferred.wait);
-Deferred.Arguments = function (args) { this.args = Array.prototype.slice.call(args, 0) }
-Deferred.connect = function () {
+Deferred.connect = function (funo, options) {
 	var target, func, obj;
 	if (typeof arguments[1] == "string") {
 		target = arguments[0];
@@ -305,6 +312,7 @@ Deferred.connect = function () {
 		return d;
 	}
 }
+Deferred.Arguments = function (args) { this.args = Array.prototype.slice.call(args, 0) }
 
 Deferred.retry = function (retryCount, funcDeferred, options) {
 	if (!options) options = {};

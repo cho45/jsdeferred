@@ -2,8 +2,10 @@
 require "rubygems"
 require "rake"
 require "rake/clean"
+require "pathname"
 
 
+JSDOC = Pathname.new("~/app/jsdoc-toolkit").expand_path
 CLEAN.include ["jsdeferred.{nodoc,jquery,userscript}.js"]
 RELEASES = %w(
 	jsdeferred.js
@@ -99,6 +101,6 @@ file "jsdeferred.userscript.js" => ["jsdeferred.js", "binding/userscript.js"] do
 end
 
 file "doc/index.html" => ["jsdeferred.js", "makedoc.rb"] do |t|
-	sh %{ruby makedoc.rb}
+	sh %{java -jar #{JSDOC}/jsrun.jar #{JSDOC}/app/run.js -s -d=doc -t=doc/template jsdeferred.js}
 end
 
