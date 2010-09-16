@@ -150,7 +150,7 @@ Deferred.prototype = {
  * @function
  * @name Deferred.next
  * @param {function():*} fun callback
- * @return Deferred
+ * @return {Deferred}
  */
 Deferred.next_default = function (fun) {
 	var d = new Deferred();
@@ -251,6 +251,7 @@ Deferred.next = Deferred.next_faster_way_readystatechange ||
  *  );
  *
  * @param {...[(Array.<function(*):*>|Object.<string,function(*):*>|function(*):*)]} arguments process chains
+ * @return {Deferred}
  */
 Deferred.chain = function () {
 	var chain = next();
@@ -287,7 +288,7 @@ Deferred.chain = function () {
  *   });
  *
  * @param {number} sec second to wait
- * @return Deferred
+ * @return {Deferred}
  */
 Deferred.wait = function (n) {
 	var d = new Deferred(), t = new Date();
@@ -320,7 +321,7 @@ Deferred.wait = function (n) {
  *
  * @param {function(...[*]):*} fun function to call
  * @param {...*} args arguments passed to fun
- * @return Deferred
+ * @return {Deferred}
  */
 Deferred.call = function (fun) {
 	var args = Array.prototype.slice.call(arguments, 1);
@@ -355,7 +356,8 @@ Deferred.call = function (fun) {
  *   });
  *
  * @param {(Array.<Deferred>|Object.<string,Deferred>)} dl Deferreds wanted to wait
- * @return Deferred
+ * @return {Deferred}
+ * @see Deferred.earlier
  */
 Deferred.parallel = function (dl) {
 	if (arguments.length > 1) dl = Array.prototype.slice.call(arguments);
@@ -391,7 +393,8 @@ Deferred.parallel = function (dl) {
  * parallel ('and' processing) <=> earlier ('or' processing)
  *
  * @param {(Array.<Deferred>|Object.<string,Deferred>)} dl Deferreds wanted to wait
- * @return Deferred
+ * @return {Deferred}
+ * @see Deferred.parallel
  */
 Deferred.earlier = function (dl) {
 	if (arguments.length > 1) dl = Array.prototype.slice.call(arguments);
@@ -441,7 +444,7 @@ Deferred.earlier = function (dl) {
  *
  * @param {(number|{begin:number, end:number, step:number})} n loop definition
  * @param {function(number):*} fun loop function
- * @return Deferred
+ * @return {Deferred}
  */
 Deferred.loop = function (n, fun) {
 	var o = {
@@ -490,7 +493,7 @@ Deferred.loop = function (n, fun) {
  *
  * @param {number} n loop count
  * @param {function(number)} fun loop function
- * @return Deferred
+ * @return {Deferred}
  */
 Deferred.repeat = function (n, fun) {
 	var i = 0, end = {}, ret = null;
@@ -551,9 +554,9 @@ Deferred.register("wait", Deferred.wait);
  *       alert('after 1 sec');
  *   });
  *
- * @param {(function(*):*|*)} funo target function or object
+ * @param {(function(...*):*|*)} funo target function or object
  * @param {({ok:number, ng:number, target:*}|string)} options options or method name of object in arguments[0]
- * @return {function(*):Deferred}
+ * @return {function(...*):Deferred}
  */
 // Allow to pass multiple values to next.
 Deferred.connect = function (funo, options) {
@@ -612,7 +615,7 @@ Deferred.Arguments = function (args) { this.args = Array.prototype.slice.call(ar
  * @param {number} retryCount
  * @param {function(*):Deferred} funcDeferred
  * @param {{wait:number}} options
- * @return Deferred
+ * @return {Deferred}
  */
 Deferred.retry = function (retryCount, funcDeferred, options) {
 	if (!options) options = {};
@@ -639,13 +642,15 @@ Deferred.retry = function (retryCount, funcDeferred, options) {
 
 /**
  * default export methods
+ *
+ * @see Deferred.define
  */
 Deferred.methods = ["parallel", "wait", "next", "call", "loop", "repeat", "chain"];
 /**
  * export functions to obj.
  * @param {Object} obj
  * @param {Array.<string>=} list (default Deferred.methods)
- * @return Deferred
+ * @return {Deferred}
  */
 Deferred.define = function (obj, list) {
 	if (!list) list = Deferred.methods;

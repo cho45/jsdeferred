@@ -100,7 +100,7 @@ file "jsdeferred.userscript.js" => ["jsdeferred.js", "binding/userscript.js"] do
 	}
 end
 
-file "doc/index.html" => ["jsdeferred.js", "makedoc.rb"] do |t|
+file "doc/index.html" => ["jsdeferred.js", "doc/template/class.tmpl", "doc/template/publish.js"] do |t|
 	sh %{java -jar #{JSDOC}/jsrun.jar #{JSDOC}/app/run.js -s -d=doc -t=doc/template jsdeferred.js}
 end
 

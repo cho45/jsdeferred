@@ -118,11 +118,27 @@ section.method header {
 	padding: 0.5em 0;
 }
 
+section.constructor footer,
+section.value footer,
+section.method footer {
+	margin: 1em 0 0 0;
+}
+
+section.constructor section ,
+section.value  section ,
 section.method section {
 	margin: 0;
 	padding: 0;
 }
 
+section.constructor section.description ,
+section.value  section.description ,
+section.method section.description {
+	margin: 1em 0;
+	padding: 0;
+}
+
+section.value section h1 ,
 section.method section h1 {
 	margin: 0;
 	padding: 0;
@@ -140,3 +156,4 @@ section.method section dl {
 section.method section dl dt {
 	font-family: monospace;
 }
+

@@ -2,7 +2,9 @@
 <html lang="en">
 	<head>
 		<title>{+ data.alias +}</title>
+		<script src="http://github.com/cho45/jshighlight/raw/master/jshighlight.js"></script>
 		<meta http-equiv="content-type" content="text/html; charset={+IO.encoding+}" />
+		<link rel="stylesheet" type="text/css" href="http://github.com/cho45/jshighlight/raw/master/style.css"/>
 		<link rel="stylesheet" type="text/css" href="template/doc.css"/>
 	</head>
 	<body>
@@ -87,6 +89,7 @@
 						!}&nbsp;</td>
 						<td class="description">
 							{+member.memberOf+}{+ member.isStatic? '.' : '#' +}<a href="{+ href(member.alias) +}">{+ member.name.replace(/\^\d+$/, '') +}</a>{+ makeSignature(member.params) +}
+							<if test="member.type"><span class="type">//=> {+ escapeHTML(member.type) +}</span></if>
 						</td>
 					</tr>
 				</for>
@@ -165,24 +168,27 @@
 				</if>
 			</header>
 
-			<div class="description">
+			<section class="description">
 				{+resolveLinks(member.desc)+}
-			</div>
+			</section>
 
 			<if test="member.example.length"><for each="example" in="member.example">
 			<pre class="code">{+example+}</pre>
 			</for></if>
 
+			<footer>
 			<if test="member.see.length">
 				<section>
 					<h1>See</h1>
 					<ul>
 						<for each="item" in="member.see">
-						<li>{+ item +}</li>
+						<li><a href="#{+ encodeURIComponent(item) +}">{+ item +}</a></li>
 						</for>
 					</ul>
 				</section>
 			</if>
+			</footer>
+
 			</section>
 		</section>
 
@@ -268,25 +274,27 @@
 					</if>
 				</header>
 
-				<div class="description">
+				<section class="description">
 					{+resolveLinks(member.desc)+}
-				</div>
+				</section>
 				
 				<if test="member.example.length"><for each="example" in="member.example">
 				<pre class="code">{+example+}</pre>
 				</for></if>
 				
 
+				<footer>
 				<if test="member.see.length">
 					<section>
 						<h1>See</h1>
 						<ul>
 							<for each="item" in="member.see">
-							<li>{+ item +}</li>
+							<li><a href="#{+ encodeURIComponent(item) +}">{+ item +}</a></li>
 							</for>
 						</ul>
 					</section>
 				</if>
+				</footer>
 			</section>
 			</for>
 		</if>
@@ -371,25 +379,27 @@
 					</if>
 				</header>
 
-				<div class="description">
+				<section class="description">
 					{+resolveLinks(member.desc)+}
-				</div>
+				</section>
 				
 				<if test="member.example.length"><for each="example" in="member.example">
 				<pre class="code">{+example+}</pre>
 				</for></if>
 				
 
+				<footer>
 				<if test="member.see.length">
 					<section>
 						<h1>See</h1>
 						<ul>
 							<for each="item" in="member.see">
-							<li>{+ item +}</li>
+							<li><a href="#{+ encodeURIComponent(item) +}">{+ item +}</a></li>
 							</for>
 						</ul>
 					</section>
 				</if>
+				</footer>
 			</section>
 			</for>
 		</section>
