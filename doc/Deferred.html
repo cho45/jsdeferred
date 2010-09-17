@@ -287,7 +287,7 @@
 				
 					<span class="memberOf">Deferred.</span
 					><span class="name">methods</span
-					><span class="signature">()</span>
+					>
 
 					
 				</h1>
@@ -339,6 +339,7 @@
 				
 					<span class="memberOf">Deferred.</span
 					><span class="name">call</span
+					><span class="signature">(fun, args)</span>
 
 					<span class="type">//=> Deferred</span>
 				</h1>
@@ -424,6 +425,7 @@
 				
 					<span class="memberOf">Deferred.</span
 					><span class="name">chain</span
+					><span class="signature">(arguments)</span>
 
 					<span class="type">//=> Deferred</span>
 				</h1>
@@ -518,6 +520,7 @@ This is shorthand for construct Deferred chains.
 				
 					<span class="memberOf">Deferred.</span
 					><span class="name">connect</span
+					><span class="signature">(funo, options)</span>
 
 					<span class="type">//=> function(...*):Deferred</span>
 				</h1>
@@ -598,6 +601,7 @@ that takes a callback into one that returns a Deferred object.
 				
 					<span class="memberOf">Deferred.</span
 					><span class="name">define</span
+					><span class="signature">(obj, list)</span>
 
 					<span class="type">//=> Deferred</span>
 				</h1>
@@ -667,6 +671,7 @@ that takes a callback into one that returns a Deferred object.
 				
 					<span class="memberOf">Deferred.</span
 					><span class="name">earlier</span
+					><span class="signature">(dl)</span>
 
 					<span class="type">//=> Deferred</span>
 				</h1>
@@ -737,6 +742,7 @@ parallel ('and' processing) <=> earlier ('or' processing)
 				
 					<span class="memberOf">Deferred.</span
 					><span class="name">loop</span
+					><span class="signature">(n, fun)</span>
 
 					<span class="type">//=> Deferred</span>
 				</h1>
@@ -819,6 +825,7 @@ This loop is slow but not stop browser's appearance.
 				
 					<span class="memberOf">Deferred.</span
 					><span class="name">next</span
+					><span class="signature">(fun)</span>
 
 					<span class="type">//=> Deferred</span>
 				</h1>
@@ -880,6 +887,7 @@ is called after current queue.
 				
 					<span class="memberOf">Deferred.</span
 					><span class="name">parallel</span
+					><span class="signature">(dl)</span>
 
 					<span class="type">//=> Deferred</span>
 				</h1>
@@ -970,6 +978,7 @@ an Array.
 				
 					<span class="memberOf">Deferred.</span
 					><span class="name">register</span
+					><span class="signature">(name, fun)</span>
 
 					
 				</h1>
@@ -1041,6 +1050,7 @@ an Array.
 				
 					<span class="memberOf">Deferred.</span
 					><span class="name">repeat</span
+					><span class="signature">(n, fun)</span>
 
 					<span class="type">//=> Deferred</span>
 				</h1>
@@ -1116,6 +1126,7 @@ This is useful for huge loop  not to block browser UI.
 				
 					<span class="memberOf">Deferred.</span
 					><span class="name">retry</span
+					><span class="signature">(retryCount, funcDeferred, options)</span>
 
 					<span class="type">//=> Deferred</span>
 				</h1>
@@ -1204,6 +1215,7 @@ This is useful for huge loop  not to block browser UI.
 				
 					<span class="memberOf">Deferred.</span
 					><span class="name">wait</span
+					><span class="signature">(sec)</span>
 
 					<span class="type">//=> Deferred</span>
 				</h1>
@@ -1269,6 +1281,7 @@ with real elapsed time (msec)
 				
 					<span class="memberOf">Deferred#</span
 					><span class="name">call</span
+					><span class="signature">(val)</span>
 
 					<span class="type">//=> Deferred</span>
 				</h1>
@@ -1329,6 +1342,7 @@ with real elapsed time (msec)
 				
 					<span class="memberOf">Deferred#</span
 					><span class="name">cancel</span
+					><span class="signature">()</span>
 
 					<span class="type">//=> Deferred</span>
 				</h1>
@@ -1373,6 +1387,7 @@ with real elapsed time (msec)
 				
 					<span class="memberOf">Deferred#</span
 					><span class="name">error</span
+					><span class="signature">(fun)</span>
 
 					<span class="type">//=> Deferred</span>
 				</h1>
@@ -1436,6 +1451,7 @@ the given error is recovery and continue callback chain.
 				
 					<span class="memberOf">Deferred#</span
 					><span class="name">fail</span
+					><span class="signature">(val)</span>
 
 					<span class="type">//=> Deferred</span>
 				</h1>
@@ -1496,6 +1512,7 @@ the given error is recovery and continue callback chain.
 				
 					<span class="memberOf">Deferred#</span
 					><span class="name">next</span
+					><span class="signature">(fun)</span>
 
 					<span class="type">//=> Deferred</span>
 				</h1>

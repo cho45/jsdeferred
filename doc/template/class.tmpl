@@ -210,7 +210,7 @@
 				
 					<span class="memberOf">{+member.memberOf+}{+ (member.isStatic ? '.' : '#') +}</span
 					><span class="name">{+member.name.replace(/\^\d+$/, '')+}</span
-					><span class="signature">{+makeSignature(member.params)+}</span>
+					>
 
 					<if test="member.type"><span class="type">//=> {+ escapeHTML(member.type) +}</span></if>
 				</h1>
@@ -316,6 +316,7 @@
 				
 					<span class="memberOf">{+member.memberOf+}{+ (member.isStatic ? '.' : '#') +}</span
 					><span class="name">{+member.name.replace(/\^\d+$/, '')+}</span
+					><span class="signature">{+makeSignature(member.params)+}</span>
 
 					<if test="member.type"><span class="type">//=> {+ escapeHTML(member.type) +}</span></if>
 				</h1>
