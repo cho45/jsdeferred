@@ -48,6 +48,20 @@
 					<tr>
 						<td class="attr">&lt;static&gt; &nbsp;</td>
 						<td class="description">
+							Deferred.<a href="#Deferred.ok">ok</a>
+						</td>
+					</tr>
+				
+					<tr>
+						<td class="attr">&lt;static&gt; &nbsp;</td>
+						<td class="description">
+							Deferred.<a href="#Deferred.ng">ng</a>
+						</td>
+					</tr>
+				
+					<tr>
+						<td class="attr">&lt;static&gt; &nbsp;</td>
+						<td class="description">
 							Deferred.<a href="#Deferred.methods">methods</a>
 						</td>
 					</tr>
@@ -90,7 +104,7 @@
 						<td class="attr">&lt;static&gt; &nbsp;</td>
 						<td class="description">
 							Deferred.<a href="#Deferred.connect">connect</a>(funo, options)
-							<span class="type">//=> function(...*):Deferred</span>
+							<span class="type">//=> function(...[*]):Deferred</span>
 						</td>
 					</tr>
 				
@@ -98,7 +112,7 @@
 						<td class="attr">&lt;static&gt; &nbsp;</td>
 						<td class="description">
 							Deferred.<a href="#Deferred.define">define</a>(obj, list)
-							<span class="type">//=> Deferred</span>
+							<span class="type">//=> function():Deferred</span>
 						</td>
 					</tr>
 				
@@ -169,7 +183,7 @@
 					<tr>
 						<td class="attr">&nbsp;</td>
 						<td class="description">
-							Deferred#<a href="#Deferred%23call">call</a>(val)
+							Deferred#<a href="#Deferred#call">call</a>(val)
 							<span class="type">//=> Deferred</span>
 						</td>
 					</tr>
@@ -177,7 +191,7 @@
 					<tr>
 						<td class="attr">&nbsp;</td>
 						<td class="description">
-							Deferred#<a href="#Deferred%23cancel">cancel</a>()
+							Deferred#<a href="#Deferred#cancel">cancel</a>()
 							<span class="type">//=> Deferred</span>
 						</td>
 					</tr>
@@ -185,7 +199,7 @@
 					<tr>
 						<td class="attr">&nbsp;</td>
 						<td class="description">
-							Deferred#<a href="#Deferred%23error">error</a>(fun)
+							Deferred#<a href="#Deferred#error">error</a>(fun)
 							<span class="type">//=> Deferred</span>
 						</td>
 					</tr>
@@ -193,7 +207,7 @@
 					<tr>
 						<td class="attr">&nbsp;</td>
 						<td class="description">
-							Deferred#<a href="#Deferred%23fail">fail</a>(val)
+							Deferred#<a href="#Deferred#fail">fail</a>(val)
 							<span class="type">//=> Deferred</span>
 						</td>
 					</tr>
@@ -201,7 +215,7 @@
 					<tr>
 						<td class="attr">&nbsp;</td>
 						<td class="description">
-							Deferred#<a href="#Deferred%23next">next</a>(fun)
+							Deferred#<a href="#Deferred#next">next</a>(fun)
 							<span class="type">//=> Deferred</span>
 						</td>
 					</tr>
@@ -278,6 +292,110 @@
 		<section>
 			<h1>Value Properties</h1>
 
+			
+			<section id="Deferred.ok" class="value">
+				<h1>
+					<span class="attr">
+					&lt;static&gt; 
+					</span>
+				
+					<span class="memberOf">Deferred.</span
+					><span class="name">ok</span
+					>
+
+					
+				</h1>
+
+				<header>
+					
+						<section>
+							<h1>Parameters</h1>
+							<dl>
+							
+								<dt>
+								<span class="name">x</span>
+								<span class="type"></span>
+								<span class="option">
+									
+								</span>
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						</section>
+					
+
+					
+					
+
+					
+
+					
+				</header>
+
+				<section class="description">
+					default callback function
+				</section>
+				
+				
+				
+
+				<footer>
+				
+				</footer>
+			</section>
+			
+			<section id="Deferred.ng" class="value">
+				<h1>
+					<span class="attr">
+					&lt;static&gt; 
+					</span>
+				
+					<span class="memberOf">Deferred.</span
+					><span class="name">ng</span
+					>
+
+					
+				</h1>
+
+				<header>
+					
+						<section>
+							<h1>Parameters</h1>
+							<dl>
+							
+								<dt>
+								<span class="name">x</span>
+								<span class="type"></span>
+								<span class="option">
+									
+								</span>
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						</section>
+					
+
+					
+					
+
+					
+
+					
+				</header>
+
+				<section class="description">
+					default errorback function
+				</section>
+				
+				
+				
+
+				<footer>
+				
+				</footer>
+			</section>
 			
 			<section id="Deferred.methods" class="value">
 				<h1>
@@ -378,11 +496,10 @@
 					
 
 					
-						<section>
+						<section class="return">
 							<h1>Returns</h1>
 							
 							<span class="type">Deferred</span>
-							<span class="name"></span>
 							<span class="desc"></span>
 							
 						</section>
@@ -455,11 +572,10 @@
 					
 
 					
-						<section>
+						<section class="return">
 							<h1>Returns</h1>
 							
 							<span class="type">Deferred</span>
-							<span class="name"></span>
 							<span class="desc"></span>
 							
 						</section>
@@ -522,7 +638,7 @@ This is shorthand for construct Deferred chains.
 					><span class="name">connect</span
 					><span class="signature">(funo, options)</span>
 
-					<span class="type">//=> function(...*):Deferred</span>
+					<span class="type">//=> function(...[*]):Deferred</span>
 				</h1>
 
 				<header>
@@ -533,7 +649,7 @@ This is shorthand for construct Deferred chains.
 							
 								<dt>
 								<span class="name">funo</span>
-								<span class="type"> : (function(...*):*|*)</span>
+								<span class="type"> : (function(...[*]):*|*)</span>
 								<span class="option">
 									
 								</span>
@@ -559,11 +675,10 @@ This is shorthand for construct Deferred chains.
 					
 
 					
-						<section>
+						<section class="return">
 							<h1>Returns</h1>
 							
-							<span class="type">function(...*):Deferred</span>
-							<span class="name"></span>
+							<span class="type">function(...[*]):Deferred</span>
 							<span class="desc"></span>
 							
 						</section>
@@ -603,7 +718,7 @@ that takes a callback into one that returns a Deferred object.
 					><span class="name">define</span
 					><span class="signature">(obj, list)</span>
 
-					<span class="type">//=> Deferred</span>
+					<span class="type">//=> function():Deferred</span>
 				</h1>
 
 				<header>
@@ -640,12 +755,11 @@ that takes a callback into one that returns a Deferred object.
 					
 
 					
-						<section>
+						<section class="return">
 							<h1>Returns</h1>
 							
-							<span class="type">Deferred</span>
-							<span class="name"></span>
-							<span class="desc"></span>
+							<span class="type">function():Deferred</span>
+							<span class="desc">The Deferred constructor function</span>
 							
 						</section>
 					
@@ -701,11 +815,10 @@ that takes a callback into one that returns a Deferred object.
 					
 
 					
-						<section>
+						<section class="return">
 							<h1>Returns</h1>
 							
 							<span class="type">Deferred</span>
-							<span class="name"></span>
 							<span class="desc"></span>
 							
 						</section>
@@ -781,11 +894,10 @@ parallel ('and' processing) <=> earlier ('or' processing)
 					
 
 					
-						<section>
+						<section class="return">
 							<h1>Returns</h1>
 							
 							<span class="type">Deferred</span>
-							<span class="name"></span>
 							<span class="desc"></span>
 							
 						</section>
@@ -855,11 +967,10 @@ This loop is slow but not stop browser's appearance.
 					
 
 					
-						<section>
+						<section class="return">
 							<h1>Returns</h1>
 							
 							<span class="type">Deferred</span>
-							<span class="name"></span>
 							<span class="desc"></span>
 							
 						</section>
@@ -917,11 +1028,10 @@ is called after current queue.
 					
 
 					
-						<section>
+						<section class="return">
 							<h1>Returns</h1>
 							
 							<span class="type">Deferred</span>
-							<span class="name"></span>
 							<span class="desc"></span>
 							
 						</section>
@@ -1089,11 +1199,10 @@ an Array.
 					
 
 					
-						<section>
+						<section class="return">
 							<h1>Returns</h1>
 							
 							<span class="type">Deferred</span>
-							<span class="name"></span>
 							<span class="desc"></span>
 							
 						</section>
@@ -1148,7 +1257,7 @@ This is useful for huge loop  not to block browser UI.
 							
 								<dt>
 								<span class="name">funcDeferred</span>
-								<span class="type"> : function(*):Deferred</span>
+								<span class="type"> : function(number):Deferred</span>
 								<span class="option">
 									
 								</span>
@@ -1174,11 +1283,10 @@ This is useful for huge loop  not to block browser UI.
 					
 
 					
-						<section>
+						<section class="return">
 							<h1>Returns</h1>
 							
 							<span class="type">Deferred</span>
-							<span class="name"></span>
 							<span class="desc"></span>
 							
 						</section>
@@ -1186,7 +1294,7 @@ This is useful for huge loop  not to block browser UI.
 				</header>
 
 				<section class="description">
-					Try func (returns Deferred) max `retryCount`.
+					Try func (returns Deferred) till it finish without exceptions.
 				</section>
 				
 				
@@ -1245,11 +1353,10 @@ This is useful for huge loop  not to block browser UI.
 					
 
 					
-						<section>
+						<section class="return">
 							<h1>Returns</h1>
 							
 							<span class="type">Deferred</span>
-							<span class="name"></span>
 							<span class="desc"></span>
 							
 						</section>
@@ -1273,7 +1380,7 @@ with real elapsed time (msec)
 				</footer>
 			</section>
 			
-			<section id="Deferred%23call" class="method">
+			<section id="Deferred#call" class="method">
 				<h1>
 					<span class="attr">
 					
@@ -1311,11 +1418,10 @@ with real elapsed time (msec)
 					
 
 					
-						<section>
+						<section class="return">
 							<h1>Returns</h1>
 							
 							<span class="type">Deferred</span>
-							<span class="name"></span>
 							<span class="desc">this</span>
 							
 						</section>
@@ -1327,6 +1433,14 @@ with real elapsed time (msec)
 				</section>
 				
 				
+				<pre class="code">  function timeout100 () {
+    var d = new Deferred();
+    setTimeout(function () {
+       d.call('value');
+    }, 100);
+    return d;
+  }</pre>
+				
 				
 
 				<footer>
@@ -1334,7 +1448,7 @@ with real elapsed time (msec)
 				</footer>
 			</section>
 			
-			<section id="Deferred%23cancel" class="method">
+			<section id="Deferred#cancel" class="method">
 				<h1>
 					<span class="attr">
 					
@@ -1356,11 +1470,10 @@ with real elapsed time (msec)
 					
 
 					
-						<section>
+						<section class="return">
 							<h1>Returns</h1>
 							
 							<span class="type">Deferred</span>
-							<span class="name"></span>
 							<span class="desc">this</span>
 							
 						</section>
@@ -1379,7 +1492,7 @@ with real elapsed time (msec)
 				</footer>
 			</section>
 			
-			<section id="Deferred%23error" class="method">
+			<section id="Deferred#error" class="method">
 				<h1>
 					<span class="attr">
 					
@@ -1400,7 +1513,7 @@ with real elapsed time (msec)
 							
 								<dt>
 								<span class="name">fun</span>
-								<span class="type"> : function(...[*]):*</span>
+								<span class="type"> : function(this:Deferred|...[*]):*</span>
 								<span class="option">
 									
 								</span>
@@ -1417,11 +1530,10 @@ with real elapsed time (msec)
 					
 
 					
-						<section>
+						<section class="return">
 							<h1>Returns</h1>
 							
 							<span class="type">Deferred</span>
-							<span class="name"></span>
 							<span class="desc">next deferred</span>
 							
 						</section>
@@ -1436,6 +1548,22 @@ the given error is recovery and continue callback chain.
 				</section>
 				
 				
+				<pre class="code">  var d =  new Deferred();
+
+  d.
+  next(function () {
+    alert(1);
+    throw "foo";
+  }).
+  next(function () {
+    alert('not shown');
+  }).
+  error(function (e) {
+    alert(e); //=> "foo"
+  });
+
+  d.call();</pre>
+				
 				
 
 				<footer>
@@ -1443,7 +1571,7 @@ the given error is recovery and continue callback chain.
 				</footer>
 			</section>
 			
-			<section id="Deferred%23fail" class="method">
+			<section id="Deferred#fail" class="method">
 				<h1>
 					<span class="attr">
 					
@@ -1481,11 +1609,10 @@ the given error is recovery and continue callback chain.
 					
 
 					
-						<section>
+						<section class="return">
 							<h1>Returns</h1>
 							
 							<span class="type">Deferred</span>
-							<span class="name"></span>
 							<span class="desc">this</span>
 							
 						</section>
@@ -1493,9 +1620,20 @@ the given error is recovery and continue callback chain.
 				</header>
 
 				<section class="description">
-					Invokes self errorback chain
+					Invokes self errorback chain. You can use this method for explicit errors (eg. HTTP request failed)
 				</section>
 				
+				
+				<pre class="code">  function http (url) {
+    var d = new Deferred();
+    var x = new XMLHttpRequest();
+    x.onreadystatechange = function () {
+      if (x.readyState == 4) {
+        if (x.status == 200) d.call(x); else d.fail(x);
+      }
+    };
+    return d;
+  }</pre>
 				
 				
 
@@ -1504,7 +1642,7 @@ the given error is recovery and continue callback chain.
 				</footer>
 			</section>
 			
-			<section id="Deferred%23next" class="method">
+			<section id="Deferred#next" class="method">
 				<h1>
 					<span class="attr">
 					
@@ -1525,7 +1663,7 @@ the given error is recovery and continue callback chain.
 							
 								<dt>
 								<span class="name">fun</span>
-								<span class="type"> : function(...[*]):*</span>
+								<span class="type"> : function(this:Deferred|...[*]):*</span>
 								<span class="option">
 									
 								</span>
@@ -1542,11 +1680,10 @@ the given error is recovery and continue callback chain.
 					
 
 					
-						<section>
+						<section class="return">
 							<h1>Returns</h1>
 							
 							<span class="type">Deferred</span>
-							<span class="name"></span>
 							<span class="desc">next deferred</span>
 							
 						</section>
@@ -1557,6 +1694,18 @@ the given error is recovery and continue callback chain.
 					Create new Deferred and sets `fun` as its callback.
 				</section>
 				
+				
+				<pre class="code">  var d = new Deferred();
+
+  d.
+  next(function () {
+    alert(1);
+  }).
+  next(function () {
+    alert(2);
+  });
+
+  d.call();</pre>
 				
 				
 

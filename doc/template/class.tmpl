@@ -104,7 +104,7 @@
 			<h1>Constructor</h1>
 			{! member = data !}
 
-			<section id="{+ encodeURIComponent(member.alias) +}" class="value">
+			<section id="{+ idOf(member.alias) +}" class="value">
 
 			<h1>
 				<span class="attr">
@@ -197,7 +197,7 @@
 			<h1>Value Properties</h1>
 
 			<for each="member" in="ownProperties">
-			<section id="{+ encodeURIComponent(member.alias) +}" class="value">
+			<section id="{+ idOf(member.alias) +}" class="value">
 				<h1>
 					<span class="attr">
 					{!
@@ -304,7 +304,7 @@
 			<h1>Method Properties</h1>
 
 			<for each="member" in="ownMethods">
-			<section id="{+ encodeURIComponent(member.alias) +}" class="method">
+			<section id="{+ idOf(member.alias) +}" class="method">
 				<h1>
 					<span class="attr">
 					{!
@@ -369,11 +369,10 @@
 					</if>
 
 					<if test="member.returns.length">
-						<section>
+						<section class="return">
 							<h1>Returns</h1>
 							<for each="item" in="member.returns">
 							<span class="type"><if test="item.type">{+ escapeHTML(item.type) +}</if></span>
-							<span class="name">{+item.name+}</span>
 							<span class="desc">{+resolveLinks(item.desc)+}</span>
 							</for>
 						</section>

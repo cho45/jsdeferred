@@ -106,7 +106,7 @@ Deferred.next_faster_way_Image = ((typeof window === 'object') && (typeof(Image)
 		img.removeEventListener("load", handler, false);
 		img.removeEventListener("error", handler, false);
 	};
-	img.src = "data:,/ _ / X";
+	img.src = "data:," + Math.random();
 	if (fun) d.callback.ok = fun;
 	return d;
 };
@@ -272,6 +272,7 @@ Deferred.register = function (name, fun) {
 
 Deferred.register("loop", Deferred.loop);
 Deferred.register("wait", Deferred.wait);
+
 Deferred.connect = function (funo, options) {
 	var target, func, obj;
 	if (typeof arguments[1] == "string") {
@@ -291,6 +292,7 @@ Deferred.connect = function (funo, options) {
 	return function () {
 		var d = new Deferred();
 
+		/
 		d.next = function (fun) { return this._post("ok", function () {
 			return fun.apply(this, (arguments[0] instanceof Deferred.Arguments) ? arguments[0].args : arguments);
 		}) };

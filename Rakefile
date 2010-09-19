@@ -36,6 +36,52 @@ def mini(js, commentonly=true)
 	COPYRIGHT.gsub(/^/, "// ") + js
 end
 
+def test_doc
+	require 'rubygems'
+	require 'net/http'
+	require 'json'
+
+	uri = URI.parse('http://closure-compiler.appspot.com/compile')
+	req = Net::HTTP::Post.new(uri.request_uri)
+	req.set_form_data([
+		['output_format'     , 'json'],
+		['output_info'       , 'compiled_code'],
+		['output_info'       , 'warnings'],
+		['output_info'       , 'errors'],
+		['compilation_level' , 'SIMPLE_OPTIMIZATIONS'],
+		['warning_level'     , 'default'],
+		['output_file_name'  , 'jsdeferred.js'],
+		['js_code'           , File.read('jsdeferred.js')],
+	])
+
+	res = Net::HTTP.start(uri.host, uri.port) {|http| http.request(req) }
+
+	dat = JSON.parse(res.body)
+	if dat['serverErrors']
+		p dat['serverErrors']
+		exit 1
+	end
+
+	puts 'http://closure-compiler.appspot.com' + dat['outputFilePath']
+	code = dat['compiledCode']
+	if dat['warnings']
+		dat['warnings'].each do |m|
+			puts "#{m['type']}: #{m['warning']}"
+			puts "line: #{m['lineno']}, char: #{m['charno']}"
+			puts m['line']
+			puts
+		end
+	end
+	if dat['errors']
+		dat['errors'].each do |m|
+			puts "#{m['type']}: #{m['error']}"
+			puts "line: #{m['lineno']}, char: #{m['charno']}"
+			puts m['line']
+			puts
+		end
+	end
+end
+
 task :default => [:test]
 task :create  => RELEASES
 
@@ -43,6 +89,7 @@ desc "Test JSDeferred"
 task :test => RELEASES do
 	# sh %{rhino -opt 0 -w -strict test-rhino.js jsdeferred.js}
 	sh %{node test-node.js}
+	test_doc
 end
 
 desc "Make all release file and tagging #{Version}"

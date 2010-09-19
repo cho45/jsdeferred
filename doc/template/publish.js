@@ -46,9 +46,11 @@ function isaClass (_) {return (_.is("CONSTRUCTOR") || _.isNamespace)}
 
 
 function href (name) {
-	name = encodeURIComponent(name);
-	LOG.warn(name);
-	return '#' + name;
+	return '#' + idOf(name);
+}
+
+function idOf (name) {
+	return name;
 }
 
 function include (path) {

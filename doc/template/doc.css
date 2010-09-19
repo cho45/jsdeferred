@@ -26,6 +26,10 @@ pre {
 	-moz-border-radius: 1em;
 }
 
+h1 {
+	text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
 header,
 footer,
 section {
@@ -75,6 +79,10 @@ table td.description a {
 	font-weight: bold;
 }
 
+table td.description .type {
+	color: #888;
+}
+
 section.constructor ,
 section.value ,
 section.method {
@@ -95,16 +103,19 @@ section.method h1 {
 	font-weight: normal;
 	margin: 0 -1em;
 	padding: 0.5em 1em;
-	background: #336666;
+	background: #1e4866;
 	color: #fff;
+	border-style: solid;
+	border-color: #000;
+	border-width: 0 0 1px 0;
 }
 
 section.method h1 .attr {
-	color: #ccc;
+	color: #7998ae;
 }
 
 section.method h1 .type {
-	color: #ccc;
+	color: #7998ae;
 }
 
 section.method h1 .name {
@@ -138,9 +149,10 @@ section.method section.description {
 	padding: 0;
 }
 
+section.constructor section h1 ,
 section.value section h1 ,
 section.method section h1 {
-	margin: 0;
+	margin: 0.5em 0;
 	padding: 0;
 	color: #000;
 	background: transparent;
@@ -154,6 +166,14 @@ section.method section dl {
 }
 
 section.method section dl dt {
+	font-family: monospace;
+}
+
+section.method section.return .type {
+	font-family: monospace;
+}
+
+section.method section.return .name {
 	font-family: monospace;
 }
 

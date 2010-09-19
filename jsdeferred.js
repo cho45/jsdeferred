@@ -59,7 +59,17 @@
  * @constructor
  */
 function Deferred () { return (this instanceof Deferred) ? this.init() : new Deferred() }
+/** 
+ * default callback function
+ * @type {function(this:Deferred, ...[*]):*} 
+ * @field
+ */
 Deferred.ok = function (x) { return x };
+/** 
+ * default errorback function
+ * @type {function(this:Deferred, ...[*]):*} 
+ * @field
+ */
 Deferred.ng = function (x) { throw  x };
 Deferred.prototype = {
 	/**
@@ -78,7 +88,20 @@ Deferred.prototype = {
 	/**
 	 * Create new Deferred and sets `fun` as its callback.
 	 *
-	 * @param {function(...[*]):*} fun Callback of continuation.
+	 * @example
+	 *   var d = new Deferred();
+	 *
+	 *   d.
+	 *   next(function () {
+	 *     alert(1);
+	 *   }).
+	 *   next(function () {
+	 *     alert(2);
+	 *   });
+	 *
+	 *   d.call();
+	 *
+	 * @param {function(this:Deferred, ...[*]):*} fun Callback of continuation.
 	 * @return {Deferred} next deferred
 	 */
 	next  : function (fun) { return this._post("ok", fun) },
@@ -88,7 +111,25 @@ Deferred.prototype = {
 	 * 
 	 * If `fun` not throws error but returns normal value, Deferred treats
 	 * the given error is recovery and continue callback chain.
-	 * @param {function(...[*]):*} fun Errorback of continuation.
+	 *
+	 * @example
+	 *   var d =  new Deferred();
+	 *
+	 *   d.
+	 *   next(function () {
+	 *     alert(1);
+	 *     throw "foo";
+	 *   }).
+	 *   next(function () {
+	 *     alert('not shown');
+	 *   }).
+	 *   error(function (e) {
+	 *     alert(e); //=> "foo"
+	 *   });
+	 *
+	 *   d.call();
+	 *
+	 * @param {function(this:Deferred, ...[*]):*} fun Errorback of continuation.
 	 * @return {Deferred} next deferred
 	 */
 	error : function (fun) { return this._post("ng", fun) },
@@ -96,13 +137,34 @@ Deferred.prototype = {
 	/**
 	 * Invokes self callback chain.
 	 *
+	 * @example
+	 *   function timeout100 () {
+	 *     var d = new Deferred();
+	 *     setTimeout(function () {
+	 *        d.call('value');
+	 *     }, 100);
+	 *     return d;
+	 *   }
+	 *
 	 * @param {*} val Value passed to continuation.
 	 * @return {Deferred} this
 	 */
 	call  : function (val) { return this._fire("ok", val) },
 
 	/**
-	 * Invokes self errorback chain
+	 * Invokes self errorback chain. You can use this method for explicit errors (eg. HTTP request failed)
+	 * 
+	 * @example
+	 *   function http (url) {
+	 *     var d = new Deferred();
+	 *     var x = new XMLHttpRequest();
+	 *     x.onreadystatechange = function () {
+	 *       if (x.readyState == 4) {
+	 *         if (x.status == 200) d.call(x); else d.fail(x);
+	 *       }
+	 *     };
+	 *     return d;
+	 *   }
 	 *
 	 * @param {*} val Value of error.
 	 * @return {Deferred} this
@@ -554,11 +616,10 @@ Deferred.register("wait", Deferred.wait);
  *       alert('after 1 sec');
  *   });
  *
- * @param {(function(...*):*|*)} funo target function or object
+ * @param {(function(...[*]):*|*)} funo target function or object
  * @param {({ok:number, ng:number, target:*}|string)} options options or method name of object in arguments[0]
- * @return {function(...*):Deferred}
+ * @return {function(...[*]):Deferred}
  */
-// Allow to pass multiple values to next.
 Deferred.connect = function (funo, options) {
 	var target, func, obj;
 	if (typeof arguments[1] == "string") {
@@ -578,6 +639,7 @@ Deferred.connect = function (funo, options) {
 	return function () {
 		var d = new Deferred();
 
+		//** @override */
 		d.next = function (fun) { return this._post("ok", function () {
 			return fun.apply(this, (arguments[0] instanceof Deferred.Arguments) ? arguments[0].args : arguments);
 		}) };
@@ -596,10 +658,18 @@ Deferred.connect = function (funo, options) {
 		return d;
 	}
 }
+/**
+ * Used for Deferred.connect to allow to pass multiple values to next.
+ *
+ * @private
+ * @constructor
+ * @param {Array.<*>} args
+ * @see Deferred.connect
+ */
 Deferred.Arguments = function (args) { this.args = Array.prototype.slice.call(args, 0) }
 
 /**
- * Try func (returns Deferred) max `retryCount`.
+ * Try func (returns Deferred) till it finish without exceptions.
  *
  * @example
  *   Deferred.retry(3, function () {
@@ -613,7 +683,7 @@ Deferred.Arguments = function (args) { this.args = Array.prototype.slice.call(ar
  *   });
  *
  * @param {number} retryCount
- * @param {function(*):Deferred} funcDeferred
+ * @param {function(number):Deferred} funcDeferred
  * @param {{wait:number}} options
  * @return {Deferred}
  */
@@ -650,7 +720,7 @@ Deferred.methods = ["parallel", "wait", "next", "call", "loop", "repeat", "chain
  * export functions to obj.
  * @param {Object} obj
  * @param {Array.<string>=} list (default Deferred.methods)
- * @return {Deferred}
+ * @return {function():Deferred} The Deferred constructor function
  */
 Deferred.define = function (obj, list) {
 	if (!list) list = Deferred.methods;
