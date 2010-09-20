@@ -4,6 +4,8 @@
 	Fix behavior on Opera 10
 	Fix bug in Deferred.connect
 	Assign Deferred object to this.Deferred for supporting node.js
+	* Released 0.3.3
+	Syntax error on generated files
 
 2010-03-10  SATOH Hiroh <cho45@lowreal.net>
 
