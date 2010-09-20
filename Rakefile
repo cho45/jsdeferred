@@ -14,11 +14,13 @@ RELEASES = %w(
 	jsdeferred.userscript.js
 	doc/index.html
 )
-Version = File.read("jsdeferred.js")[/Version:: (\d+\.\d+\.\d+)/, 1]
+CONTENT = File.read("jsdeferred.js")
+Version = CONTENT[/@version\s+(\d+\.\d+\.\d+)/, 1]
+Site    = CONTENT[/http:.+/]
 
 COPYRIGHT = <<EOS
 JSDeferred #{Version} Copyright (c) 2007 cho45 ( www.lowreal.net )
-See http://coderepos.org/share/wiki/JSDeferred
+See #{Site}
 EOS
 
 def mini(js, commentonly=true)

@@ -1,6 +1,6 @@
 // Usage:: with (D()) { your code }
-// JSDeferred 0.3.1 Copyright (c) 2007 cho45 ( www.lowreal.net )
-// See http://coderepos.org/share/wiki/JSDeferred
+// JSDeferred 0.3.2 Copyright (c) 2007 cho45 ( www.lowreal.net )
+// See http://github.com/cho45/jsdeferred
 function D () {
 
 function Deferred () { return (this instanceof Deferred) ? this.init() : new Deferred() }

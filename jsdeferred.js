@@ -1,9 +1,12 @@
 /**
- * @license JSDeferred Copyright (c) 2007 cho45 ( www.lowreal.net )
+ * @fileOverview JSDeferred
+ * @author       cho45@lowreal.net
+ * @version      0.3.2
+ * @license
+ * JSDeferred Copyright (c) 2007 cho45 ( www.lowreal.net )
  *
  * http://github.com/cho45/jsdeferred
  *
- * Version:: 0.3.1
  * License:: MIT
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
