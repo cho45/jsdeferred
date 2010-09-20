@@ -642,7 +642,7 @@ Deferred.connect = function (funo, options) {
 	return function () {
 		var d = new Deferred();
 
-		//** @override */
+		/** @override */
 		d.next = function (fun) { return this._post("ok", function () {
 			return fun.apply(this, (arguments[0] instanceof Deferred.Arguments) ? arguments[0].args : arguments);
 		}) };
