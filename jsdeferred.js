@@ -273,8 +273,15 @@ Deferred.next_faster_way_Image = ((typeof window === 'object') && (typeof(Image)
 	if (fun) d.callback.ok = fun;
 	return d;
 };
+Deferred.next_tick = (typeof process === 'object' && typeof process.nextTick === 'function') && function (fun) {
+	var d = new Deferred();
+	process.nextTick(function() { d.call() });
+	if (fun) d.callback.ok = fun;
+	return d;
+}
 Deferred.next = Deferred.next_faster_way_readystatechange ||
                 Deferred.next_faster_way_Image ||
+                Deferred.next_tick ||
                 Deferred.next_default;
 
 /**
