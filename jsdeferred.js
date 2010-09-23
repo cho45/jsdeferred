@@ -67,7 +67,10 @@ function Deferred () { return (this instanceof Deferred) ? this.init() : new Def
  * @type {function(this:Deferred, ...[*]):*} 
  * @field
  */
-Deferred.ok = function (x) { return x };
+Deferred.ok = function (x) {
+	return arguments.length > 1 ? new Deferred.Arguments(arguments) : x;
+};
+
 /** 
  * default errorback function
  * @type {function(this:Deferred, ...[*]):*} 
@@ -152,7 +155,9 @@ Deferred.prototype = {
 	 * @param {*} val Value passed to continuation.
 	 * @return {Deferred} this
 	 */
-	call  : function (val) { return this._fire("ok", val) },
+	call  : function (val) {
+		return this._fire("ok", new Deferred.Arguments(arguments));
+	},
 
 	/**
 	 * Invokes self errorback chain. You can use this method for explicit errors (eg. HTTP request failed)
@@ -193,7 +198,12 @@ Deferred.prototype = {
 	_fire : function (okng, value) {
 		var next = "ok";
 		try {
+		    if (value instanceof Deferred.Arguments) {
+			value = this.callback[okng].apply(this, value.args);
+		    }
+		    else {
 			value = this.callback[okng].call(this, value);
+		    }
 		} catch (e) {
 			next  = "ng";
 			value = e;

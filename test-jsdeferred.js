@@ -114,6 +114,12 @@ d.callback.ok = function () {
 d.cancel();
 d.call();
 
+var d = new Deferred();
+d.next(function(a, b) {
+	expect("call multi args", 2, arguments.length);
+});
+d.call(1,2);
+
 var d = Deferred();
 var r = undefined;
 Deferred.onerror = function (e) {
