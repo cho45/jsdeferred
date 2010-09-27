@@ -110,8 +110,15 @@ Deferred.next_faster_way_Image = ((typeof window === 'object') && (typeof(Image)
 	if (fun) d.callback.ok = fun;
 	return d;
 };
+Deferred.next_tick = (typeof process === 'object' && typeof process.nextTick === 'function') && function (fun) {
+	var d = new Deferred();
+	process.nextTick(function() { d.call() });
+	if (fun) d.callback.ok = fun;
+	return d;
+}
 Deferred.next = Deferred.next_faster_way_readystatechange ||
                 Deferred.next_faster_way_Image ||
+                Deferred.next_tick ||
                 Deferred.next_default;
 
 Deferred.chain = function () {
@@ -290,12 +297,12 @@ Deferred.connect = function (funo, options) {
 	var errorbackArgIndex = obj.ng;
 
 	return function () {
-		var d = new Deferred();
-
-		
-		d.next = function (fun) { return this._post("ok", function () {
-			return fun.apply(this, (arguments[0] instanceof Deferred.Arguments) ? arguments[0].args : arguments);
-		}) };
+		var d = new Deferred().next(function (args) {
+			var next = this._next.callback.ok;
+			this._next.callback.ok = function () {
+				return next.apply(this, args.args);
+			};
+		});
 
 		var args = partialArgs.concat(Array.prototype.slice.call(arguments, 0));
 		if (!(isFinite(callbackArgIndex) && callbackArgIndex !== null)) {

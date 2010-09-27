@@ -647,12 +647,12 @@ Deferred.connect = function (funo, options) {
 	var errorbackArgIndex = obj.ng;
 
 	return function () {
-		var d = new Deferred();
-
-		/** @override */
-		d.next = function (fun) { return this._post("ok", function () {
-			return fun.apply(this, (arguments[0] instanceof Deferred.Arguments) ? arguments[0].args : arguments);
-		}) };
+		var d = new Deferred().next(function (args) {
+			var next = this._next.callback.ok;
+			this._next.callback.ok = function () {
+				return next.apply(this, args.args);
+			};
+		});
 
 		var args = partialArgs.concat(Array.prototype.slice.call(arguments, 0));
 		if (!(isFinite(callbackArgIndex) && callbackArgIndex !== null)) {

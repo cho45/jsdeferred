@@ -678,6 +678,20 @@ next(function () {
 		next(function () {
 			expect('sequence of connect', '0,1,2', seq.join(','));
 		});
+	}).
+	next(function () {
+		var f = Deferred.connect(function (cb) {
+			setTimeout(function () {
+				cb(0, 1, 2);
+			}, 0);
+		});
+		return f().next(function (a, b, c) {
+			expect('connected function pass multiple arguments to callback', '0,1,2', [a,b,c].join(','));
+			return f();
+		}).
+		next(function (a, b, c) {
+			expect('connected function pass multiple arguments to callback (child)', '0,1,2', [a,b,c].join(','));
+		});
 	});
 }).
 next(function () {
