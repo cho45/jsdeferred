@@ -1,3 +1,9 @@
+2010-09-27  SATOH Hiroh <cho45@lowreal.net>
+
+	* Released 0.3.4
+	Fix bug in Deferred.connect (arguments are not applied at return from
+	deferred chains)
+
 2010-09-20  SATOH Hiroh <cho45@lowreal.net>
 
 	* Released 0.3.2

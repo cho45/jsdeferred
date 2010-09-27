@@ -1,7 +1,7 @@
 /**
  * @fileOverview JSDeferred
  * @author       cho45@lowreal.net
- * @version      0.3.3
+ * @version      0.3.4
  * @license
  * JSDeferred Copyright (c) 2007 cho45 ( www.lowreal.net )
  *
