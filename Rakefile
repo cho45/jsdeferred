@@ -3,6 +3,7 @@ require "rubygems"
 require "rake"
 require "rake/clean"
 require "pathname"
+require "net/http"
 
 
 JSDOC = Pathname.new("~/app/jsdoc-toolkit").expand_path
@@ -25,15 +26,21 @@ EOS
 
 def mini(js, commentonly=true)
 	js = js.dup
-	js.gsub!(%r|\n?/\*.*?\*/|m, "")
-	js.gsub!(%r|\n?\s*//.*|, "")
-	js.gsub!(/\A\s+|\s+\z/, "")
-	unless commentonly
-		js.gsub!(/^\s+/, "")
-		js.gsub!(/[ \t]+/, " ")
-		js.gsub!(/\n\n+/, "\n")
-		js.gsub!(/\s?;\s?/, ";")
-		js.gsub!(/ ?([{}()<>:=,*\/+-]) ?/, "\\1")
+	if commentonly
+		js.gsub!(%r|\n?/\*.*?\*/|m, "")
+		js.gsub!(%r|\n?\s*//.*|, "")
+		js.gsub!(/\A\s+|\s+\z/, "")
+	else
+		uri = URI.parse('http://closure-compiler.appspot.com/compile')
+		req = Net::HTTP::Post.new(uri.request_uri)
+		req.set_form_data({
+			'js_code'           => js,
+			'compilation_level' => 'SIMPLE_OPTIMIZATIONS',
+			'output_format'     => 'text',
+			'output_info'       => 'compiled_code',
+		})
+
+		js = Net::HTTP.start(uri.host, uri.port) {|http| http.request(req).body }
 	end
 	COPYRIGHT.gsub(/^/, "// ") + js
 end
