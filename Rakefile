@@ -129,6 +129,17 @@ task :update do
 	sh %{git pull}
 end
 
+task :setupdb do
+	unless JSDOC.exist?
+		JSDOC.parent.mkpath
+		Dir.chdir '/tmp' do
+			sh %{wget http://jsdoc-toolkit.googlecode.com/files/jsdoc_toolkit-2.3.2.zip}
+			sh %{unzip jsdoc_toolkit-2.3.2.zip}
+			sh %{mv jsdoc_toolkit-2.3.2/jsdoc-toolkit #{JSDOC}}
+		end
+	end
+end
+
 file "jsdeferred.nodoc.js" => ["jsdeferred.js"] do |t|
 	File.open(t.name, "w") {|f|
 		f << mini(File.read("jsdeferred.js"))
