@@ -92,39 +92,50 @@ msg("Basic Tests::");
 expect("new Deferred", true, (new Deferred) instanceof Deferred);
 expect("Deferred()",   true,     Deferred() instanceof Deferred);
 
-var testobj = {};
-Deferred.define(testobj);
-expect("define() next", Deferred.next, testobj.next);
-expect("define() loop", Deferred.loop, testobj.loop);
-
-var testobj = {};
-Deferred.define(testobj, ["next"]);
-expect("define() next", Deferred.next, testobj.next);
-expect("define() loop (must not be exported)", undefined, testobj.loop);
-
-var d = next(function () {
-	ng("Must not be called!!");
-});
-d.cancel();
-
-var d = Deferred();
-d.callback.ok = function () {
-	ng("Must not be called!!");
+new function () {
+	var testobj = {};
+	Deferred.define(testobj);
+	expect("define() next", Deferred.next, testobj.next);
+	expect("define() loop", Deferred.loop, testobj.loop);
 };
-d.cancel();
-d.call();
 
-var d = Deferred();
-var r = undefined;
-Deferred.onerror = function (e) {
-	r = e;
+new function () {
+	var testobj = {};
+	Deferred.define(testobj, ["next"]);
+	expect("define() next", Deferred.next, testobj.next);
+	expect("define() loop (must not be exported)", undefined, testobj.loop);
 };
-d.fail("error");
-expect("Deferred.onerror", "error", r);
-var r = undefined;
-delete Deferred.onerror;
-d.fail("error");
-expect("Deferred.onerror", undefined, r);
+
+new function () {
+	var d = next(function () {
+		ng("Must not be called!!");
+	});
+	d.cancel();
+};
+
+new function () {
+	var d = Deferred();
+	d.callback.ok = function () {
+		ng("Must not be called!!");
+	};
+	d.cancel();
+	d.call();
+};
+
+new function () {
+	var d = Deferred();
+	var r = undefined;
+	Deferred.onerror = function (e) {
+		r = e;
+	};
+	d.fail("error");
+	expect("Deferred.onerror", "error", r);
+
+	r = undefined;
+	delete Deferred.onerror;
+	d.fail("error");
+	expect("Deferred.onerror", undefined, r);
+};
 
 Deferred.onerror = function (e) {
 	log("DEBUG: Errorback will invoke:" + e);
