@@ -20,7 +20,7 @@ function show (msg, expect, result) {
 	var out = [];
 	out.push(color(46, "[", [expects - testfuns.length, expects].join("/"), "]"));
 	if (okng == "skip") {
-		out.push(" ", color(33, "skipped " + expect + "tests: " + msg));
+		out.push(" ", color(33, "skipped " + expect + " tests: " + msg));
 		print(out.join(""));
 		while (expect--) testfuns.pop();
 	} else

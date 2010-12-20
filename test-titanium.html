@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta charset="utf-8"/>
+        <style type="text/css">
+            html {
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                line-height: 1.66;
+                font-size: 12px;
+                font-family: sans-serif;
+                margin: 0;
+                padding: 0 5px;
+            }
+
+            div {
+                border-style: solid;
+                border-width: 0 0 1px 0;
+                border-color: #efefef;
+                padding: 2px 5px;
+                overflow: hidden;
+            }
+
+            .info {
+                color: #999;
+            }
+
+            .ok {
+                color: #060;
+            }
+
+            .ng {
+                color: #600;
+            }
+
+            .skip {
+                color: #909;
+            }
+        </style>
+        <script type="text/javascript">
+            function message (obj) {
+                var div = document.createElement('div');
+                div.className = obj.type;
+                div.appendChild(document.createTextNode(obj.text));
+                document.body.appendChild(div);
+                document.body.scrollTop = document.body.scrollHeight;
+            }
+        </script>
+    </head>
+    <body>
+    </body>
+</html>

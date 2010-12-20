@@ -15,7 +15,7 @@ var expects = testfuns.length;
 function show (msg, expect, result) {
 	var okng = this;
 	if (okng == "skip") {
-		result = "skipped " + expect + "tests:" + msg;
+		result = "skipped " + expect + " tests:" + msg;
 		while (expect--) testfuns.pop();
 		expect = "skipped";
 	} else {
@@ -80,6 +80,24 @@ function expect (msg, expect, result) {
 
 Deferred.define();
 
+function calcAccuracy () {
+	var d = new Deferred();
+	var r = [];
+	var i = 30;
+	var t = new Date().getTime();
+	setTimeout(function () {
+		if (i-- > 0) {
+			var n = new Date().getTime();
+			r.push(n - t);
+			t = n;
+			setTimeout(arguments.callee, 0);
+		} else {
+			d.call(r);
+		}
+	}, 0);
+	return d;
+}
+
 msg("Loaded "+testfuns.length+" tests;");
 log("Deferred.next Mode:" + uneval({
 	_faster_way_Image            : !!Deferred.next_faster_way_Image,
@@ -132,6 +150,12 @@ Deferred.onerror = function (e) {
 
 // Start Main Test
 msg("Start Main Tests::");
+next(function () {
+	msg("Information");
+	return calcAccuracy().next(function (r) {
+		print('setTimeout Accuracy: '+uneval(r));
+	});
+}).
 next(function () {
 	msg("Process sequence");
 
