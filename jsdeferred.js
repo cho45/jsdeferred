@@ -269,7 +269,7 @@ Deferred.next_faster_way_Image = ((typeof window === 'object') && (typeof(Image)
 		img.removeEventListener("load", handler, false);
 		img.removeEventListener("error", handler, false);
 	};
-	img.src = "data:," + Math.random();
+	img.src = "data:image/png," + Math.random();
 	if (fun) d.callback.ok = fun;
 	return d;
 };
