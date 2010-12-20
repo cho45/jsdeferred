@@ -73,7 +73,7 @@ Deferred.next_faster_way_readystatechange = ((typeof window === 'object') && (lo
 		var cancel = false;
 		var script = document.createElement("script");
 		script.type = "text/javascript";
-		script.src  = "javascript:";
+		script.src  = "data:text/javascript,";
 		script.onreadystatechange = function () {
 			if (!cancel) {
 				d.canceller();
@@ -268,6 +268,7 @@ Deferred.repeat = function (n, fun) {
 			} while ((new Date()).getTime() - t < 20);
 			return Deferred.call(arguments.callee);
 		}
+		return null;
 	});
 };
 
