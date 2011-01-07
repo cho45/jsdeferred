@@ -125,7 +125,7 @@ Deferred.next = Deferred.next_faster_way_readystatechange ||
                 Deferred.next_default;
 
 Deferred.chain = function () {
-	var chain = next();
+	var chain = Deferred.next();
 	for (var i = 0, len = arguments.length; i < len; i++) (function (obj) {
 		switch (typeof obj) {
 			case "function":
@@ -140,7 +140,7 @@ Deferred.chain = function () {
 				}
 				break;
 			case "object":
-				chain = chain.next(function() { return parallel(obj) });
+				chain = chain.next(function() { return Deferred.parallel(obj) });
 				break;
 			default:
 				throw "unknown type in process chains";
@@ -169,7 +169,7 @@ Deferred.parallel = function (dl) {
 	if (arguments.length > 1) dl = Array.prototype.slice.call(arguments);
 	var ret = new Deferred(), values = {}, num = 0;
 	for (var i in dl) if (dl.hasOwnProperty(i)) (function (d, i) {
-		if (typeof d == "function") d = next(d);
+		if (typeof d == "function") d = Deferred.next(d);
 		d.next(function (v) {
 			values[i] = v;
 			if (--num <= 0) {
