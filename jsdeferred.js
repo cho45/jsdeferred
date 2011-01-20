@@ -499,6 +499,7 @@ Deferred.earlier = function (dl) {
 /**
  * `loop` function provides browser-non-blocking loop.
  * This loop is slow but not stop browser's appearance.
+ * This function waits a deferred returned by loop function.
  *
  * @example
  *   //=> loop 1 to 100
@@ -509,9 +510,10 @@ Deferred.earlier = function (dl) {
  *   });
  *
  * @example
- *   //=> loop 10 times
+ *   //=> loop 10 times with sleeping 1 sec in each loop.
  *   loop(10, function (n) {
  *       log(n);
+ *       return wait(1);
  *   });
  *
  * @param {(number|{begin:number, end:number, step:number})} n loop definition
@@ -554,9 +556,10 @@ Deferred.loop = function (n, fun) {
 
 
 /**
- * Loop `n` tiems with `fun`.
+ * Loop `n` times with `fun`.
  * This function automatically return control to browser, if loop time over 20msec.
  * This is useful for huge loop  not to block browser UI.
+ * This function can't wait a deferred returned by loop function, compared with Deferred.loop.
  *
  * @example
  *   repeat(10, function (i) {
