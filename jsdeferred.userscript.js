@@ -96,7 +96,7 @@ Deferred.next_faster_way_readystatechange = ((typeof window === 'object') && (lo
 	if (fun) d.callback.ok = fun;
 	return d;
 };
-Deferred.next_faster_way_Image = (!window.opera && (typeof window === 'object') && (typeof(Image) != "undefined") && document.addEventListener) && function (fun) {
+Deferred.next_faster_way_Image = ((typeof window === 'object') && (typeof(Image) != "undefined") && !window.opera && document.addEventListener) && function (fun) {
 	var d = new Deferred();
 	var img = new Image();
 	var handler = function () {
