@@ -302,6 +302,9 @@ next(function () {
 		var t = 0;
 		return loop(2, function (i) {
 			expect("loop num", t++, i);
+			/* dummy for expects
+			 * expect()
+			 */
 			return "ok";
 		}).next(function (r) {
 			expect("loop num. result", "ok", r);
@@ -848,14 +851,14 @@ next(function () {
 	msg("jQuery binding test")
 	if (Global.navigator && !/Rhino/.test(Global.navigator.userAgent)) {
 		return next(function() {
-			expect("$.ajax should return deferred",    true, $.ajax({ url: "." }) instanceof $.deferred);
-			expect("$.get should return deferred",     true, $.get(".")           instanceof $.deferred);
-			expect("$.post should return deferred",    true, $.post(".")          instanceof $.deferred);
-			expect("$.getJSON should return deferred", true, $.getJSON(".")       instanceof $.deferred);
+			expect("$.ajax should return deferred",    true, $.ajax({ url: "./test.html" }) instanceof $.deferred);
+			expect("$.get should return deferred",     true, $.get("./test.html")           instanceof $.deferred);
+			expect("$.post should return deferred",    true, $.post("./test.html")          instanceof $.deferred);
+			expect("$.getJSON should return deferred", true, $.getJSON("./test.html")       instanceof $.deferred);
 		}).
 		next(function () {
 			return $.ajax({
-				url : ".",
+				url : "./test.html",
 				success : function () {
 					ok("$.ajax#success");
 				},
