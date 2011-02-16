@@ -368,16 +368,7 @@ return Deferred;
 const Deferred = D();
 
 const {Cc,Ci,components} = require("chrome");
-
-function setTimeout (f, i) {
-	var timer = Cc["@mozilla.org/timer;1"].createInstance(Ci.nsITimer);
-	timer.initWithCallback(f, i, components.interfaces.nsITimer.TYPE_ONE_SHOT);
-	return timer;
-}
-
-function clearTimeout (timer) {
-	timer.cancel();
-}
+var {setTimeout,clearTimeout} = require("timer");
 
 Deferred.postie = function (constructor, opts) {
 	var ret;
