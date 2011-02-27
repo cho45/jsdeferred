@@ -16,13 +16,34 @@ const Deferred = D();
 const {Cc,Ci,components} = require("chrome");
 
 function setTimeout (f, i) {
-	var timer = Cc["@mozilla.org/timer;1"].createInstance(Ci.nsITimer);
-	timer.initWithCallback(f, i, components.interfaces.nsITimer.TYPE_ONE_SHOT);
-	return timer;
+	if (i) {
+		let timer = Cc["@mozilla.org/timer;1"].createInstance(Ci.nsITimer);
+		timer.initWithCallback(f, i, timer.TYPE_ONE_SHOT);
+		return timer;
+	}
+	else {
+		let uri = "data:image/png," + Math.random();
+		let request = Cc['@mozilla.org/xmlextras/xmlhttprequest;1']
+					.createInstance(Ci.nsIXMLHttpRequest)
+					.QueryInterface(Ci.nsIDOMEventTarget);
+		let handler = function() {
+				request.removeEventListener("readystatechange", handler, false);
+				request.removeEventListener("error", handler, false);
+				f();
+			};
+		request.open("GET", uri, true);
+		request.addEventListener("readystatechange", handler, false);
+		request.addEventListener("error", handler, false);
+		request.send(null);
+		return request;
+	}
 }
 
 function clearTimeout (timer) {
-	timer.cancel();
+	if (timer instanceof Ci.nsITimer)
+		timer.cancel();
+	else
+		timer.abort();
 }
 
 Deferred.postie = function (constructor, opts) {
