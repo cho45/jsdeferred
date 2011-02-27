@@ -7,13 +7,15 @@ require "net/http"
 
 
 JSDOC = Pathname.new("~/app/jsdoc-toolkit").expand_path
-CLEAN.include ["jsdeferred.{nodoc,jquery,userscript}.js"]
+CLEAN.include ["jsdeferred.{nodoc,jquery,userscript,jetpack,jscodemodule,bootstrap}.js"]
 RELEASES = %w(
 	jsdeferred.js
 	jsdeferred.nodoc.js
 	jsdeferred.jquery.js
 	jsdeferred.userscript.js
 	jsdeferred.jetpack.js
+	jsdeferred.jscodemodule.js
+	jsdeferred.bootstrap.js
 	doc/index.html
 )
 CONTENT = File.read("jsdeferred.js")
@@ -171,6 +173,21 @@ end
 file "jsdeferred.jetpack.js" => ["jsdeferred.js", "binding/jetpack.js"] do |t|
 	File.open(t.name, "w") {|f|
 		f << mini(File.read("binding/jetpack.js").sub("/*include JSDeferred*/", File.read("jsdeferred.js")))
+	}
+end
+
+file "jsdeferred.jscodemodule.js" => ["jsdeferred.js", "binding/jscodemodule.js"] do |t|
+	File.open(t.name, "w") {|f|
+		f.puts "// Usage:: Components.utils.import('..../jsdeferred.jscodemodule.js');"
+		f << mini(File.read("binding/jscodemodule.js").sub("/*include JSDeferred*/", File.read("jsdeferred.js")))
+	}
+end
+
+file "jsdeferred.bootstrap.js" => ["jsdeferred.js", "binding/bootstrap.js"] do |t|
+	File.open(t.name, "w") {|f|
+		f.puts "// Usage:: var Deferred = require('..../jsdeferred.bootstrap.js');"
+		f << mini(File.read("binding/bootstrap.js").sub("/*include JSDeferred*/", File.read("jsdeferred.js")))
+		f.puts "// End of JSDeferred"
 	}
 end
 
