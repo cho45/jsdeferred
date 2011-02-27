@@ -278,7 +278,7 @@ Deferred.next_tick = (typeof process === 'object' && typeof process.nextTick ===
 	process.nextTick(function() { d.call() });
 	if (fun) d.callback.ok = fun;
 	return d;
-}
+};
 Deferred.next = Deferred.next_faster_way_readystatechange ||
                 Deferred.next_faster_way_Image ||
                 Deferred.next_tick ||
@@ -348,7 +348,7 @@ Deferred.chain = function () {
 		}
 	})(arguments[i]);
 	return chain;
-}
+};
 
 /**
  * `wait` returns deferred that will be called after `sec` elapsed
@@ -671,7 +671,7 @@ Deferred.connect = function (funo, options) {
 		Deferred.next(function () { func.apply(target, args) });
 		return d;
 	}
-}
+};
 /**
  * Used for Deferred.connect to allow to pass multiple values to next.
  *
@@ -680,7 +680,7 @@ Deferred.connect = function (funo, options) {
  * @param {Array.<*>} args
  * @see Deferred.connect
  */
-Deferred.Arguments = function (args) { this.args = Array.prototype.slice.call(args, 0) }
+Deferred.Arguments = function (args) { this.args = Array.prototype.slice.call(args, 0) };
 
 /**
  * Try func (returns Deferred) till it finish without exceptions.
@@ -722,7 +722,7 @@ Deferred.retry = function (retryCount, funcDeferred, options) {
 	};
 	setTimeout(retry, 0);
 	return d;
-}
+};
 
 /**
  * default export methods

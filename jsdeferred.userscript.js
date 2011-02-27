@@ -118,7 +118,7 @@ Deferred.next_tick = (typeof process === 'object' && typeof process.nextTick ===
 	process.nextTick(function() { d.call() });
 	if (fun) d.callback.ok = fun;
 	return d;
-}
+};
 Deferred.next = Deferred.next_faster_way_readystatechange ||
                 Deferred.next_faster_way_Image ||
                 Deferred.next_tick ||
@@ -147,7 +147,7 @@ Deferred.chain = function () {
 		}
 	})(arguments[i]);
 	return chain;
-}
+};
 
 Deferred.wait = function (n) {
 	var d = new Deferred(), t = new Date();
@@ -321,8 +321,8 @@ Deferred.connect = function (funo, options) {
 		Deferred.next(function () { func.apply(target, args) });
 		return d;
 	}
-}
-Deferred.Arguments = function (args) { this.args = Array.prototype.slice.call(args, 0) }
+};
+Deferred.Arguments = function (args) { this.args = Array.prototype.slice.call(args, 0) };
 
 Deferred.retry = function (retryCount, funcDeferred, options) {
 	if (!options) options = {};
@@ -345,7 +345,7 @@ Deferred.retry = function (retryCount, funcDeferred, options) {
 	};
 	setTimeout(retry, 0);
 	return d;
-}
+};
 
 Deferred.methods = ["parallel", "wait", "next", "call", "loop", "repeat", "chain"];
 Deferred.define = function (obj, list) {
