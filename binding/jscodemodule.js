@@ -1,35 +1,33 @@
-var EXPORTED_SYMBOLS = ['Deferred'];
+var EXPORTED_SYMBOLS = ["Deferred"];
 
-function setTimeout(aCallback, aDelay) {
-	if (aDelay) {
-		let timer = Components.classes['@mozilla.org/timer;1']
+function setTimeout (f, i) {
+	if (i) {
+		let timer = Components.classes["@mozilla.org/timer;1"]
 						.createInstance(Components.interfaces.nsITimer);
-		timer.initWithCallback(aCallback, aDelay, timer.TYPE_ONE_SHOT);
+		timer.initWithCallback(f, i, timer.TYPE_ONE_SHOT);
 		return timer;
 	}
 	else {
-		let uri = 'data:image/png,' + Math.random();
-		let request = Components.classes['@mozilla.org/xmlextras/xmlhttprequest;1']
+		let request = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"]
 					.createInstance(Components.interfaces.nsIXMLHttpRequest)
 					.QueryInterface(Components.interfaces.nsIDOMEventTarget);
-		let handler = function() {
-				request.removeEventListener('readystatechange', handler, false);
-				request.removeEventListener('error', handler, false);
-				aCallback();
+		let handler = function(e) {
+				if (request.readyState < 2) return;
+				request.removeEventListener("readystatechange", handler, false);
+				f();
 			};
-		request.open('GET', uri, true);
-		request.addEventListener('readystatechange', handler, false);
-		request.addEventListener('error', handler, false);
+		request.open("GET", "data:,", true);
+		request.addEventListener("readystatechange", handler, false);
 		request.send(null);
 		return request;
 	}
 }
 
-function clearTimeout(aTimer) {
-	if (aTimer instanceof Components.interfaces.nsITimer)
-		aTimer.cancel();
+function clearTimeout (timer) {
+	if (timer instanceof Components.interfaces.nsITimer)
+		timer.cancel();
 	else
-		aTimer.abort();
+		timer.abort();
 }
 
 /*include JSDeferred*/

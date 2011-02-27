@@ -22,18 +22,16 @@ function setTimeout (f, i) {
 		return timer;
 	}
 	else {
-		let uri = "data:image/png," + Math.random();
 		let request = Cc['@mozilla.org/xmlextras/xmlhttprequest;1']
 					.createInstance(Ci.nsIXMLHttpRequest)
 					.QueryInterface(Ci.nsIDOMEventTarget);
 		let handler = function() {
+				if (request.readyState < 2) return;
 				request.removeEventListener("readystatechange", handler, false);
-				request.removeEventListener("error", handler, false);
 				f();
 			};
-		request.open("GET", uri, true);
+		request.open("GET", "data:,", true);
 		request.addEventListener("readystatechange", handler, false);
-		request.addEventListener("error", handler, false);
 		request.send(null);
 		return request;
 	}
