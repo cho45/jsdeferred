@@ -404,7 +404,7 @@ Deferred.call = function (fun) {
 
 /**
  * `parallel` wraps up `deferredlist` to one deferred.
- * This is useful when some asynchronous resources required.
+ * This is useful when some asynchronous resources are required.
  *
  * `deferredlist` can be Array or Object (Hash). If you specify
  * multiple objects as arguments, then they are wrapped into
@@ -461,7 +461,7 @@ Deferred.parallel = function (dl) {
 };
 
 /**
- * Continue process when one deferred in `deferredlist` has completed. Others will cancel.
+ * Continue process when one deferred in `deferredlist` has completed. Others will be canceled.
  * parallel ('and' processing) <=> earlier ('or' processing)
  *
  * @param {(Array.<Deferred>|Object.<string,Deferred>)} dl Deferreds wanted to wait
@@ -557,8 +557,8 @@ Deferred.loop = function (n, fun) {
 
 /**
  * Loop `n` times with `fun`.
- * This function automatically return control to browser, if loop time over 20msec.
- * This is useful for huge loop  not to block browser UI.
+ * This function automatically returns UI-control to browser, if the loop spends over 20msec.
+ * This is useful for huge loop not to block browser UI.
  * This function can't wait a deferred returned by loop function, compared with Deferred.loop.
  *
  * @example
