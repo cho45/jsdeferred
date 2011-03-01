@@ -77,7 +77,7 @@ Deferred.ng = function (x) { throw  x };
 Deferred.prototype = {
 	/**
 	 * This is class magic-number of Deferred for determining identity of two instances
-	 * which is from different origins (eg. Mozilla Add-on) instead of using "instanceof".
+	 * that are from different origins (eg. Mozilla Add-on) instead of using "instanceof".
 	 *
 	 * @const
 	 */
@@ -85,7 +85,7 @@ Deferred.prototype = {
 
 	/**
 	 * @private
-	 * @return Deferred this
+	 * @return {Deferred} this
 	 */
 	init : function () {
 		this._next    = null;
