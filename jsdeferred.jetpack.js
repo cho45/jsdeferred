@@ -7,6 +7,9 @@ Deferred.ok = function (x) { return x };
 Deferred.ng = function (x) { throw  x };
 Deferred.prototype = {
 	
+	_id : 0xe38286e381ae,
+
+	
 	init : function () {
 		this._next    = null;
 		this.callback = {
@@ -49,7 +52,7 @@ Deferred.prototype = {
 			value = e;
 			if (Deferred.onerror) Deferred.onerror(e);
 		}
-		if (value instanceof Deferred) {
+		if (value && value._id === this._id) {
 			value._next = this._next;
 		} else {
 			if (this._next) this._next._fire(next, value);
@@ -239,7 +242,7 @@ Deferred.loop = function (n, fun) {
 				}
 				o.prev = ret;
 				ret = fun.call(this, i, o);
-				if (ret instanceof Deferred) {
+				if (ret && ret._id === Deferred.prototype._id) {
 					return ret.next(function (r) {
 						ret = r;
 						return Deferred.call(_loop, i + step);

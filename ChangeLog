@@ -1,3 +1,7 @@
+2011-03-01  SATOH Hiroh <cho45@lowreal.net>
+
+	* Use class id instead of instanceof.
+
 2011-01-20  SATOH Hiroh <cho45@lowreal.net>
 
 	* Support Opera11
