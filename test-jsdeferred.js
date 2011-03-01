@@ -155,6 +155,27 @@ new function () {
 	expect("Deferred.onerror", undefined, r);
 };
 
+new function () {
+	expect("Deferred.isDeferred(new Deferred())", true, Deferred.isDeferred(new Deferred()));
+	// Make different origin Deferred class;
+	var _Deferred = function () { this.init() };
+	_Deferred.prototype = {};
+	for (var key in Deferred.prototype) if (Deferred.prototype.hasOwnProperty(key)) {
+		var val = Deferred.prototype[key];
+		_Deferred.prototype[key] = val;
+	}
+	expect("TEST CONDITION", false, new _Deferred() instanceof Deferred);
+	expect("Deferred.isDeferred(new _Deferred())", true, Deferred.isDeferred(new _Deferred()));
+
+	expect("Deferred.isDeferred()", false, Deferred.isDeferred());
+	expect("Deferred.isDeferred(null)", false, Deferred.isDeferred(null));
+	expect("Deferred.isDeferred(true)", false, Deferred.isDeferred(true));
+	expect("Deferred.isDeferred('')", false, Deferred.isDeferred(''));
+	expect("Deferred.isDeferred(0)", false, Deferred.isDeferred(0));
+	expect("Deferred.isDeferred(undefined)", false, Deferred.isDeferred(undefined));
+	expect("Deferred.isDeferred({})", false, Deferred.isDeferred({}));
+};
+
 Deferred.onerror = function (e) {
 	log("DEBUG: Errorback will invoke:" + e);
 };

@@ -53,13 +53,16 @@ Deferred.prototype = {
 			value = e;
 			if (Deferred.onerror) Deferred.onerror(e);
 		}
-		if (value && value._id === this._id) {
+		if (Deferred.isDeferred(value)) {
 			value._next = this._next;
 		} else {
 			if (this._next) this._next._fire(next, value);
 		}
 		return this;
 	}
+};
+Deferred.isDeferred = function (obj) {
+	return !!(obj && obj._id == Deferred.prototype._id);
 };
 
 Deferred.next_default = function (fun) {
@@ -243,7 +246,7 @@ Deferred.loop = function (n, fun) {
 				}
 				o.prev = ret;
 				ret = fun.call(this, i, o);
-				if (ret && ret._id === Deferred.prototype._id) {
+				if (Deferred.isDeferred(ret)) {
 					return ret.next(function (r) {
 						ret = r;
 						return Deferred.call(_loop, i + step);
