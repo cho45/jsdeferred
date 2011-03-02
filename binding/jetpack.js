@@ -17,11 +17,13 @@ const {Cc,Ci,components} = require("chrome");
 var {setTimeout,clearTimeout} = require("timer");
 
 Deferred.postie = function (target, opts) {
+	opts = opts || {};
 	var ret;
 	var id  = 0;
 	var cb  = {};
 	var mm  = [];
-	var contentScript;
+	var onMessage = opts.onMessage;
+	var contentScript = opts.contentScript;
 
 	var messageListener = function (message) {
 			if (message.init) {
@@ -41,9 +43,6 @@ Deferred.postie = function (target, opts) {
 		};
 
 	if (typeof target == 'function') { // it is a constructor.
-		let onMessage = opts.onMessage;
-		contentScript = opts.contentScript;
-
 		opts.onMessage = messageListener;
 		opts.contentScriptWhen = "ready";
 		opts.contentScript = [
@@ -100,14 +99,6 @@ Deferred.postie = function (target, opts) {
 };
 
 exports.Deferred = Deferred;
-
-exports.__defineGetter__('Item', function() {
-	delete this.Item;
-	var Item = require('context-menu').Item;
-	return this.Item = function(options) {
-		return Deferred.postie(Item, options);
-	};
-});
 
 exports.__defineGetter__('PageMod', function() {
 	delete this.PageMod;
