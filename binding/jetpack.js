@@ -42,7 +42,7 @@ Deferred.postie = function (target, opts) {
 			onMessage.apply(this, arguments);
 		};
 
-	if (typeof target == 'function') { // it is a constructor.
+	if (typeof target == 'function') { // it maybe a constructor.
 		opts.onMessage = messageListener;
 		opts.contentScriptWhen = "ready";
 		opts.contentScript = [
@@ -65,8 +65,9 @@ Deferred.postie = function (target, opts) {
 
 		ret = target(opts);
 	}
-	else {
-		target.on('message', messageListener);
+	else { // it maybe a worker.
+		if (target.on)
+			target.on('message', messageListener);
 		ret = target;
 	}
 
