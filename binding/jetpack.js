@@ -175,9 +175,11 @@ exports.__defineGetter__('Request', function() {
 		wrappedOptions.onComplete = function(response) {
 			deferred.call(response);
 		};
+		var request = Request(wrappedOptions);
+		var originalGet = request.get;
 		request.get = function() {
 			deferred = new Deferred();
-			Request.prototype.get.apply(request, arguments);
+			originalGet.apply(request, arguments);
 			return deferred
 					.next(function(response) {
 						if (options.onComplete)
@@ -185,9 +187,10 @@ exports.__defineGetter__('Request', function() {
 						return response;
 					});
 		};
+		var originalPost = request.post;
 		request.post = function() {
 			deferred = new Deferred();
-			Request.prototype.post.apply(request, arguments);
+			originalPost.apply(request, arguments);
 			return deferred
 					.next(function(response) {
 						if (options.onComplete)
@@ -195,7 +198,7 @@ exports.__defineGetter__('Request', function() {
 						return response;
 					});
 		};
-		return Request(wrappedOptions);
+		return request;
 	};
 });
 
