@@ -94,20 +94,6 @@ Deferred.postie = function (target, opts) {
 		return deferred;
 	};
 
-	ret.bind = function (selector, event, callback) {
-		return ret.post(selector, event, function (selector, event) {
-			var deferred = new Deferred();
-			var nodes = document.querySelectorAll(selector);
-			for (var i = 0, it; it = nodes[i]; i++) {
-				it.addEventListener(event, function (e) {
-					deferred.call(e);
-				}, false);
-			}
-			return deferred;
-		}).
-		next(callback);
-	};
-
 	if (contentScript) ret.post(contentScript).error(function (e) { console.log(e) });
 
 	return ret;
