@@ -13,7 +13,6 @@ return Deferred;
 
 const Deferred = D();
 
-const {Cc,Ci,components} = require("chrome");
 var {setTimeout,clearTimeout} = require("timer");
 
 Deferred.postie = function (target, opts) {
@@ -101,23 +100,34 @@ Deferred.postie = function (target, opts) {
 
 exports.Deferred = Deferred;
 
+function clone(source) {
+	var cloned = {};
+	for (var i in source) { cloned[i] = source[i]; }
+	return cloned;
+}
+
 exports.__defineGetter__('PageMod', function() {
 	delete this.PageMod;
 	var PageMod = require('page-mod').PageMod;
 	return this.PageMod = function(options) {
+		options = clone(options || {});
+
 		var deferred = new Deferred();
-		var wrappedOptions = {};
-		for (let i in options) { wrappedOptions[i] = options[i]; }
-		wrappedOptions.onAttach = function(worker) {
+
+		options.onAttach = function(worker) {
 			deferred.call(Deferred.postie(worker));
 		};
-		var instance = Deferred.postie(PageMod, wrappedOptions);
+
+		var instance = Deferred.postie(PageMod, options);
+
 		deferred.destroy = function() {
-			instance.destroy.apply(instance, arguments);
+			instance.destroy.apply(null, arguments);
 		};
+
 		deferred.__defineGetter__('include', function() {
 			return instance.include;
 		});
+
 		return deferred
 				.next(function(worker) {
 					if (options.onAttach)
@@ -147,17 +157,20 @@ exports.__defineGetter__('Request', function() {
 	delete this.Request;
 	var Request = require('request').Request;
 	return this.Request = function(options) {
+		options = clone(options || {});
+
 		var deferred;
-		var wrappedOptions = {};
-		for (let i in options) { wrappedOptions[i] = options[i]; }
-		wrappedOptions.onComplete = function(response) {
+
+		options.onComplete = function(response) {
 			deferred.call(response);
 		};
-		var request = Request(wrappedOptions);
-		var originalGet = request.get;
-		request.get = function() {
+
+		var instance = Request(options);
+
+		var originalGet = instance.get;
+		instance.get = function() {
 			deferred = new Deferred();
-			originalGet.apply(request, arguments);
+			originalGet.apply(instance, arguments);
 			return deferred
 					.next(function(response) {
 						if (options.onComplete)
@@ -165,10 +178,11 @@ exports.__defineGetter__('Request', function() {
 						return response;
 					});
 		};
-		var originalPost = request.post;
-		request.post = function() {
+
+		var originalPost = instance.post;
+		instance.post = function() {
 			deferred = new Deferred();
-			originalPost.apply(request, arguments);
+			originalPost.apply(instance, arguments);
 			return deferred
 					.next(function(response) {
 						if (options.onComplete)
@@ -176,7 +190,8 @@ exports.__defineGetter__('Request', function() {
 						return response;
 					});
 		};
-		return request;
+
+		return instance;
 	};
 });
 
