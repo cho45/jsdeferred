@@ -61,23 +61,25 @@
  *
  * @constructor
  */
-function Deferred () { return (this instanceof Deferred) ? this.init() : new Deferred() }
+function Deferred () {
+	return (this instanceof Deferred) ? this.init() : new Deferred();
+};
 /** 
  * default callback function
  * @type {function(this:Deferred, ...[*]):*} 
  * @field
  */
-Deferred.ok = function (x) { return x };
+Deferred.ok = function (x) { return x; };
 /** 
  * default errorback function
  * @type {function(this:Deferred, ...[*]):*} 
  * @field
  */
-Deferred.ng = function (x) { throw  x };
+Deferred.ng = function (x) { throw  x; };
 Deferred.prototype = {
 	/**
 	 * This is class magic-number of Deferred for determining identity of two instances
-	 * that are from different origins (eg. Mozilla Add-on) instead of using "instanceof".
+	 * which is from different origins (eg. Mozilla Add-on) instead of using "instanceof".
 	 *
 	 * @const
 	 */
@@ -85,7 +87,7 @@ Deferred.prototype = {
 
 	/**
 	 * @private
-	 * @return {Deferred} this
+	 * @return Deferred this
 	 */
 	init : function () {
 		this._next    = null;
@@ -115,7 +117,7 @@ Deferred.prototype = {
 	 * @param {function(this:Deferred, ...[*]):*} fun Callback of continuation.
 	 * @return {Deferred} next deferred
 	 */
-	next  : function (fun) { return this._post("ok", fun) },
+	next  : function (fun) { return this._post("ok", fun); },
 
 	/**
 	 * Create new Deferred and sets `fun` as its errorback.
@@ -143,7 +145,7 @@ Deferred.prototype = {
 	 * @param {function(this:Deferred, ...[*]):*} fun Errorback of continuation.
 	 * @return {Deferred} next deferred
 	 */
-	error : function (fun) { return this._post("ng", fun) },
+	error : function (fun) { return this._post("ng", fun); },
 
 	/**
 	 * Invokes self callback chain.
@@ -160,7 +162,7 @@ Deferred.prototype = {
 	 * @param {*} val Value passed to continuation.
 	 * @return {Deferred} this
 	 */
-	call  : function (val) { return this._fire("ok", val) },
+	call  : function (val) { return this._fire("ok", val); },
 
 	/**
 	 * Invokes self errorback chain. You can use this method for explicit errors (eg. HTTP request failed)
@@ -180,7 +182,7 @@ Deferred.prototype = {
 	 * @param {*} val Value of error.
 	 * @return {Deferred} this
 	 */
-	fail  : function (err) { return this._fire("ng", err) },
+	fail  : function (err) { return this._fire("ng", err); },
 
 	/**
 	 * Cancel receiver callback (this is only valid before invoking any callbacks)
@@ -205,12 +207,16 @@ Deferred.prototype = {
 		} catch (e) {
 			next  = "ng";
 			value = e;
-			if (Deferred.onerror) Deferred.onerror(e);
+			if (Deferred.onerror) {
+				Deferred.onerror(e);
+			}
 		}
 		if (Deferred.isDeferred(value)) {
 			value._next = this._next;
 		} else {
-			if (this._next) this._next._fire(next, value);
+			if (this._next) {
+				this._next._fire(next, value);
+			}
 		}
 		return this;
 	}
@@ -237,9 +243,11 @@ Deferred.isDeferred = function (obj) {
  */
 Deferred.next_default = function (fun) {
 	var d = new Deferred();
-	var id = setTimeout(function () { d.call() }, 0);
-	d.canceller = function () { clearTimeout(id) };
-	if (fun) d.callback.ok = fun;
+	var id = setTimeout(function () { d.call(); }, 0);
+	d.canceller = function () { clearTimeout(id); };
+	if (fun) {
+		d.callback.ok = fun;
+	}
 	return d;
 };
 Deferred.next_faster_way_readystatechange = ((typeof window === 'object') && (location.protocol == "http:") && !window.opera && /\bMSIE\b/.test(navigator.userAgent)) && function (fun) {
@@ -267,10 +275,12 @@ Deferred.next_faster_way_readystatechange = ((typeof window === 'object') && (lo
 		document.body.appendChild(script);
 	} else {
 		arguments.callee._prev_timeout_called = t;
-		var id = setTimeout(function () { d.call() }, 0);
-		d.canceller = function () { clearTimeout(id) };
+		var id = setTimeout(function () { d.call(); }, 0);
+		d.canceller = function () { clearTimeout(id); };
 	}
-	if (fun) d.callback.ok = fun;
+	if (fun) {
+		d.callback.ok = fun;
+	}
 	return d;
 };
 Deferred.next_faster_way_Image = ((typeof window === 'object') && (typeof(Image) != "undefined") && !window.opera && document.addEventListener) && function (fun) {
@@ -288,13 +298,17 @@ Deferred.next_faster_way_Image = ((typeof window === 'object') && (typeof(Image)
 		img.removeEventListener("error", handler, false);
 	};
 	img.src = "data:image/png," + Math.random();
-	if (fun) d.callback.ok = fun;
+	if (fun) {
+        d.callback.ok = fun;
+    }
 	return d;
 };
 Deferred.next_tick = (typeof process === 'object' && typeof process.nextTick === 'function') && function (fun) {
 	var d = new Deferred();
-	process.nextTick(function() { d.call() });
-	if (fun) d.callback.ok = fun;
+	process.nextTick(function() { d.call(); });
+	if (fun) {
+        d.callback.ok = fun;
+    }
 	return d;
 };
 Deferred.next = Deferred.next_faster_way_readystatechange ||
@@ -345,7 +359,7 @@ Deferred.next = Deferred.next_faster_way_readystatechange ||
  */
 Deferred.chain = function () {
 	var chain = Deferred.next();
-	for (var i = 0, len = arguments.length; i < len; i++) (function (obj) {
+	chainClosure = function (obj) {
 		switch (typeof obj) {
 			case "function":
 				var name = null;
@@ -359,12 +373,15 @@ Deferred.chain = function () {
 				}
 				break;
 			case "object":
-				chain = chain.next(function() { return Deferred.parallel(obj) });
+				chain = chain.next(function() { return Deferred.parallel(obj); });
 				break;
 			default:
 				throw "unknown type in process chains";
 		}
-	})(arguments[i]);
+    };
+	for (var i = 0, len = arguments.length; i < len; i++) {
+		chainClosure(arguments[i]);
+    }
 	return chain;
 };
 
@@ -383,9 +400,9 @@ Deferred.chain = function () {
 Deferred.wait = function (n) {
 	var d = new Deferred(), t = new Date();
 	var id = setTimeout(function () {
-		d.call((new Date).getTime() - t.getTime());
+		d.call((new Date()).getTime() - t.getTime());
 	}, n * 1000);
-	d.canceller = function () { clearTimeout(id) };
+	d.canceller = function () { clearTimeout(id); };
 	return d;
 };
 
@@ -450,29 +467,44 @@ Deferred.call = function (fun) {
  * @see Deferred.earlier
  */
 Deferred.parallel = function (dl) {
-	if (arguments.length > 1) dl = Array.prototype.slice.call(arguments);
+	if (arguments.length > 1) {
+        dl = Array.prototype.slice.call(arguments);
+    }
 	var ret = new Deferred(), values = {}, num = 0;
-	for (var i in dl) if (dl.hasOwnProperty(i)) (function (d, i) {
-		if (typeof d == "function") d = Deferred.next(d);
-		d.next(function (v) {
-			values[i] = v;
-			if (--num <= 0) {
-				if (dl instanceof Array) {
-					values.length = dl.length;
-					values = Array.prototype.slice.call(values, 0);
-				}
-				ret.call(values);
-			}
-		}).error(function (e) {
-			ret.fail(e);
-		});
-		num++;
-	})(dl[i], i);
+    var i = 0;
 
-	if (!num) Deferred.next(function () { ret.call() });
+    var parallelClosure = function (d, i) {
+        if (typeof d == "function") {
+         d = Deferred.next(d);
+        }
+        d.next(function (v) {
+            values[i] = v;
+            if (--num <= 0) {
+                if (dl instanceof Array) {
+                    values.length = dl.length;
+                    values = Array.prototype.slice.call(values, 0);
+                }
+                ret.call(values);
+            }
+        }).error(function (e) {
+            ret.fail(e);
+        });
+        num++;
+    };
+	for (i in dl) {
+        if (dl.hasOwnProperty(i)) {
+            parallelClosure(dl[i], i);
+		}
+    }
+
+	if (!num) {
+        Deferred.next(function () { ret.call(); });
+    }
 	ret.canceller = function () {
-		for (var i in dl) if (dl.hasOwnProperty(i)) {
-			dl[i].cancel();
+		for (var i in dl) {
+            if (dl.hasOwnProperty(i)) {
+                dl[i].cancel();
+            }
 		}
 	};
 	return ret;
@@ -487,27 +519,39 @@ Deferred.parallel = function (dl) {
  * @see Deferred.parallel
  */
 Deferred.earlier = function (dl) {
-	if (arguments.length > 1) dl = Array.prototype.slice.call(arguments);
+	if (arguments.length > 1) {
+        dl = Array.prototype.slice.call(arguments);
+    }
 	var ret = new Deferred(), values = {}, num = 0;
-	for (var i in dl) if (dl.hasOwnProperty(i)) (function (d, i) {
-		d.next(function (v) {
-			values[i] = v;
-			if (dl instanceof Array) {
-				values.length = dl.length;
-				values = Array.prototype.slice.call(values, 0);
-			}
-			ret.canceller();
-			ret.call(values);
-		}).error(function (e) {
-			ret.fail(e);
-		});
-		num++;
-	})(dl[i], i);
+    var i = 0;
+    earlierClosure = function (d, i) {
+        d.next(function (v) {
+                values[i] = v;
+                if (dl instanceof Array) {
+                    values.length = dl.length;
+                    values = Array.prototype.slice.call(values, 0);
+                }
+                ret.canceller();
+                ret.call(values);
+        }).error(function (e) {
+        ret.fail(e);
+        });
+        num++;
+    };
+	for (i in dl) {
+        if (dl.hasOwnProperty(i)) {
+			earlierClosure(dl[i], i);
+		}
+    }
 
-	if (!num) Deferred.next(function () { ret.call() });
+	if (!num) {
+        Deferred.next(function () { ret.call(); });
+    }
 	ret.canceller = function () {
-		for (var i in dl) if (dl.hasOwnProperty(i)) {
-			dl[i].cancel();
+		for (var i in dl) {
+			if (dl.hasOwnProperty(i)) {
+				dl[i].cancel();
+			}
 		}
 	};
 	return ret;
@@ -572,7 +616,6 @@ Deferred.loop = function (n, fun) {
 	});
 };
 
-
 /**
  * Loop `n` times with `fun`.
  * This function automatically returns UI-control to browser, if the loop spends over 20msec.
@@ -592,14 +635,13 @@ Deferred.repeat = function (n, fun) {
 	var i = 0, end = {}, ret = null;
 	return Deferred.next(function () {
 		var t = (new Date()).getTime();
-		divide: {
 			do {
-				if (i >= n) break divide;
+				if (i >= n) {
+					return null;
+				}
 				ret = fun(i++);
 			} while ((new Date()).getTime() - t < 20);
 			return Deferred.call(arguments.callee);
-		}
-		return null;
 	});
 };
 
@@ -680,15 +722,15 @@ Deferred.connect = function (funo, options) {
 		if (!(isFinite(callbackArgIndex) && callbackArgIndex !== null)) {
 			callbackArgIndex = args.length;
 		}
-		var callback = function () { d.call(new Deferred.Arguments(arguments)) };
+		var callback = function () { d.call(new Deferred.Arguments(arguments)); };
 		args.splice(callbackArgIndex, 0, callback);
 		if (isFinite(errorbackArgIndex) && errorbackArgIndex !== null) {
-			var errorback = function () { d.fail(arguments) };
+			var errorback = function () { d.fail(arguments); };
 			args.splice(errorbackArgIndex, 0, errorback);
 		}
-		Deferred.next(function () { func.apply(target, args) });
+		Deferred.next(function () { func.apply(target, args); });
 		return d;
-	}
+	};
 };
 /**
  * Used for Deferred.connect to allow to pass multiple values to next.
@@ -698,7 +740,7 @@ Deferred.connect = function (funo, options) {
  * @param {Array.<*>} args
  * @see Deferred.connect
  */
-Deferred.Arguments = function (args) { this.args = Array.prototype.slice.call(args, 0) };
+Deferred.Arguments = function (args) { this.args = Array.prototype.slice.call(args, 0); };
 
 /**
  * Try func (returns Deferred) till it finish without exceptions.
@@ -720,7 +762,9 @@ Deferred.Arguments = function (args) { this.args = Array.prototype.slice.call(ar
  * @return {Deferred}
  */
 Deferred.retry = function (retryCount, funcDeferred, options) {
-	if (!options) options = {};
+	if (!options) {
+        options = {};
+    }
 
 	var wait = options.wait || 0;
 	var d = new Deferred();
@@ -755,8 +799,12 @@ Deferred.methods = ["parallel", "wait", "next", "call", "loop", "repeat", "chain
  * @return {function():Deferred} The Deferred constructor function
  */
 Deferred.define = function (obj, list) {
-	if (!list) list = Deferred.methods;
-	if (!obj)  obj  = (function getGlobal () { return this })();
+	if (!list) {
+        list = Deferred.methods;
+    }
+	if (!obj)  {
+        obj  = (function getGlobal () { return this; })();
+    }
 	for (var i = 0; i < list.length; i++) {
 		var n = list[i];
 		obj[n] = Deferred[n];
