@@ -189,7 +189,7 @@ After the process, above code is same as following:
 
 ### Error processing and recovering ###
 
-A Deferred has also error-back for error processing. Let's just see a example (from test):
+A Deferred has also error-back for error processing. Let's just see an example (this is from test):
 
 	next(function () {
 		throw "Error";
@@ -215,9 +215,38 @@ The error thrown in callback is propagated by error-back chain. If the error-bac
 
 ### Difference between MochiKit and JSDeferred ###
 
+JSDeferred is inspired by MochiKit Deferred object, so both is similar but JSDeferred drops some functions and simplified it.
+
  * MochiKit Deferred has chain by Array. JSDeferred has chain by chain of Deferred.
  * MochiKit Deferred separates parent chain and child chain, JSDeferred not.
 
+## Comparison of other deferred-like objects ##
+
+### vs [jQuery's Deferred]( http://api.jquery.com/category/deferred-object/ )
+
+ *  Bad: Not supports child deferred
+ *  Bad: No utility functions
+ *  Good: Simple
+ *  Good: Cache result (it can be called after completed the task)
+ *  Good: jQuery embed (no more dependencies and compact)
+
+### vs [Dojo's Deferred]( http://docs.dojocampus.org/dojo/Deferred )
+
+ *  Bad: Not supports child deferred
+ *  Bad: Very heavy dependencies for dojo
+ *  Good: Support progress
+
+### vs [CommonJS's Promise]( http://wiki.commonjs.org/wiki/Promises )
+
+ *  Bad: Not implemeneted?
+ *  Bad: Not supports child deferred
+ *  Bad: Too complex
+ *  Good: Highlier functional
+
+## Different-origin Deferred instances
+
+JSDeferred can be used in inter-environment which is independent respectively like browser extension
+because JSDeferred determines a self-class identity by instance id.
 
 Author
 -------

@@ -122,6 +122,21 @@ task :release => [:update, :clean, :test] do
 	sh %|git push --tags|
 end
 
+task :npm => [:clean, :test] do
+	require 'json'
+	data = JSON.parse(File.read('package.json.tmpl'))
+	data['version'] = Version
+	File.open("package.json", "w") do |f|
+		f.puts JSON.pretty_generate(data)
+	end
+	puts File.read("package.json")
+	print "Sure publishing to npm repository? [yN]: "
+	if $stdin.gets =~ /y/i
+		puts "publishing..."
+#		# sh %{npm publish .}
+	end
+end
+
 desc "Create Documentation"
 task :doc => ["doc/index.html"] do |t|
 end
