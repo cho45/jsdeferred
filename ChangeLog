@@ -1,3 +1,7 @@
+2011-04-19  SATOH Hiroh <cho45@lowreal.net>
+
+	* Fix infinate build on Titanium 1.6.1 (by Seasons7)
+
 2011-03-01  SATOH Hiroh <cho45@lowreal.net>
 
 	* Use class id instead of instanceof.

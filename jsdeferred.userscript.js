@@ -267,14 +267,11 @@ Deferred.repeat = function (n, fun) {
 	var i = 0, end = {}, ret = null;
 	return Deferred.next(function () {
 		var t = (new Date()).getTime();
-		divide: {
-			do {
-				if (i >= n) break divide;
-				ret = fun(i++);
-			} while ((new Date()).getTime() - t < 20);
-			return Deferred.call(arguments.callee);
-		}
-		return null;
+		do {
+			if (i >= n) return null;
+			ret = fun(i++);
+		} while ((new Date()).getTime() - t < 20);
+		return Deferred.call(arguments.callee);
 	});
 };
 
