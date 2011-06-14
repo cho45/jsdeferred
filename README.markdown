@@ -17,7 +17,6 @@ Download
 
  * [jsdeferred.js]( http://github.com/cho45/jsdeferred/raw/master/jsdeferred.js )
  * No comments: [jsdeferred.nodoc.js]( http://github.com/cho45/jsdeferred/raw/master/jsdeferred.nodoc.js )
- * Compressed: [jsdeferred.mini.js]( http://github.com/cho45/jsdeferred/raw/master/jsdeferred.mini.js )
  * With jQuery supports: [jsdeferred.jquery.js]( http://github.com/cho45/jsdeferred/raw/master/jsdeferred.jquery.js )
 
 Repository:
