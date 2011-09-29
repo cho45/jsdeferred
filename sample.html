@@ -212,6 +212,39 @@ function print (m) { $("#parallel-code1").append("\n// "+m) }
 				</div>
 
 				<div clsss="section">
+					<h2>Workers</h2>
+					<pre id="worker-code" onclick="eval($(this).text());">
+var queue   = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+var workers = new Array(2);
+var work    = function (job) {
+	print('working... ' + job);
+	return wait(3);
+};
+
+for (var i = 0, len = workers.length; i < len; i++) {
+	workers[i] = next(function me () {
+		var job = queue.shift();
+		if (!job) return;
+
+		print("start worker: " + job);
+		return next(function () { return job }).
+		next(work).
+		next(me);
+	}).
+	error(function (e) {
+		alert(e);
+	});
+}
+
+parallel(workers).next(function () {
+	print('all done!');
+});
+
+function print (m) { $("#worker-code").append("\n// "+m) }
+</pre>
+				</div>
+
+				<div clsss="section">
 					<h2>Divided Loop</h2>
 					<pre id="loop-code" onclick="eval($(this).text());">
 next(function () {
