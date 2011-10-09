@@ -450,14 +450,20 @@ Deferred.call = function (fun) {
  * @see Deferred.earlier
  */
 Deferred.parallel = function (dl) {
-	if (arguments.length > 1) dl = Array.prototype.slice.call(arguments);
+	var isArray = false;
+	if (arguments.length > 1) {
+		dl = Array.prototype.slice.call(arguments);
+		isArray = true;
+	} else if (Array.isArray && Array.isArray(dl) || typeof dl.length == "number") {
+		isArray = true;
+	}
 	var ret = new Deferred(), values = {}, num = 0;
 	for (var i in dl) if (dl.hasOwnProperty(i)) (function (d, i) {
 		if (typeof d == "function") d = Deferred.next(d);
 		d.next(function (v) {
 			values[i] = v;
 			if (--num <= 0) {
-				if (dl instanceof Array) {
+				if (isArray) {
 					values.length = dl.length;
 					values = Array.prototype.slice.call(values, 0);
 				}
@@ -487,12 +493,18 @@ Deferred.parallel = function (dl) {
  * @see Deferred.parallel
  */
 Deferred.earlier = function (dl) {
-	if (arguments.length > 1) dl = Array.prototype.slice.call(arguments);
+	var isArray = false;
+	if (arguments.length > 1) {
+		dl = Array.prototype.slice.call(arguments);
+		isArray = true;
+	} else if (Array.isArray && Array.isArray(dl) || typeof dl.length == "number") {
+		isArray = true;
+	}
 	var ret = new Deferred(), values = {}, num = 0;
 	for (var i in dl) if (dl.hasOwnProperty(i)) (function (d, i) {
 		d.next(function (v) {
 			values[i] = v;
-			if (dl instanceof Array) {
+			if (isArray) {
 				values.length = dl.length;
 				values = Array.prototype.slice.call(values, 0);
 			}
