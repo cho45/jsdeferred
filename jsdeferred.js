@@ -62,15 +62,15 @@
  * @constructor
  */
 function Deferred () { return (this instanceof Deferred) ? this.init() : new Deferred() }
-/** 
+/**
  * default callback function
- * @type {function(this:Deferred, ...[*]):*} 
+ * @type {function(this:Deferred, ...[*]):*}
  * @field
  */
 Deferred.ok = function (x) { return x };
-/** 
+/**
  * default errorback function
- * @type {function(this:Deferred, ...[*]):*} 
+ * @type {function(this:Deferred, ...[*]):*}
  * @field
  */
 Deferred.ng = function (x) { throw  x };
@@ -119,7 +119,7 @@ Deferred.prototype = {
 
 	/**
 	 * Create new Deferred and sets `fun` as its errorback.
-	 * 
+	 *
 	 * If `fun` not throws error but returns normal value, Deferred treats
 	 * the given error is recovery and continue callback chain.
 	 *
@@ -164,7 +164,7 @@ Deferred.prototype = {
 
 	/**
 	 * Invokes self errorback chain. You can use this method for explicit errors (eg. HTTP request failed)
-	 * 
+	 *
 	 * @example
 	 *   function http (url) {
 	 *     var d = new Deferred();

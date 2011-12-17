@@ -33,19 +33,19 @@ Copy and paste following at end of your userscript:
 Example:
 
 	with (D()) {
-	
+
 	next(fun...);
-	
+
 	// normal xhr
 	http.get("...").
 	next(fun...);
-	
+
 	// cross site
 	xhttp.get("...").
 	next(fun...);
-	
+
 	}
-	
+
 	// pasted code
 	function D () {
 	...JSDeferred...
@@ -109,15 +109,15 @@ Example for understanding Deferred structure.
 	d1.callback.ok = function () {
 		alert("1");
 	};
-	
+
 	var d2 = new Deferred();
 	d2.callback.ok = function () {
 		alert("2");
 	};
-	
+
 	// Set d2 as continuation of d1.
 	d1._next = d2;
-	
+
 	// Invoke the chain.
 	d1.call();
 

@@ -113,7 +113,7 @@
 					if (member.isInner) output += "&lt;inner&gt; ";
 				!}
 				</span>
-			
+
 				<span class="name">{+member.name.replace(/\^\d+$/, '')+}</span
 				><span class="signature">{+makeSignature(member.params)+}</span>
 
@@ -207,7 +207,7 @@
 						if (member.isConstant) output += "&lt;constant&gt; ";
 					!}
 					</span>
-				
+
 					<span class="memberOf">{+member.memberOf+}{+ (member.isStatic ? '.' : '#') +}</span
 					><span class="name">{+member.name.replace(/\^\d+$/, '')+}</span
 					>
@@ -277,11 +277,11 @@
 				<section class="description">
 					{+resolveLinks(member.desc)+}
 				</section>
-				
+
 				<if test="member.example.length"><for each="example" in="member.example">
 				<pre class="code">{+example+}</pre>
 				</for></if>
-				
+
 
 				<footer>
 				<if test="member.see.length">
@@ -313,7 +313,7 @@
 						if (member.isStatic) output += "&lt;static&gt; ";
 					!}
 					</span>
-				
+
 					<span class="memberOf">{+member.memberOf+}{+ (member.isStatic ? '.' : '#') +}</span
 					><span class="name">{+member.name.replace(/\^\d+$/, '')+}</span
 					><span class="signature">{+makeSignature(member.params)+}</span>
@@ -382,11 +382,11 @@
 				<section class="description">
 					{+resolveLinks(member.desc)+}
 				</section>
-				
+
 				<if test="member.example.length"><for each="example" in="member.example">
 				<pre class="code">{+example+}</pre>
 				</for></if>
-				
+
 
 				<footer>
 				<if test="member.see.length">

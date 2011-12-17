@@ -129,7 +129,7 @@ next(function () {
 	alert(results);
 });
 </pre>
-					<p>Now it's shorter, and can handle any number of requests. "loop" is a function that, if a Deferred instance is returned in the argument function, 
+					<p>Now it's shorter, and can handle any number of requests. "loop" is a function that, if a Deferred instance is returned in the argument function,
 					it waits until the deferred process to finish and then execute the following process.</p>
 					<p>The above is a code to fire requests sequentially, i.e. load foo.json then bar.json and so on,
 					you probably have more situations where you want to load them all at once. In that case, you can simply write as this.</p>
