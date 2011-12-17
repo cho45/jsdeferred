@@ -68,7 +68,7 @@ Deferred.postie = function (constructor, opts) {
 		code = args.pop();
 
 		code = (typeof code == 'function') ? code.toSource() : 'function () {' + code + '}';
-		
+
 		var mes = {
 			id : id++,
 			code : '(' + code + ').apply(null, ' + JSON.stringify(args) + ')'

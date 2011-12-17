@@ -7,10 +7,10 @@ function Deferred () { return (this instanceof Deferred) ? this.init() : new Def
 Deferred.ok = function (x) { return x };
 Deferred.ng = function (x) { throw  x };
 Deferred.prototype = {
-	
+
 	_id : 0xe38286e381ae,
 
-	
+
 	init : function () {
 		this._next    = null;
 		this.callback = {
@@ -20,19 +20,19 @@ Deferred.prototype = {
 		return this;
 	},
 
-	
+
 	next  : function (fun) { return this._post("ok", fun) },
 
-	
+
 	error : function (fun) { return this._post("ng", fun) },
 
-	
+
 	call  : function (val) { return this._fire("ok", val) },
 
-	
+
 	fail  : function (err) { return this._fire("ng", err) },
 
-	
+
 	cancel : function () {
 		(this.canceller || function () {})();
 		return this.init();

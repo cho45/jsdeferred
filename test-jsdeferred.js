@@ -609,16 +609,16 @@ next(function () {
 			}
 		],
 		function (result) {
-			expect("array is run in parallel", result[0], 1); 
-			expect("array is run in parallel", result[1], 2); 
+			expect("array is run in parallel", result[0], 1);
+			expect("array is run in parallel", result[1], 2);
 		},
 		{
 			foo: function () { return 1 },
 			bar: function () { return 2 }
 		},
 		function (result) {
-			expect("object is run in parallel", result.foo, 1); 
-			expect("object is run in parallel", result.bar, 2); 
+			expect("object is run in parallel", result.foo, 1);
+			expect("object is run in parallel", result.bar, 2);
 		},
 		function error (e) {
 			ng(e);
