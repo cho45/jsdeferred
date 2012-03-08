@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>JSDeferred - Asynchronous library in JavaScript. Standalone and Compact</title>
+		<meta charset="utf-8"/>
+
+		<link href='http://fonts.googleapis.com/css?family=Buenard' rel='stylesheet' type='text/css'/>
+		<link rel="stylesheet/tass" type="text/x-tass" href="styles.tass"/>
+		<script type="text/javascript" src="http://cdn.washer-in-the-rye.com/tass.js"></script>
+
+		<!--[if lt IE 9]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+	</head>
+	<body>
+		<div id="whole">
+			<header id="top">
+				<h1><a href="/">JSDeferred</a></h1>
+				<p class="description">Standalone and Compact asynchronous library in JavaScript.</p>
+			</header>
+
+			<nav id="global-navigation">
+				<ul>
+					<li><a href="./#overview">Overview</a></li>
+					<li><a href="./#download">Download</a></li>
+					<li><a href="./#tutorial">Tutorial</a></li>
+					<li><a href="./#usage">Usage</a></li>
+					<li><a href="./#reference">API</a></li>
+					<li><a href="./#development">Development</a></li>
+				</ul>
+			</nav>
+
+			<div id="content">
+				<div id="content-inner">
+					<div id="overview" class="line">
+						<section class="grid-6">
+							<h1>Overview</h1>
+							<p>
+								JSDeferred is standalone and compact asynchronous library.
+								Asynchronous codes are very confused because it is a storm of callbacks.
+								JSDeferred improve the readability of asynchronous codes by providing one object and some functions.
+							</p>
+
+							<pre>
+next(function () {
+	alert('Hello,');
+	return wait(3);
+}).
+next(function (r) {
+	alert('World!');
+});
+</pre>
+
+							<p>"Standalone and Compact" means JSDeferred is very portable so works in many environment.</p>
+						</section>
+
+						<section class="grid-6" id="download">
+							<h1>Download</h1>
+							<ul class="line">
+								<li class="grid-2">
+									<a href="https://github.com/cho45/jsdeferred/blob/master/jsdeferred.jquery.js">
+										<h1>With jQuery</h1>
+										<p>For web use and jQuery users.</p>
+									</a>
+								</li>
+								<li class="grid-2">
+									<a href="https://raw.github.com/cho45/jsdeferred/master/jsdeferred.nodoc.js">
+										<h1>Plain Edition</h1>
+										<p>For generic use. Web without jQuery or etc...</p>
+									</a>
+								</li>
+								<li class="grid-2">
+								<a href="https://raw.github.com/cho45/jsdeferred/master/jsdeferred.userscript.js">
+										<h1>For userscripts</h1>
+										<p>For use <code>with(D()) { ... }</code></p>
+									</a>
+								</li>
+								<li class="grid-2">
+									<a href="https://raw.github.com/cho45/jsdeferred/master/jsdeferred.jetpack.js">
+										<h1>For Add-on SDK</h1>
+										<p>Provides some utilities.</p>
+									</a>
+								</li>
+								<li class="grid-2">
+									<a href="https://raw.github.com/cho45/jsdeferred/master/jsdeferred.js">
+										<h1>Documented</h1>
+										<p>Full documented version.</p>
+									</a>
+								</li>
+								<li class="grid-2">
+									<a href="https://github.com/cho45/jsdeferred/binding">
+										<h1>Others</h1>
+										<p>Other resources.</p>
+									</a>
+								</li>
+							</ul>
+						</section>
+
+						<section class="grid-12">
+							<h1>Supported Environment</h1>
+							<ul class="line">
+								<li class="grid-2">
+									<h1>Browsers</h1>
+									<p>
+										Offcourse, almost browsers are supported:
+										<a href="http://www.google.com/chrome/">Google Chrome</a>,
+										<a href="http://www.mozilla.org/en-US/firefox/new/">Mozilla Firefox</a>,
+										<a href="http://www.opera.com/">Opera,</a>
+										<a href="http://windows.microsoft.com/en-us/internet-explorer/products/ie/home">Microsoft Internet Explorer</a> and etc.
+									</p>
+								</li>
+								<li class="grid-2">
+									<h1><a href="http://nodejs.org/">node.js</a></h1>
+									<p>
+										node.js provides many many asynchronous functions. JSDeferred helps program readability.
+									</p>
+								</li>
+								<li class="grid-2">
+									<h1><a href="http://code.google.com/chrome/extensions/index.html">Chrome Extension</a></h1>
+									<p>
+										Google Chrome provides HTML5 based extension feature. JSDeferred can be used with it.
+									</p>
+								</li>
+								<li class="grid-2">
+									<h1><a href="https://addons.mozilla.org/ja/developers/builder">Firefox Add-on SDK</a></h1>
+									<p>
+										JSDeferred can work in Firefox Add-on SDK (also known as Jetpack SDK) environment completely.
+									</p>
+								</li>
+								<li class="grid-2">
+									<h1><a href="http://www.appcelerator.com/products/titanium-mobile-application-development/">Titanium Mobile SDK</a></h1>
+									<p>
+										Titanium Mobile SDK can create iPhone and Android application by JavaScript. JSDeferred can works it.
+									</p>
+								</li>
+								<li class="grid-2">
+									<h1><a href="http://www.greasespot.net/">Greasemonkey</a></h1>
+									<p>
+										JSDeferred is standalone and compact. So you can just copy and paste your userscripts.
+									</p>
+								</li>
+							</ul>
+							<p>In fact, JSDeferred only depends on setTimeout() function, so if setTimeout is provided, JSDeferred will work.</p>
+						</section>
+					</div>
+
+					<div id="usage" class="line">
+						<section class="grid-12">
+							<h1>Usage</h1>
+
+							<section>
+								<h1>Basic Usage</h1>
+							</section>
+
+							<section>
+								<h1>When getting resources in parallel.</h1>
+							</section>
+
+							<section>
+								<h1>Job Queue</h1>
+							</section>
+						</section>
+					</div>
+
+					<div id="behavior" class="line">
+						<section class="grid-12">
+							<h1>Behavior</h1>
+							<aside>
+								<p>This sections use some words as following meanings.</p>
+
+								<dl>
+									<dt>chain</dt>
+									<dd>a sequence of processes.</dd>
+									<dt>child</dt>
+									<dd>the Deferred which returns from a callback.</dd>
+									<dt>Deferred#foobar</dt>
+									<dd>Deferred.prototype.foobar</dd>
+								</dl>
+							</aside>
+
+							<section>
+								<h1>Deferred structure and chain structure</h1>
+								<figure><img src="http://f.hatena.ne.jp/images/fotolife/c/cho45/20071208/20071208021643.png" alt="Deferred structure"/></figure>
+								<p>A Deferred object has only one callback as its process. Deferred object packages a process (function) as callback and has reference to next Deferred (this is thought like continuation).</p>
+
+								<p>Example for understanding Deferred structure.</p>
+
+								<pre>
+<span class="Type">var</span> d1 = <span class="Statement">new</span> Deferred();
+d1.callback.ok = <span class="Identifier">function</span> () {
+    alert(<span class="Constant">&quot;1&quot;</span>);
+};
+
+<span class="Type">var</span> d2 = <span class="Statement">new</span> Deferred();
+d2.callback.ok = <span class="Identifier">function</span> () {
+    alert(<span class="Constant">&quot;2&quot;</span>);
+};
+
+<span class="Comment">// Set d2 as continuation of d1.</span>
+d1._next = d2;
+
+<span class="Comment">// Invoke the chain.</span>
+d1.call();
+</pre>
+
+								<p>And example for usual use.</p>
+
+								<pre>
+next(<span class="Identifier">function</span> () { <span class="Comment">// this `next` is global function</span>
+    alert(<span class="Constant">&quot;1&quot;</span>);
+}).
+next(<span class="Identifier">function</span> () { <span class="Comment">// this `next` is Deferred#next</span>
+    alert(<span class="Constant">&quot;2&quot;</span>);
+}).
+next(<span class="Identifier">function</span> () {
+    alert(<span class="Constant">&quot;3&quot;</span>);
+});</pre>
+
+								<p>Deferred#next creates new Deferred, sets the passed functions to process of it, sets it as continuation of `this` and returns it.</p>
+
+
+								<p>This structure makes easy to chain child Deferreds.</p>
+
+								<pre>
+next(<span class="Identifier">function</span> () {
+    alert(<span class="Constant">&quot;1&quot;</span>);
+}).
+next(<span class="Identifier">function</span> () {
+    alert(<span class="Constant">&quot;2&quot;</span>);
+<span class="Comment">    // child Deferred</span>
+    <span class="Statement">return</span> next(<span class="Identifier">function</span> () {
+        alert(<span class="Constant">&quot;3&quot;</span>);
+    });
+}).
+next(<span class="Identifier">function</span> () {
+    alert(<span class="Constant">&quot;4&quot;</span>);
+});</pre>
+
+								<figure><img src="http://f.hatena.ne.jp/images/fotolife/c/cho45/20071207/20071207014817.png" alt="Chain child deferred"/></figure>
+								<p>When the callback returns Deferred, the Deferred calling the callback only sets its continuation (`_next`) to returned Deferred's continuation.</p>
+
+								
+								<pre>
+next(<span class="Identifier">function</span> () {
+    alert(<span class="Constant">&quot;1&quot;</span>);
+}).
+next(<span class="Identifier">function</span> () {
+    alert(<span class="Constant">&quot;2&quot;</span>);
+    <span class="Type">var</span> d = next(<span class="Identifier">function</span> () {
+        alert(<span class="Constant">&quot;3&quot;</span>);
+    });
+    d._next = <span class="Type">this</span>._next;
+    <span class="Type">this</span>.cancel();
+}).
+next(<span class="Identifier">function</span> () {
+    alert(<span class="Constant">&quot;4&quot;</span>);
+});</pre>
+
+								<p>After the process, above code is same as following:</p>
+
+								
+								<pre>
+next(<span class="Identifier">function</span> () {
+    alert(<span class="Constant">&quot;1&quot;</span>);
+}).
+next(<span class="Identifier">function</span> () {
+    alert(<span class="Constant">&quot;2&quot;</span>);
+    next(<span class="Identifier">function</span> () {
+        alert(<span class="Constant">&quot;3&quot;</span>);
+    }).
+    next(<span class="Identifier">function</span> () {
+        alert(<span class="Constant">&quot;4&quot;</span>);
+    });
+});</pre>
+
+							</section>
+
+							<section>
+								<h1>Error processing and recovering</h1>
+								<p>A Deferred has also error-back for error processing. Let's just see an example (this is from test):</p>
+
+								<pre>
+next(<span class="Identifier">function</span> () {
+    <span class="Statement">throw</span> <span class="Constant">&quot;Error&quot;</span>;
+}).
+error(<span class="Identifier">function</span> (e) {
+    expect(<span class="Constant">&quot;Errorback called&quot;</span>, <span class="Constant">&quot;Error&quot;</span>, e);
+    <span class="Statement">return</span> e; <span class="Comment">// recovering error</span>
+}).
+next(<span class="Identifier">function</span> (e) {
+    expect(<span class="Constant">&quot;Callback called&quot;</span>, <span class="Constant">&quot;Error&quot;</span>, e);
+    <span class="Statement">throw</span> <span class="Constant">&quot;Error2&quot;</span>;
+}).
+next(<span class="Identifier">function</span> (e) {
+<span class="Comment">    // This process is not called because</span>
+<span class="Comment">    // the error is not recovered.</span>
+    ng(<span class="Constant">&quot;Must not be called!!&quot;</span>);
+}).
+error(<span class="Identifier">function</span> (e) {
+    expect(<span class="Constant">&quot;Errorback called&quot;</span>, <span class="Constant">&quot;Error2&quot;</span>, e);
+});</pre>
+
+								<p>The error thrown in callback is propagated by error-back chain. If the error-back returns normal value, the error is considered as recovery, and the callback chain continues.</p>
+							</section>
+
+
+							<section>
+								<h1>Different-origin Deferred instances</h1>
+
+								<p>JSDeferred can be used in inter-environment which is independent respectively like browser extension
+								because JSDeferred determines a self-class identity by instance id.</p>
+							</section>
+
+						</section>
+					</div>
+
+					<div id="development" class="line">
+						<section class="grid-12">
+							<h1>Development</h1>
+
+							<div class="line">
+								<section id="repository" class="grid-6">
+									<h1>Repository</h1>
+									<p>JSDeferred is hosted on github.</p>
+									<pre>
+$ git clone git://github.com/cho45/jsdeferred.git
+</pre>
+								</section>
+
+								<section id="test" class="grid-6">
+									<h1>Test</h1>
+									<p><a href="test.html">Browser Tests</a> or CUI tests:</p>
+									<pre>
+$ node test-node.js
+or
+$ rhino test-rhino.js
+or
+$ phantomjs test-phantomjs.js
+</pre>
+								</section>
+							</div>
+
+							<div class="line">
+								<section class="grid-6">
+									<h1>Active Issues</h1>
+								</section>
+								<section class="grid-6">
+									<h1>Closed Issues</h1>
+								</section>
+							</section>
+						</section>
+					</div>
+
+					<div id="media" class="line">
+						<section class="grid-12">
+							<h1>Media</h1>
+
+							<section>
+								<figure><a href="http://www.amazon.co.jp/gp/product/4873114977/ref=as_li_ss_il?ie=UTF8&tag=nuso-22&linkCode=as2&camp=247&creative=7399&creativeASIN=4873114977"><img border="0" src="http://ws.assoc-amazon.jp/widgets/q?_encoding=UTF8&Format=_SL160_&ASIN=4873114977&MarketPlace=JP&ID=AsinImage&WS=1&tag=nuso-22&ServiceVersion=20070822" ></a><img src="http://www.assoc-amazon.jp/e/ir?t=nuso-22&l=as2&o=9&a=4873114977" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></figure>
+								<p>Firefox Hacks Rebooted: introduce JSDeferred in Add-on SDK by <a href="http://twitter.com/piro_or">@piro_or</a></p>
+							</section>
+
+							<section>
+								<figure><a href="http://gihyo.jp/dev/feature/01/jsdeferred">特集: JSDeferredで，面倒な非同期処理とサヨナラ</a></figure>
+								<p>Japanese tutorial of JSDeferred by @cho45</p>
+							</section>
+						</section>
+					</div>
+
+					<div id="about" class="line">
+						<section class="grid-12">
+							<h1>About</h1>
+							<section>
+								<h1>Contributors</h1>
+							</section>
+						</section>
+					</div>
+				</div>
+			</div>
+
+			<footer id="global-footer">
+				<address>Copyright &copy; 2007-2012, License under <a href="https://raw.github.com/cho45/jsdeferred/master/jsdeferred.js">MIT</a></address>
+			</footer>
+		</div>
+	</body>
+</html>
