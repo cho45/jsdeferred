@@ -92,5 +92,6 @@ process.on('exit', function () {
 		print(color(32, "All tests passed"));
 	} else {
 		print(color(31, "Some tests failed..."));
+		process.exit(1);
 	}
 });

@@ -383,7 +383,7 @@ Deferred.chain = function () {
 Deferred.wait = function (n) {
 	var d = new Deferred(), t = new Date();
 	var id = setTimeout(function () {
-		d.call((new Date).getTime() - t.getTime());
+		d.call((new Date()).getTime() - t.getTime());
 	}, n * 1000);
 	d.canceller = function () { clearTimeout(id) };
 	return d;
@@ -459,7 +459,7 @@ Deferred.parallel = function (dl) {
 	}
 	var ret = new Deferred(), values = {}, num = 0;
 	for (var i in dl) if (dl.hasOwnProperty(i)) (function (d, i) {
-		if (typeof d == "function") d = Deferred.next(d);
+		if (typeof d == "function") dl[i] = d = Deferred.next(d);
 		d.next(function (v) {
 			values[i] = v;
 			if (--num <= 0) {
@@ -697,7 +697,7 @@ Deferred.connect = function (funo, options) {
 		}
 		Deferred.next(function () { func.apply(target, args) });
 		return d;
-	}
+	};
 };
 /**
  * Used for Deferred.connect to allow to pass multiple values to next.

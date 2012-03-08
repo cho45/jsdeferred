@@ -157,7 +157,7 @@ Deferred.chain = function () {
 Deferred.wait = function (n) {
 	var d = new Deferred(), t = new Date();
 	var id = setTimeout(function () {
-		d.call((new Date).getTime() - t.getTime());
+		d.call((new Date()).getTime() - t.getTime());
 	}, n * 1000);
 	d.canceller = function () { clearTimeout(id) };
 	return d;
@@ -171,14 +171,20 @@ Deferred.call = function (fun) {
 };
 
 Deferred.parallel = function (dl) {
-	if (arguments.length > 1) dl = Array.prototype.slice.call(arguments);
+	var isArray = false;
+	if (arguments.length > 1) {
+		dl = Array.prototype.slice.call(arguments);
+		isArray = true;
+	} else if (Array.isArray && Array.isArray(dl) || typeof dl.length == "number") {
+		isArray = true;
+	}
 	var ret = new Deferred(), values = {}, num = 0;
 	for (var i in dl) if (dl.hasOwnProperty(i)) (function (d, i) {
-		if (typeof d == "function") d = Deferred.next(d);
+		if (typeof d == "function") dl[i] = d = Deferred.next(d);
 		d.next(function (v) {
 			values[i] = v;
 			if (--num <= 0) {
-				if (dl instanceof Array) {
+				if (isArray) {
 					values.length = dl.length;
 					values = Array.prototype.slice.call(values, 0);
 				}
@@ -200,12 +206,18 @@ Deferred.parallel = function (dl) {
 };
 
 Deferred.earlier = function (dl) {
-	if (arguments.length > 1) dl = Array.prototype.slice.call(arguments);
+	var isArray = false;
+	if (arguments.length > 1) {
+		dl = Array.prototype.slice.call(arguments);
+		isArray = true;
+	} else if (Array.isArray && Array.isArray(dl) || typeof dl.length == "number") {
+		isArray = true;
+	}
 	var ret = new Deferred(), values = {}, num = 0;
 	for (var i in dl) if (dl.hasOwnProperty(i)) (function (d, i) {
 		d.next(function (v) {
 			values[i] = v;
-			if (dl instanceof Array) {
+			if (isArray) {
 				values.length = dl.length;
 				values = Array.prototype.slice.call(values, 0);
 			}
@@ -322,7 +334,7 @@ Deferred.connect = function (funo, options) {
 		}
 		Deferred.next(function () { func.apply(target, args) });
 		return d;
-	}
+	};
 };
 Deferred.Arguments = function (args) { this.args = Array.prototype.slice.call(args, 0) };
 

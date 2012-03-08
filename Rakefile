@@ -190,6 +190,10 @@ file "jsdeferred.jetpack.js" => ["jsdeferred.js", "binding/jetpack.js"] do |t|
 end
 
 file "doc/index.html" => ["jsdeferred.js", "doc/template/class.tmpl", "doc/template/publish.js"] do |t|
-	sh %{java -jar #{JSDOC}/jsrun.jar #{JSDOC}/app/run.js -s -d=doc -t=doc/template jsdeferred.js}
+	if JSDOC.exist? && system('which java')
+		sh %{java -jar #{JSDOC}/jsrun.jar #{JSDOC}/app/run.js -s -d=doc -t=doc/template jsdeferred.js}
+	else
+		warn "java is not installed or #{JSDOC} is not exists."
+	end
 end
 

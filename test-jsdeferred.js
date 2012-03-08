@@ -526,6 +526,33 @@ next(function () {
 		});
 	}).
 	next(function () {
+		return parallel([
+			function () {
+				return 0;
+			},
+			function () {
+				return 1;
+			}
+		]).
+		next(function (values) {
+			print(uneval(values));
+			expect("parallel values 0", 0, values[0]);
+			expect("parallel values 1", 1, values[1]);
+		});
+	}).
+	next(function () {
+		var d = parallel([
+			function () {
+				return 0;
+			},
+			function () {
+				return 1;
+			}
+		]);
+
+		d.cancel();
+	}).
+	next(function () {
 		return Deferred.earlier([
 			wait(0).next(function () { return 1 }),
 			wait(1).next(function () { return 2 })
@@ -851,7 +878,7 @@ next(function () {
 }).
 next(function () {
 	msg("Stack over flow test: check not waste stack.");
-//	if (skip("too heavy", 1)) return;
+	if (skip("too heavy", 1)) return;
 
 	var num = 10001;
 	return loop(num, function (n) {
@@ -872,10 +899,16 @@ next(function () {
 	msg("jQuery binding test")
 	if (Global.navigator && !/Rhino/.test(Global.navigator.userAgent)) {
 		return next(function() {
-			expect("$.ajax should return deferred",    true, $.ajax({ url: "./test.html" }) instanceof $.deferred);
-			expect("$.get should return deferred",     true, $.get("./test.html")           instanceof $.deferred);
-			expect("$.post should return deferred",    true, $.post("./test.html")          instanceof $.deferred);
-			expect("$.getJSON should return deferred", true, $.getJSON("./test.html")       instanceof $.deferred);
+			expect("$.ajax#toJSDeferred() should return deferred",    true, $.ajax({ url: "./test.html" }).toJSDeferred() instanceof Deferred);
+			expect("$.get#toJSDeferred() should return deferred",     true, $.get("./test.html").toJSDeferred()           instanceof Deferred);
+			expect("$.post#toJSDeferred() should return deferred",    true, $.post("./test.html").toJSDeferred()          instanceof Deferred);
+			expect("$.getJSON#toJSDeferred() should return deferred", true, $.getJSON("./test.html").toJSDeferred()       instanceof Deferred);
+			expect("Deferred()#toJSDeferred() should return deferred", true, $.Deferred().toJSDeferred()       instanceof Deferred);
+
+			expect("$.ajax should implement next()",    true, !!$.ajax({ url: "./test.html" }).next);
+			expect("$.ajax should implement error()",    true, !!$.ajax({ url: "./test.html" }).error);
+			expect("$.Deferred should implement next()",    true, !!$.Deferred().next);
+			expect("$.Deferred should implement error()",    true, !!$.Deferred().error);
 		}).
 		next(function () {
 			return $.ajax({
@@ -915,7 +948,7 @@ next(function () {
 			ng("Error on jQuery Test:", "", e);
 		});
 	} else {
-		skip("Not in browser", 8);
+		skip("Not in browser", 16);
 	}
 	return null;
 }).
@@ -941,7 +974,7 @@ error(function (e) {
 
 
 // ::Test::End::
-}) });
+}, 'text') });
 
 
 
