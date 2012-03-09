@@ -166,7 +166,7 @@ pre {
 	background: #333;
 	color: #fff;
 	padding: 1em;
-	font-size: 80%;
+	font-size: 14px;
 	opacity: 0.9;
 	overflow: hidden;
 	@include box-shadow(0 0 5px rgba(0, 0, 0, 0.5));
@@ -210,19 +210,25 @@ pre {
 		}
 
 		pre.output {
-			overflow: auto;
 			position: absolute;
-			max-height: 80%;
 			top: 0;
 			right: 0;
 			left: 50%;
+			z-index: 99;
+			max-height: 80%;
+			overflow: auto;
 			margin: 0;
 			background: #000;
-			z-index: 99;
+			font-size: 14px;
 			opacity: 0.8;
 			@include box-shadow(0 0 5px rgba(0, 0, 0, 0.5));
 		}
 	}
+}
+
+.em {
+	font-weight: bold;
+	color: #990000;
 }
 
 h1, h2, h3, h4, h5, h6 {

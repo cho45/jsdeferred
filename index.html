@@ -465,8 +465,8 @@ error(<span class="Identifier">function</span> (e) {
 							<section>
 								<h1>Basic Loop</h1>
 								<pre class="runnable">
-loop(10, function (i) {
-	console.log(i)
+loop(<span class="Constant">10</span>, <span class="Identifier">function</span> (i) {
+    console.log(i)
 });
 </pre>
 							</section>
@@ -474,8 +474,8 @@ loop(10, function (i) {
 							<section>
 								<h1>Deferred Ajax</h1>
 								<pre class="runnable">
-$.get("sample.html").next(function (data) {
-	console.log(data);
+$.get(<span class="Constant">&quot;README.markdown&quot;</span>).next(<span class="Identifier">function</span> (data) {
+    console.log(data);
 });
 </pre>
 							</section>
@@ -484,35 +484,35 @@ $.get("sample.html").next(function (data) {
 								<h1>Parallel Deferred</h1>
 								<p>DeferredList</p>
 								<pre class="runnable">
-console.log("start. gathering data.");
+console.log(<span class="Constant">&quot;start. gathering data.&quot;</span>);
 
-parallel([$.get("README.markdown"), $.get("ChangeLog")]).
-next(function (values) {
-	var lengths = $.map(values, function (i) { return i.length });
-	console.log(lengths.join(", "));
+parallel([$.get(<span class="Constant">&quot;README.markdown&quot;</span>), $.get(<span class="Constant">&quot;ChangeLog&quot;</span>)]).
+next(<span class="Identifier">function</span> (values) {
+    <span class="Type">var</span> lengths = $.map(values, <span class="Identifier">function</span> (i) { <span class="Statement">return</span> i.length });
+    console.log(lengths.join(<span class="Constant">&quot;, &quot;</span>));
 });
 </pre>
 								<pre class="runnable">
-console.log("start. gathering data.");
+console.log(<span class="Constant">&quot;start. gathering data.&quot;</span>);
 
-// named parallel deferred
-parallel({html: $.get("README.markdown"), js: $.get("ChangeLog")}).
-next(function (values) {
-	console.log(["html=", values.html.length, " js=", values.js.length].join(""));
+<span class="Comment">// named parallel deferred</span>
+parallel({<span class="Statement">html</span>: $.get(<span class="Constant">&quot;README.markdown&quot;</span>), <span class="Statement">js</span>: $.get(<span class="Constant">&quot;ChangeLog&quot;</span>)}).
+next(<span class="Identifier">function</span> (values) {
+    console.log([<span class="Constant">&quot;html=&quot;</span>, values.html.length, <span class="Constant">&quot; js=&quot;</span>, values.js.length].join(<span class="Constant">&quot;&quot;</span>));
 });
 </pre>
 								<pre class="runnable">
-console.log("start. wait 3 sec.");
+console.log(<span class="Constant">&quot;start. wait 3 sec.&quot;</span>);
 
-var list = [];
-var printAndReturn = function (i) { console.log(i+"msec elapsed"); return i; };
-list.push(wait(0).next(printAndReturn));
-list.push(wait(1).next(printAndReturn));
-list.push(wait(2).next(printAndReturn));
-list.push(wait(3).next(printAndReturn));
+<span class="Type">var</span> list = [];
+<span class="Type">var</span> printAndReturn = <span class="Identifier">function</span> (i) { console.log(i+<span class="Constant">&quot;msec elapsed&quot;</span>); <span class="Statement">return</span> i; };
+list.push(wait(<span class="Constant">0</span>).next(printAndReturn));
+list.push(wait(<span class="Constant">1</span>).next(printAndReturn));
+list.push(wait(<span class="Constant">2</span>).next(printAndReturn));
+list.push(wait(<span class="Constant">3</span>).next(printAndReturn));
 
-parallel(list).next(function (values) {
-	console.log("Completed. values: "+values.join(", "));
+parallel(list).next(<span class="Identifier">function</span> (values) {
+    console.log(<span class="Constant">&quot;Completed. values: &quot;</span>+values.join(<span class="Constant">&quot;, &quot;</span>));
 });
 </pre>
 							</section>
@@ -520,30 +520,30 @@ parallel(list).next(function (values) {
 							<section>
 								<h1>Workers</h1>
 								<pre class="runnable">
-var queue   = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-var workers = new Array(2);
-var work    = function (job) {
-	console.log('working... ' + job);
-	return wait(Math.random() * 4);
+<span class="Type">var</span> queue   = [<span class="Constant">1</span>, <span class="Constant">2</span>, <span class="Constant">3</span>, <span class="Constant">4</span>, <span class="Constant">5</span>, <span class="Constant">6</span>, <span class="Constant">7</span>, <span class="Constant">8</span>, <span class="Constant">9</span>, <span class="Constant">10</span>];
+<span class="Type">var</span> workers = <span class="Statement">new</span> <span class="Special">Array</span>(<span class="Constant">2</span>);
+<span class="Type">var</span> work    = <span class="Identifier">function</span> (job) {
+    console.log(<span class="Constant">'working... '</span> + job);
+    <span class="Statement">return</span> wait(<span class="Special">Math</span>.random() * <span class="Constant">4</span>);
 };
 
-for (var i = 0, len = workers.length; i < len; i++) {
-	workers[i] = next(function me () {
-		var job = queue.shift();
-		if (!job) return;
+<span class="Statement">for</span> (<span class="Type">var</span> i = <span class="Constant">0</span>, len = workers.length; i &lt; len; i++) {
+    workers[i] = next(<span class="Identifier">function</span> me () {
+        <span class="Type">var</span> job = queue.shift();
+        <span class="Statement">if</span> (!job) <span class="Statement">return</span>;
 
-		console.log("start worker: " + job);
-		return next(function () { return job }).
-		next(work).
-		next(me);
-	}).
-	error(function (e) {
-		alert(e);
-	});
+        console.log(<span class="Constant">&quot;start worker: &quot;</span> + job);
+        <span class="Statement">return</span> next(<span class="Identifier">function</span> () { <span class="Statement">return</span> job }).
+        next(work).
+        next(me);
+    }).
+    error(<span class="Identifier">function</span> (e) {
+        alert(e);
+    });
 }
 
-parallel(workers).next(function () {
-	console.log('all done!');
+parallel(workers).next(<span class="Identifier">function</span> () {
+    console.log(<span class="Constant">'all done!'</span>);
 });
 </pre>
 							</section>
@@ -551,69 +551,69 @@ parallel(workers).next(function () {
 							<section>
 								<h1>Divided Loop</h1>
 								<pre class="runnable">
-next(function () {
-	var sum = 0;
-	return loop({end:100000, step:1000}, function (n, o) {
-		console.log(["Processing divided loop:n=", n, ", sum=", sum, " last?=", o.last].join(""));
-		for (var i = 0; i < o.step; i++) {
-			// console.log(i + n);
-			sum += i + n;
-		}
-		console.log(["sum=", sum].join(""));
-		return sum;
-	});
+next(<span class="Identifier">function</span> () {
+    <span class="Type">var</span> sum = <span class="Constant">0</span>;
+    <span class="Statement">return</span> loop({<span class="Statement">end</span>:100000, <span class="Statement">step</span>:1000}, <span class="Identifier">function</span> (n, o) {
+        console.log([<span class="Constant">&quot;Processing divided loop:n=&quot;</span>, n, <span class="Constant">&quot;, sum=&quot;</span>, sum, <span class="Constant">&quot; last?=&quot;</span>, o.last].join(<span class="Constant">&quot;&quot;</span>));
+        <span class="Statement">for</span> (<span class="Type">var</span> i = <span class="Constant">0</span>; i &lt; o.step; i++) {
+<span class="Comment">            // console.log(i + n);</span>
+            sum += i + n;
+        }
+        console.log([<span class="Constant">&quot;sum=&quot;</span>, sum].join(<span class="Constant">&quot;&quot;</span>));
+        <span class="Statement">return</span> sum;
+    });
 }).
-next(function (e) {
-	console.log("Result:"+e);
-	console.log("end");
+next(<span class="Identifier">function</span> (e) {
+    console.log(<span class="Constant">&quot;Result:&quot;</span>+e);
+    console.log(<span class="Constant">&quot;end&quot;</span>);
 }).
-error(function (e) {
-	console.log(e);
+error(<span class="Identifier">function</span> (e) {
+    console.log(e);
 });
 </pre>
 								<pre class="runnable">
-loop({begin: 1, end:100, step:10}, function (n, o) {
-	console.log(["Processing divided loop:n=", n, " last?=", o.last].join(""));
-	for (var i = 0; i < o.step; i++) {
-		var j = n + i;
-		console.log(j);
-	}
+loop({<span class="Statement">begin</span>: <span class="Constant">1</span>, <span class="Statement">end</span>:100, <span class="Statement">step</span>:10}, <span class="Identifier">function</span> (n, o) {
+    console.log([<span class="Constant">&quot;Processing divided loop:n=&quot;</span>, n, <span class="Constant">&quot; last?=&quot;</span>, o.last].join(<span class="Constant">&quot;&quot;</span>));
+    <span class="Statement">for</span> (<span class="Type">var</span> i = <span class="Constant">0</span>; i &lt; o.step; i++) {
+        <span class="Type">var</span> j = n + i;
+        console.log(j);
+    }
 });
 </pre>
 							</section>
 							<section>
 								<h1>Auto Divided Loop</h1>
 								<pre class="runnable">
-function aloop (n, f) {
-	var i   = 0;
-	var end = new Object;
-	var ret = null;
-	return Deferred.next(function () {
-		var t = (new Date()).getTime();
-		try {
-			do {
-				ret = f(i)
-				i++;
-				if (i >= n) throw end;
-			} while ((new Date()).getTime() - t < 50);
-			console.log("Devided: " + ((new Date()).getTime() - t) + "msec.");
-			return Deferred.call(arguments.callee);
-		} catch (e) {
-			if (e == end) {
-				console.log("End");
-				return ret;
-			} else {
-				throw e;
-			}
-		}
-	});
+<span class="Identifier">function</span> aloop (n, f) {
+    <span class="Type">var</span> i   = <span class="Constant">0</span>;
+    <span class="Type">var</span> end = <span class="Statement">new</span> <span class="Special">Object</span>;
+    <span class="Type">var</span> ret = <span class="Type">null</span>;
+    <span class="Statement">return</span> Deferred.next(<span class="Identifier">function</span> () {
+        <span class="Type">var</span> t = (<span class="Statement">new</span> <span class="Special">Date</span>()).getTime();
+        <span class="Statement">try</span> {
+            <span class="Statement">do</span> {
+                ret = f(i)
+                i++;
+                <span class="Statement">if</span> (i &gt;= n) <span class="Statement">throw</span> end;
+            } <span class="Statement">while</span> ((<span class="Statement">new</span> <span class="Special">Date</span>()).getTime() - t &lt; <span class="Constant">50</span>);
+            console.log(<span class="Constant">&quot;Devided: &quot;</span> + ((<span class="Statement">new</span> <span class="Special">Date</span>()).getTime() - t) + <span class="Constant">&quot;msec.&quot;</span>);
+            <span class="Statement">return</span> Deferred.call(arguments.callee);
+        } <span class="Statement">catch</span> (e) {
+            <span class="Statement">if</span> (e == end) {
+                console.log(<span class="Constant">&quot;End&quot;</span>);
+                <span class="Statement">return</span> ret;
+            } <span class="Statement">else</span> {
+                <span class="Statement">throw</span> e;
+            }
+        }
+    });
 }
 
-aloop(100, function (n, o) {
-	console.log(n);
-	for (var i = 0; i < Math.pow(n, 2); i++) {
-		for (var j = n; j; j--);
-	}
+aloop(<span class="Constant">100</span>, <span class="Identifier">function</span> (n, o) {
+    console.log(n);
+    <span class="Statement">for</span> (<span class="Type">var</span> i = <span class="Constant">0</span>; i &lt; <span class="Special">Math</span>.pow(n, <span class="Constant">2</span>); i++) {
+        <span class="Statement">for</span> (<span class="Type">var</span> j = n; j; j--);
+    }
 });
 </pre>
 							</section>
@@ -621,14 +621,14 @@ aloop(100, function (n, o) {
 							<section>
 								<h1>Pseudo Multi Thread</h1>
 								<pre class="runnable">
-loop(10, function (n) {
-	console.log(n);
-	return wait(0.1);
+loop(<span class="Constant">10</span>, <span class="Identifier">function</span> (n) {
+    console.log(n);
+    <span class="Statement">return</span> wait(<span class="Constant">0.1</span>);
 });
 
-loop(10, function (n) {
-	console.log(String.fromCharCode(97+n));
-	return wait(0.2);
+loop(<span class="Constant">10</span>, <span class="Identifier">function</span> (n) {
+    console.log(<span class="Special">String</span>.fromCharCode(<span class="Constant">97</span>+n));
+    <span class="Statement">return</span> wait(<span class="Constant">0.2</span>);
 });
 </pre>
 							</section>
@@ -636,22 +636,22 @@ loop(10, function (n) {
 							<section>
 								<h1>Shorthand</h1>
 								<pre class="runnable">
-console.log(0);
-loop(10, function (n) {
-	console.log(n);
-	return n;
+console.log(<span class="Constant">0</span>);
+loop(<span class="Constant">10</span>, <span class="Identifier">function</span> (n) {
+    console.log(n);
+    <span class="Statement">return</span> n;
 }).
-wait(1).
-loop(10, function (n) {
-	var c = String.fromCharCode(97+n);
-	console.log(c);
-	return c;
+wait(<span class="Constant">1</span>).
+loop(<span class="Constant">10</span>, <span class="Identifier">function</span> (n) {
+    <span class="Type">var</span> c = <span class="Special">String</span>.fromCharCode(<span class="Constant">97</span>+n);
+    console.log(c);
+    <span class="Statement">return</span> c;
 }).
-next(function (i) {
-	console.log("end");
+next(<span class="Identifier">function</span> (i) {
+    console.log(<span class="Constant">&quot;end&quot;</span>);
 }).
-error(function (e) {
-	alert(e);
+error(<span class="Identifier">function</span> (e) {
+    alert(e);
 });
 </pre>
 							</section>
@@ -659,34 +659,34 @@ error(function (e) {
 							<section>
 								<h1>Delay Loop</h1>
 								<pre class="runnable">
-loop(5, function (i, o) {
-	console.log(i);
-	return o.last? i : wait(1);
+loop(<span class="Constant">5</span>, <span class="Identifier">function</span> (i, o) {
+    console.log(i);
+    <span class="Statement">return</span> o.last? i : wait(<span class="Constant">1</span>);
 }).
-next(function (e) {
-	console.log("end ["+e+"]");
+next(<span class="Identifier">function</span> (e) {
+    console.log(<span class="Constant">&quot;end [&quot;</span>+e+<span class="Constant">&quot;]&quot;</span>);
 }).
-error(function (e) {
-	console.log(e);
+error(<span class="Identifier">function</span> (e) {
+    console.log(e);
 });
 </pre>
 								<pre class="runnable">
-next(function (i) {
-	function delayloop (i) {
-		console.log(i++);
-		if (i < 5) {
-			return wait(1).next(function () {
-				return call(delayloop, i);
-			});
-		}
-	}
-	return call(delayloop, 0);
+next(<span class="Identifier">function</span> (i) {
+    <span class="Identifier">function</span> delayloop (i) {
+        console.log(i++);
+        <span class="Statement">if</span> (i &lt; <span class="Constant">5</span>) {
+            <span class="Statement">return</span> wait(<span class="Constant">1</span>).next(<span class="Identifier">function</span> () {
+                <span class="Statement">return</span> call(delayloop, i);
+            });
+        }
+    }
+    <span class="Statement">return</span> call(delayloop, <span class="Constant">0</span>);
 }).
-next(function (e) {
-	console.log("end");
+next(<span class="Identifier">function</span> (e) {
+    console.log(<span class="Constant">&quot;end&quot;</span>);
 }).
-error(function (e) {
-	console.log(e);
+error(<span class="Identifier">function</span> (e) {
+    console.log(e);
 });
 </pre>
 							</section>
@@ -694,132 +694,132 @@ error(function (e) {
 							<section>
 								<h1>Step Run (event handling)</h1>
 								<pre class="runnable" id="step-run">
-var deferred = Deferred();
-$("#step-run").click(function () { deferred.call() });
+<span class="Type">var</span> deferred = Deferred();
+$(<span class="Constant">&quot;#step-run&quot;</span>).click(<span class="Identifier">function</span> () { deferred.call() });
 
-loop(5, function (i) {
-	console.log("running... " + i);
-	return deferred;
+loop(<span class="Constant">5</span>, <span class="Identifier">function</span> (i) {
+    console.log(<span class="Constant">&quot;running... &quot;</span> + i);
+    <span class="Statement">return</span> deferred;
 }).
-next(function () {
-	console.log("completed");
+next(<span class="Identifier">function</span> () {
+    console.log(<span class="Constant">&quot;completed&quot;</span>);
 });
 </pre>
 
 							<section>
 								<h1>Brainfuck interpreter</h1>
 								<pre id="bfi-code">
-function bfrun () {
-	var mem    = $("&lt;pre/>"), out = $("&lt;pre/>"), button = $("#bfi-run").hide();
-	var sinput = $("#bfi-source").hide(), source = sinput.val();
-	var shtml  = $("&lt;div class='code'/>");
-	var selems = $.map(source.split(/\n/), function (l) {
-		var line = $("&lt;div class='line'/>").appendTo(shtml);
-		return $.map(l.split(""), function (c) {
-			return $("&lt;span/>").append(c).appendTo(line);
-		})
-	});
-	sinput.before(mem).before(out).before(shtml);
+<span class="Identifier">function</span> bfrun () {
+    <span class="Type">var</span> mem    = $(<span class="Constant">&quot;&lt;pre/&gt;&quot;</span>), out = $(<span class="Constant">&quot;&lt;pre/&gt;&quot;</span>), button = $(<span class="Constant">&quot;#bfi-run&quot;</span>).hide();
+    <span class="Type">var</span> sinput = $(<span class="Constant">&quot;#bfi-source&quot;</span>).hide(), source = sinput.val();
+    <span class="Type">var</span> shtml  = $(<span class="Constant">&quot;&lt;pre class='code'/&gt;&quot;</span>);
+    <span class="Type">var</span> selems = $.map(source.split(<span class="Constant">/</span><span class="Special">\n</span><span class="Constant">/</span>), <span class="Identifier">function</span> (l) {
+        <span class="Type">var</span> line = $(<span class="Constant">&quot;&lt;div class='line'/&gt;&quot;</span>).appendTo(shtml);
+        <span class="Statement">return</span> $.map(l.split(<span class="Constant">&quot;&quot;</span>), <span class="Identifier">function</span> (c) {
+            <span class="Statement">return</span> $(<span class="Constant">&quot;&lt;span/&gt;&quot;</span>).append(c).appendTo(line);
+        })
+    });
+    sinput.before(mem).before(out).before(shtml);
 
-	var pi = {
-		"+": function (c) {
-			if (!c.stack[0]) return c;
-			c.memory[c.pointer]++;
-			return c;
-		},
-		"-": function (c) {
-			if (!c.stack[0]) return c;
-			c.memory[c.pointer]--;
-			return c;
-		},
-		">": function (c) {
-			if (!c.stack[0]) return c;
-			c.pointer++;
-			c.memory[c.pointer] = (c.memory[c.pointer] || 0);
-			return c;
-		},
-		"&lt;": function (c) {
-			if (!c.stack[0]) return c;
-			c.pointer--;
-			c.memory[c.pointer] = (c.memory[c.pointer] || 0);
-			return c;
-		},
-		".": function (c) {
-			if (!c.stack[0]) return c;
-			c.output.push(String.fromCharCode(c.memory[c.pointer]));
-			return c;
-		},
-		",": function (c) {
-			if (!c.stack[0]) return c;
-			c.memory[c.pointer] = "t";
-			return c;
-		},
-		"[": function (c) {
-			if (c.memory[c.pointer] == 0) {
-				c.stack.unshift(false);
-			} else {
-				c.stack.unshift(c.pos - 1);
-			}
-			return c;
-		},
-		"]": function (c) {
-			var s = c.stack.shift();
-			if (s) c.pos = s;
-			return c;
-		}
-	};
+    <span class="Type">var</span> pi = {
+        <span class="Constant">&quot;+&quot;</span>: <span class="Identifier">function</span> (c) {
+            <span class="Statement">if</span> (!c.stack[<span class="Constant">0</span>]) <span class="Statement">return</span> c;
+            c.memory[c.pointer]++;
+            <span class="Statement">return</span> c;
+        },
+        <span class="Constant">&quot;-&quot;</span>: <span class="Identifier">function</span> (c) {
+            <span class="Statement">if</span> (!c.stack[<span class="Constant">0</span>]) <span class="Statement">return</span> c;
+            c.memory[c.pointer]--;
+            <span class="Statement">return</span> c;
+        },
+        <span class="Constant">&quot;&gt;&quot;</span>: <span class="Identifier">function</span> (c) {
+            <span class="Statement">if</span> (!c.stack[<span class="Constant">0</span>]) <span class="Statement">return</span> c;
+            c.pointer++;
+            c.memory[c.pointer] = (c.memory[c.pointer] || <span class="Constant">0</span>);
+            <span class="Statement">return</span> c;
+        },
+        <span class="Constant">&quot;&lt;&quot;</span>: <span class="Identifier">function</span> (c) {
+            <span class="Statement">if</span> (!c.stack[<span class="Constant">0</span>]) <span class="Statement">return</span> c;
+            c.pointer--;
+            c.memory[c.pointer] = (c.memory[c.pointer] || <span class="Constant">0</span>);
+            <span class="Statement">return</span> c;
+        },
+        <span class="Constant">&quot;.&quot;</span>: <span class="Identifier">function</span> (c) {
+            <span class="Statement">if</span> (!c.stack[<span class="Constant">0</span>]) <span class="Statement">return</span> c;
+            c.output.push(<span class="Special">String</span>.fromCharCode(c.memory[c.pointer]));
+            <span class="Statement">return</span> c;
+        },
+        <span class="Constant">&quot;,&quot;</span>: <span class="Identifier">function</span> (c) {
+            <span class="Statement">if</span> (!c.stack[<span class="Constant">0</span>]) <span class="Statement">return</span> c;
+            c.memory[c.pointer] = <span class="Constant">&quot;t&quot;</span>;
+            <span class="Statement">return</span> c;
+        },
+        <span class="Constant">&quot;[&quot;</span>: <span class="Identifier">function</span> (c) {
+            <span class="Statement">if</span> (c.memory[c.pointer] == <span class="Constant">0</span>) {
+                c.stack.unshift(<span class="Constant">false</span>);
+            } <span class="Statement">else</span> {
+                c.stack.unshift(c.pos - <span class="Constant">1</span>);
+            }
+            <span class="Statement">return</span> c;
+        },
+        <span class="Constant">&quot;]&quot;</span>: <span class="Identifier">function</span> (c) {
+            <span class="Type">var</span> s = c.stack.shift();
+            <span class="Statement">if</span> (s) c.pos = s;
+            <span class="Statement">return</span> c;
+        }
+    };
 
-	next(function () {
-		return {
-			pos     : 0,
-			pointer : 0,
-			memory  : [0],
-			stack   : [true],
-			output  : [],
-			source  : source
-		};
-	}).
-	next(function (c) {
-		if (selems[c.pos]) selems[c.pos].removeClass("em");
-		var chr, fun;
-		do {
-			chr = c.source.charAt(c.pos);
-			fun = pi[chr];
-			c.pos++;
-		} while (chr.match(/[^&lt;>,.\[\]+-]/));
-		var m = c.memory.concat();
-		m.splice(c.pointer, 1, "*"+(c.memory[c.pointer] || 0));
-		mem.text(m.join(", "));
-		out.text(c.output.join(""));
+    next(<span class="Identifier">function</span> () {
+        <span class="Statement">return</span> {
+            <span class="Statement">pos</span>     : <span class="Constant">0</span>,
+            <span class="Statement">pointer</span> : <span class="Constant">0</span>,
+            <span class="Statement">memory</span>  : [<span class="Constant">0</span>],
+            <span class="Statement">stack</span>   : [<span class="Constant">true</span>],
+            <span class="Statement">output</span>  : [],
+            <span class="Statement">source</span>  : source
+        };
+    }).
+    next(<span class="Identifier">function</span> (c) {
+        <span class="Statement">if</span> (selems[c.pos]) selems[c.pos].removeClass(<span class="Constant">&quot;em&quot;</span>);
+        <span class="Type">var</span> chr, fun;
+        <span class="Statement">do</span> {
+            chr = c.source.charAt(c.pos);
+            fun = pi[chr];
+            c.pos++;
+        } <span class="Statement">while</span> (chr.match(<span class="Constant">/[^&lt;&gt;,.</span><span class="Special">\[\]</span><span class="Constant">+-]/</span>));
+        <span class="Type">var</span> m = c.memory.concat();
+        m.splice(c.pointer, <span class="Constant">1</span>, <span class="Constant">&quot;*&quot;</span>+(c.memory[c.pointer] || <span class="Constant">0</span>));
+        mem.text(m.join(<span class="Constant">&quot;, &quot;</span>));
+        out.text(c.output.join(<span class="Constant">&quot;&quot;</span>));
 
-		if (typeof fun == "function") {
-			c = fun(c);
-			if (c.pos &lt; c.source.length) {
-				if (selems[c.pos]) selems[c.pos].addClass("em");
-				return call(arguments.callee, c);
-			} else {
-				return c;
-			}
-		} else {
-			return c;
-		}
-	}).
-	next(function (c) {
-		var reset = $("&lt;button>Reset&lt;/button>")
-		sinput.after(reset);
-		reset.click(function () {
-			sinput.show();
-			button.show();
-			mem.remove();
-			out.remove();
-			shtml.remove();
-			reset.remove();
-		});
-		console.log("end");
-	}).
-	error(function (e) {
-		alert(e);
-	});
+        <span class="Statement">if</span> (<span class="Statement">typeof</span> fun == <span class="Constant">&quot;function&quot;</span>) {
+            c = fun(c);
+            <span class="Statement">if</span> (c.pos &lt; c.source.length) {
+                <span class="Statement">if</span> (selems[c.pos]) selems[c.pos].addClass(<span class="Constant">&quot;em&quot;</span>);
+                <span class="Statement">return</span> call(arguments.callee, c);
+            } <span class="Statement">else</span> {
+                <span class="Statement">return</span> c;
+            }
+        } <span class="Statement">else</span> {
+            <span class="Statement">return</span> c;
+        }
+    }).
+    next(<span class="Identifier">function</span> (c) {
+        <span class="Type">var</span> reset = $(<span class="Constant">&quot;&lt;button&gt;Reset&lt;/button&gt;&quot;</span>)
+        sinput.after(reset);
+        reset.click(<span class="Identifier">function</span> () {
+            sinput.show();
+            button.show();
+            mem.remove();
+            out.remove();
+            shtml.remove();
+            reset.remove();
+        });
+        console.log(<span class="Constant">&quot;end&quot;</span>);
+    }).
+    error(<span class="Identifier">function</span> (e) {
+        alert(e);
+    });
 }
 
 </pre>
@@ -836,146 +836,146 @@ function bfrun () {
 								<h1>callcc</h1>
 								<p>like Scheme's callcc</p>
 								<pre class="runnable">
-function callcc (fun) {
-	var error = new Deferred();
-	return call(function () {
-		// JSDeferred passes current Deferred Object to  this.
-		var ccdeferred = this;
-		// Call with current continuation (calling Deferred.next)
-		return fun(function (a) { ccdeferred._next.call(a); throw error });
-	}).
-	error(function (e) {
-		// Current Deferred chain must be stopped
-		if (e === error) {
-			return e;
-		} else {
-			throw e;
-		}
-	});
+<span class="Identifier">function</span> callcc (fun) {
+    <span class="Type">var</span> error = <span class="Statement">new</span> Deferred();
+    <span class="Statement">return</span> call(<span class="Identifier">function</span> () {
+<span class="Comment">        // JSDeferred passes current Deferred Object to  this.</span>
+        <span class="Type">var</span> ccdeferred = <span class="Type">this</span>;
+<span class="Comment">        // Call with current continuation (calling Deferred.next)</span>
+        <span class="Statement">return</span> fun(<span class="Identifier">function</span> (a) { ccdeferred._next.call(a); <span class="Statement">throw</span> error });
+    }).
+    error(<span class="Identifier">function</span> (e) {
+<span class="Comment">        // Current Deferred chain must be stopped</span>
+        <span class="Statement">if</span> (e === error) {
+            <span class="Statement">return</span> e;
+        } <span class="Statement">else</span> {
+            <span class="Statement">throw</span> e;
+        }
+    });
 }
 
-callcc(function (cont) {
-	return 10 * 10 * cont(20);
+callcc(<span class="Identifier">function</span> (cont) {
+    <span class="Statement">return</span> <span class="Constant">10</span> * <span class="Constant">10</span> * cont(<span class="Constant">20</span>);
 }).
-next(function (val) {
-	console.log("callcc1 returns:" + val);
+next(<span class="Identifier">function</span> (val) {
+    console.log(<span class="Constant">&quot;callcc1 returns:&quot;</span> + val);
 });
-// should show "callcc1 returns:20"
+<span class="Comment">// should show &quot;callcc1 returns:20&quot;</span>
 
-var cont;
-var i = 0;
-callcc(function (c) {
-	cont = c;
-	return 10;
+<span class="Type">var</span> cont;
+<span class="Type">var</span> i = <span class="Constant">0</span>;
+callcc(<span class="Identifier">function</span> (c) {
+    cont = c;
+    <span class="Statement">return</span> <span class="Constant">10</span>;
 }).
-next(function (val) {
-	console.log("callcc2 returns:" + val);
-	if (!i++) cont(20);
+next(<span class="Identifier">function</span> (val) {
+    console.log(<span class="Constant">&quot;callcc2 returns:&quot;</span> + val);
+    <span class="Statement">if</span> (!i++) cont(<span class="Constant">20</span>);
 });
-// should show "callcc2 returns:10", "callcc returns:20"
+<span class="Comment">// should show &quot;callcc2 returns:10&quot;, &quot;callcc returns:20&quot;</span>
 </pre>
 
 								<p>and Scheme's amb</p>
 								<pre class="runnable">
-function callcc (fun) {
-	var error = new Deferred();
-	return call(function () {
-		// JSDeferred passes current Deferred Object to  this.
-		var ccdeferred = this;
-		// Call with current continuation (calling Deferred.next)
-		return fun(function (a) { ccdeferred._next.call(a); throw error });
-	}).
-	error(function (e) {
-		// Current Deferred chain must be stopped
-		if (e === error) {
-			return e;
-		} else {
-			throw e;
-		}
-	});
+<span class="Identifier">function</span> callcc (fun) {
+    <span class="Type">var</span> error = <span class="Statement">new</span> Deferred();
+    <span class="Statement">return</span> call(<span class="Identifier">function</span> () {
+<span class="Comment">        // JSDeferred passes current Deferred Object to  this.</span>
+        <span class="Type">var</span> ccdeferred = <span class="Type">this</span>;
+<span class="Comment">        // Call with current continuation (calling Deferred.next)</span>
+        <span class="Statement">return</span> fun(<span class="Identifier">function</span> (a) { ccdeferred._next.call(a); <span class="Statement">throw</span> error });
+    }).
+    error(<span class="Identifier">function</span> (e) {
+<span class="Comment">        // Current Deferred chain must be stopped</span>
+        <span class="Statement">if</span> (e === error) {
+            <span class="Statement">return</span> e;
+        } <span class="Statement">else</span> {
+            <span class="Statement">throw</span> e;
+        }
+    });
 }
 
-// http://www.sampou.org/scheme/t-y-scheme/t-y-scheme-Z-H-16.html#node_chap_14
-// Just port above.
-function amb () {
-	var alts = arguments;
-	var prevAmbFail = amb.ambFail;
+<span class="Comment">// <a href="http://www.sampou.org/scheme/t-y-scheme/t-y-scheme-Z-H-16.html#node_chap_14">http://www.sampou.org/scheme/t-y-scheme/t-y-scheme-Z-H-16.html#node_chap_14</a></span>
+<span class="Comment">// Just port above.</span>
+<span class="Identifier">function</span> amb () {
+    <span class="Type">var</span> alts = arguments;
+    <span class="Type">var</span> prevAmbFail = amb.ambFail;
 
-	return callcc(function (sk) {
-		return loop(alts.length, function (i) {
-			var alt = alts[i];
-			return callcc(function (fk) {
-				amb.ambFail = function () {
-					amb.ambFail = prevAmbFail;
-					return fk("fail");
-				};
-				return sk(alt);
-			});
-		}).
-		next(prevAmbFail);
-	});
+    <span class="Statement">return</span> callcc(<span class="Identifier">function</span> (sk) {
+        <span class="Statement">return</span> loop(alts.length, <span class="Identifier">function</span> (i) {
+            <span class="Type">var</span> alt = alts[i];
+            <span class="Statement">return</span> callcc(<span class="Identifier">function</span> (fk) {
+                amb.ambFail = <span class="Identifier">function</span> () {
+                    amb.ambFail = prevAmbFail;
+                    <span class="Statement">return</span> fk(<span class="Constant">&quot;fail&quot;</span>);
+                };
+                <span class="Statement">return</span> sk(alt);
+            });
+        }).
+        next(prevAmbFail);
+    });
 }
-amb.ambFail = function () { throw "amb tree exhausted" };
+amb.ambFail = <span class="Identifier">function</span> () { <span class="Statement">throw</span> <span class="Constant">&quot;amb tree exhausted&quot;</span> };
 
-// Utility function
-function amb1 (ambvars) {
-	var f    = wait(0);
-	var vars = {};
-	for (var k in ambvars) if (ambvars.hasOwnProperty(k)) (function (name, val) {
-		console.log(name);
-		f = f.next(function () {
-			return amb.apply(this, val).next(function (i) {
-				vars[name] = i;
-				return vars;
-			});
-		});
-	})(k, ambvars[k]);
+<span class="Comment">// Utility function</span>
+<span class="Identifier">function</span> amb1 (ambvars) {
+    <span class="Type">var</span> f    = wait(<span class="Constant">0</span>);
+    <span class="Type">var</span> vars = {};
+    <span class="Statement">for</span> (<span class="Type">var</span> k <span class="Statement">in</span> ambvars) <span class="Statement">if</span> (ambvars.hasOwnProperty(k)) (<span class="Identifier">function</span> (name, val) {
+        console.log(name);
+        f = f.next(<span class="Identifier">function</span> () {
+            <span class="Statement">return</span> amb.apply(<span class="Type">this</span>, val).next(<span class="Identifier">function</span> (i) {
+                vars[name] = i;
+                <span class="Statement">return</span> vars;
+            });
+        });
+    })(k, ambvars[k]);
 
-	return f;
-}
-
-function assert (cond) {
-	if (!cond) throw amb();
+    <span class="Statement">return</span> f;
 }
 
-// http://mayokara.info/note/view/251
-Array.prototype.uniq = function(){
-	for (var i = 0,l = this.length; i &lt; l; i++) {
-		if (this.indexOf(this[i]) &lt; i) {
-			this.splice(i--, l-- &amp;&amp; 1);
-		}
-	}
-	return this;
+<span class="Identifier">function</span> assert (cond) {
+    <span class="Statement">if</span> (!cond) <span class="Statement">throw</span> amb();
+}
+
+<span class="Comment">// <a href="http://mayokara.info/note/view/251">http://mayokara.info/note/view/251</a></span>
+<span class="Special">Array</span>.prototype.uniq = <span class="Identifier">function</span>(){
+    <span class="Statement">for</span> (<span class="Type">var</span> i = <span class="Constant">0</span>,l = <span class="Type">this</span>.length; i &lt; l; i++) {
+        <span class="Statement">if</span> (<span class="Type">this</span>.indexOf(<span class="Type">this</span>[i]) &lt; i) {
+            <span class="Type">this</span>.splice(i--, l-- &amp;&amp; <span class="Constant">1</span>);
+        }
+    }
+    <span class="Statement">return</span> <span class="Type">this</span>;
 };
 
 amb1({
-	baker    : [1, 2, 3, 4, 5],
-	cooper   : [1, 2, 3, 4, 5],
-	fletcher : [1, 2, 3, 4, 5],
-	miller   : [1, 2, 3, 4, 5],
-	smith    : [1, 2, 3, 4, 5]
+    <span class="Statement">baker</span>    : [<span class="Constant">1</span>, <span class="Constant">2</span>, <span class="Constant">3</span>, <span class="Constant">4</span>, <span class="Constant">5</span>],
+    <span class="Statement">cooper</span>   : [<span class="Constant">1</span>, <span class="Constant">2</span>, <span class="Constant">3</span>, <span class="Constant">4</span>, <span class="Constant">5</span>],
+    <span class="Statement">fletcher</span> : [<span class="Constant">1</span>, <span class="Constant">2</span>, <span class="Constant">3</span>, <span class="Constant">4</span>, <span class="Constant">5</span>],
+    <span class="Statement">miller</span>   : [<span class="Constant">1</span>, <span class="Constant">2</span>, <span class="Constant">3</span>, <span class="Constant">4</span>, <span class="Constant">5</span>],
+    <span class="Statement">smith</span>    : [<span class="Constant">1</span>, <span class="Constant">2</span>, <span class="Constant">3</span>, <span class="Constant">4</span>, <span class="Constant">5</span>]
 }).
-next(function (vars) { with (vars) {
-	console.log(vars);
-	// 簡易 distinct
-	assert([baker, cooper, fletcher, miller, smith].uniq().length == 5);
-	console.log("distinct passed");
-	assert(baker  != 5);
-	assert(cooper != 1);
-	assert(fletcher != 1 &amp;&amp; fletcher != 5);
-	assert(miller > cooper);
-	assert(Math.abs(smith - fletcher)  != 1);
-	assert(Math.abs(fletcher - cooper) != 1);
+next(<span class="Identifier">function</span> (vars) { <span class="Statement">with</span> (vars) {
+    console.log(vars);
+<span class="Comment">    // 簡易 distinct</span>
+    assert([baker, cooper, fletcher, miller, smith].uniq().length == <span class="Constant">5</span>);
+    console.log(<span class="Constant">&quot;distinct passed&quot;</span>);
+    assert(baker  != <span class="Constant">5</span>);
+    assert(cooper != <span class="Constant">1</span>);
+    assert(fletcher != <span class="Constant">1</span> &amp;&amp; fletcher != <span class="Constant">5</span>);
+    assert(miller &gt; cooper);
+    assert(<span class="Special">Math</span>.abs(smith - fletcher)  != <span class="Constant">1</span>);
+    assert(<span class="Special">Math</span>.abs(fletcher - cooper) != <span class="Constant">1</span>);
 
-	return vars;
+    <span class="Statement">return</span> vars;
 } }).
-next(function (vars) { with (vars) {
-	console.log("solved");
-	console.log(vars);
-	alert(uneval(vars));
+next(<span class="Identifier">function</span> (vars) { <span class="Statement">with</span> (vars) {
+    console.log(<span class="Constant">&quot;solved&quot;</span>);
+    console.log(vars);
+    alert(uneval(vars));
 } }).
-error(function (e) {
-	alert(e)
+error(<span class="Identifier">function</span> (e) {
+    alert(e)
 });
 </pre>
 
