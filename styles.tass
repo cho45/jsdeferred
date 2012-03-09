@@ -41,12 +41,17 @@
 
 html, body {
 	font-family: 'Buenard', serif;
-	font-size: 12px;
+	font-size: 16px;
 	line-height: 1.33;
 	margin: 0;
 	padding: 0;
 	color: #666;
 	text-align: justify;
+}
+
+code {
+	font-family: "Monaco", monospace;
+	font-size: 80%;
 }
 
 a:link {
@@ -64,6 +69,19 @@ a:hover {
 
 a.button { @include button; }
 
+aside.note {
+	@include border-radius(10px);
+	float: right;
+	padding: 20px;
+	margin: 0 0 20px 20px;
+	background: #fff;
+	width: 400px;
+
+	h1 {
+		margin: 0 0 20px 0;
+	}
+}
+
 
 .clear {
 	clear: both;
@@ -72,7 +90,7 @@ a.button { @include button; }
 .line {
 	display: block;
 	width: 960px;
-	margin: 50px auto;
+	margin: 50px auto 100px;
 	padding: 0;
 
 	&::after {
@@ -162,10 +180,54 @@ pre {
 	.Constant { color: #d7875f; }
 	.Identifier { color: #5f8787; }
 	.PreProc { color: #d75f5f; }
+
+	&.runnable {
+		position: relative;
+		min-height: 50px;
+
+		input.button {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			font-family: 'Buenard', serif;
+			padding: 10px 40px;
+			border: none;
+			font-size: 18px;
+
+			color: #fff;
+			text-decoration: none;
+			text-shadow: -1px -1px 0px #246f8e;
+			@include border-radius(8px);
+			@include box-shadow(inset -1px -1px 5px 0px rgba(0, 0, 0, 0.3));
+			@include linear-gradient(#649fce, #447fae);
+			border: 1px solid #fff;
+		}
+
+		input.button:hover {
+			@include box-shadow(inset 0px 0px 5px 0px rgba(0, 0, 0, 0.3));
+			@include linear-gradient(#333, #444);
+			text-shadow: none;
+		}
+
+		pre.output {
+			overflow: auto;
+			position: absolute;
+			max-height: 80%;
+			top: 0;
+			right: 0;
+			left: 50%;
+			margin: 0;
+			background: #000;
+			z-index: 99;
+			opacity: 0.8;
+			@include box-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+		}
+	}
 }
 
 h1, h2, h3, h4, h5, h6 {
 	font-family: 'Buenard', serif;
+	margin: 40px 0 20px;
 }
 
 .issues {
@@ -223,7 +285,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #top {
-	font-size: 300%;
+	font-size: 34px;
 	text-align: center;
 	padding: 2em 0;
 
@@ -276,17 +338,25 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #download {
+	font-size: 14px;
+
 	ul li {
 		display: block; 
 		text-align: center;
 		position: relative;
 
+		h1 {
+			margin: 0;
+			padding: 0;
+			font-weight: bold;
+			font-size: 100%;
+		}
+
 		a {
 			display: block;
-			width: 100%;
-			margin: 0 0 10px;
-			padding: 10px 0;
-			height: 70px;
+			margin: 10px 0 10px;
+			padding: 15px 10px;
+			height: 90px;
 			overflow: hidden;
 			color: #fff;
 			text-decoration: none;
@@ -310,7 +380,7 @@ h1, h2, h3, h4, h5, h6 {
 		@include border-radius(10px);
 		float: right;
 		padding: 10px;
-		margin: 10px;
+		margin: 0 0 20px 20px;
 		background: #fff;
 		
 		img {
@@ -320,12 +390,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #supported {
+	font-size: 14px;
+
 	a:link {
 		text-decoration: none;
 	}
 
 	a:hover {
 		text-decoration: underline;
+	}
+
+	h1 {
+		margin: 10px 0;
 	}
 }
 
