@@ -292,9 +292,15 @@ h1, h2, h3, h4, h5, h6 {
 			text-decoration: none;
 			text-shadow: -1px -1px 0px #246f8e;
 			@include border-radius(8px);
-			@include box-shadow(inset 0px 2px 0px 0px #fff);
+			@include box-shadow(inset -1px -1px 5px 0px rgba(0, 0, 0, 0.3));
 			@include linear-gradient(#649fce, #447fae);
 			border:1px solid #fff;
+		}
+
+		a:hover {
+			@include box-shadow(inset 0px 0px 5px 0px rgba(0, 0, 0, 0.3));
+			@include linear-gradient(#333, #444);
+			text-shadow: none;
 		}
 	}
 }
