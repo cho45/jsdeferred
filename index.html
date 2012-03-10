@@ -780,7 +780,7 @@ next(<span class="Identifier">function</span> () {
         };
     }).
     next(<span class="Identifier">function</span> (c) {
-        <span class="Statement">if</span> (selems[c.pos]) selems[c.pos].removeClass(<span class="Constant">&quot;em&quot;</span>);
+        <span class="Statement">if</span> (selems[c.pos - 1]) selems[c.pos - 1].removeClass(<span class="Constant">&quot;em&quot;</span>);
         <span class="Type">var</span> chr, fun;
         <span class="Statement">do</span> {
             chr = c.source.charAt(c.pos);
@@ -795,7 +795,7 @@ next(<span class="Identifier">function</span> () {
         <span class="Statement">if</span> (<span class="Statement">typeof</span> fun == <span class="Constant">&quot;function&quot;</span>) {
             c = fun(c);
             <span class="Statement">if</span> (c.pos &lt; c.source.length) {
-                <span class="Statement">if</span> (selems[c.pos]) selems[c.pos].addClass(<span class="Constant">&quot;em&quot;</span>);
+                <span class="Statement">if</span> (selems[c.pos - 1]) selems[c.pos - 1].addClass(<span class="Constant">&quot;em&quot;</span>);
                 <span class="Statement">return</span> call(arguments.callee, c);
             } <span class="Statement">else</span> {
                 <span class="Statement">return</span> c;
