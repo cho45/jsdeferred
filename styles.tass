@@ -73,7 +73,7 @@ aside.note {
 	@include border-radius(10px);
 	float: right;
 	padding: 20px;
-	margin: 0 0 20px 20px;
+	margin: -20px 0 20px 20px;
 	background: #fff;
 	width: 400px;
 
