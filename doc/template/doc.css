@@ -183,3 +183,8 @@ section.method section.return .name {
 	font-family: monospace;
 }
 
+section.parameters h1 ,
+section.return h1 ,
+section.see h1 {
+	font-family: 'Buenard', serif;
+}
