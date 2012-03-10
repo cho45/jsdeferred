@@ -45,7 +45,7 @@ html, body {
 	line-height: 1.33;
 	margin: 0;
 	padding: 0;
-	color: #666;
+	color: #555;
 	text-align: justify;
 }
 
@@ -232,6 +232,7 @@ pre {
 }
 
 h1, h2, h3, h4, h5, h6 {
+	color: #333;
 	font-family: 'Buenard', serif;
 	margin: 40px 0 20px;
 }
@@ -361,6 +362,7 @@ h1, h2, h3, h4, h5, h6 {
 			padding: 0;
 			font-weight: bold;
 			font-size: 100%;
+			color: #fff;
 		}
 
 		a {
