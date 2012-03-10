@@ -1,0 +1,65 @@
+
+html, body {
+	background: #fff;
+	color: #333;
+	line-height: 1.66;
+	font-size: 15px;
+	text-align: justify;
+
+}
+
+pre {
+	font-size: 12px;
+	overflow: auto;
+	line-height: 1.33;
+	background: #efefef;
+	line-height: 1.33;
+	padding: 2em;
+	font-family: "Monaco", "Lucida Console", monospace;
+}
+
+#whole {
+	max-width: 50em;
+	margin: 0 auto;
+
+	#top {
+		a {
+			text-decoration: none;
+			color: #333;
+		}
+	}
+
+	#navigation {
+	}
+
+	#content {
+		.section {
+			margin: 1em 0 5em 0;
+		}
+
+		.note {
+			-moz-border-radius: 0.5em;
+			-webkit-border-radius: 0.5em;
+			float: right;
+			width: 30em;
+			background: #ebf4de;
+			font-size: 90%;
+			color: #000;
+			margin: 0 0 1em 1em;
+			padding: 1em 1em 1em 1em;
+
+			h2 {
+				font-size: 100%;
+				color: #000;
+				background: transparent;
+				margin: 0;
+				padding: 0;
+				font-weight: bold;
+			}
+
+		}
+
+	}
+}
+
+
