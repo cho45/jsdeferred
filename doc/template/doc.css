@@ -9,15 +9,19 @@ body {
 	color: #333;
 }
 
-a:link ,
+a:link {
+	text-decoration: underline;
+	color: #447fae;
+}
+
 a:visited {
-	color: #002EBE;
-	text-decoration: none;
+	color: #447fae;
 }
 
 a:hover {
-	text-decoration: underline;
+	text-decoration: none;
 }
+
 
 
 pre {
@@ -82,12 +86,12 @@ table td.attr {
 	color: #888;
 	text-align: center;
 	padding: 0.25em 0.5em;
-	font-family: monospace;
+	font-family: "Monaco", "Lucida Console", monospace;
 }
 
 table td.description {
 	padding: 0.25em 0.5em;
-	font-family: monospace;
+	font-family: "Monaco", "Lucida Console", monospace;
 }
 
 table td.description a {
@@ -104,13 +108,18 @@ section.method {
 	margin: 10px 0 20px ;
 	padding: 10px 20px;
 	background: #efefef;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-o-border-radius: 10px;
+	-ms-border-radius: 10px;
+	border-radius: 10px;
 }
 
 section.constructor h1 ,
 section.value h1 ,
 section.method h1 {
 	font-size: 100%;
-	font-family: monospace;
+	font-family: "Monaco", "Lucida Console", monospace;
 	padding: 0;
 	background: #efefef;
 	color: #000;
@@ -172,15 +181,15 @@ section.method section dl {
 }
 
 section.method section dl dt {
-	font-family: monospace;
+	font-family: "Monaco", "Lucida Console", monospace;
 }
 
 section.method section.return .type {
-	font-family: monospace;
+	font-family: "Monaco", "Lucida Console", monospace;
 }
 
 section.method section.return .name {
-	font-family: monospace;
+	font-family: "Monaco", "Lucida Console", monospace;
 }
 
 section.parameters h1 ,
