@@ -54,6 +54,11 @@ code {
 	font-size: 80%;
 }
 
+textarea {
+	width: 100%;
+	font-family: "Monaco", "Lucida Console", monospace;
+}
+
 a:link {
 	text-decoration: underline;
 	color: #447fae;
@@ -161,6 +166,28 @@ dl {
 	}
 }
 
+input.button {
+	font-family: 'Buenard', serif;
+	padding: 10px 40px;
+	border: none;
+	font-size: 18px;
+
+	color: #fff;
+	text-decoration: none;
+	text-shadow: -1px -1px 0px #246f8e;
+	@include border-radius(8px);
+	@include box-shadow(inset -1px -1px 5px 0px rgba(0, 0, 0, 0.3));
+	@include linear-gradient(#649fce, #447fae);
+	border: 1px solid #fff;
+}
+
+input.button:hover {
+	@include box-shadow(inset 0px 0px 5px 0px rgba(0, 0, 0, 0.3));
+	@include linear-gradient(#333, #444);
+	text-shadow: none;
+}
+
+
 pre {
 	font-family: "Monaco", "Lucida Console", monospace;
 	background: #333;
@@ -189,24 +216,6 @@ pre {
 			position: absolute;
 			top: 10px;
 			right: 10px;
-			font-family: 'Buenard', serif;
-			padding: 10px 40px;
-			border: none;
-			font-size: 18px;
-
-			color: #fff;
-			text-decoration: none;
-			text-shadow: -1px -1px 0px #246f8e;
-			@include border-radius(8px);
-			@include box-shadow(inset -1px -1px 5px 0px rgba(0, 0, 0, 0.3));
-			@include linear-gradient(#649fce, #447fae);
-			border: 1px solid #fff;
-		}
-
-		input.button:hover {
-			@include box-shadow(inset 0px 0px 5px 0px rgba(0, 0, 0, 0.3));
-			@include linear-gradient(#333, #444);
-			text-shadow: none;
 		}
 
 		pre.output {

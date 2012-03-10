@@ -714,7 +714,7 @@ next(<span class="Identifier">function</span> () {
     <span class="Type">var</span> sinput = $(<span class="Constant">&quot;#bfi-source&quot;</span>).hide(), source = sinput.val();
     <span class="Type">var</span> shtml  = $(<span class="Constant">&quot;&lt;pre class='code'/&gt;&quot;</span>);
     <span class="Type">var</span> selems = $.map(source.split(<span class="Constant">/</span><span class="Special">\n</span><span class="Constant">/</span>), <span class="Identifier">function</span> (l) {
-        <span class="Type">var</span> line = $(<span class="Constant">&quot;&lt;div class='line'/&gt;&quot;</span>).appendTo(shtml);
+        <span class="Type">var</span> line = $(<span class="Constant">&quot;&lt;div class='line1'/&gt;&quot;</span>).appendTo(shtml);
         <span class="Statement">return</span> $.map(l.split(<span class="Constant">&quot;&quot;</span>), <span class="Identifier">function</span> (c) {
             <span class="Statement">return</span> $(<span class="Constant">&quot;&lt;span/&gt;&quot;</span>).append(c).appendTo(line);
         })
@@ -829,7 +829,7 @@ next(<span class="Identifier">function</span> () {
 >.>++.+++++++..+++.<<-.[->-<]>++++.>+++++++
 +.--------.+++.------.--------.<+.
 </textarea>
-								<button id="bfi-run" onclick="bfrun();">Run!</button>
+								<input id="bfi-run" type="button" onclick="bfrun();" value="Run" class="button"/>
 							</section>
 
 							<section>
