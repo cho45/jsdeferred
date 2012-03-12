@@ -944,6 +944,17 @@ next(function () {
 				ok("$.ajax#error");
 			});
 		}).
+		next(function () {
+			return next(function() {
+				return $.get("./test.html");
+			}).
+			next(function () {
+				ok("$.ajax#success");
+			}).
+			error(function (e) {
+				ng("$.ajax#success");
+			});
+		}).
 		error(function (e) {
 			ng("Error on jQuery Test:", "", e);
 		});

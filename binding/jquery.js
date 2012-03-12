@@ -51,6 +51,12 @@
 		ret.error = function (fun) {
 			return Deferred.absorb(this).error(fun);
 		};
+		ret.done(function (v) {
+			if (ret._next) ret._next._fire('ok', v);
+		});
+		ret.fail(function (v) {
+			if (ret._next) ret._next._fire('ok', v);
+		});
 		return ret;
 	};
 
