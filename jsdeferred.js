@@ -223,7 +223,7 @@ Deferred.prototype = {
  * @return {boolean}
  */
 Deferred.isDeferred = function (obj) {
-	return !!(obj && obj._id == Deferred.prototype._id);
+	return !!(obj && obj._id === Deferred.prototype._id);
 };
 
 /**
@@ -297,10 +297,11 @@ Deferred.next_tick = (typeof process === 'object' && typeof process.nextTick ===
 	if (fun) d.callback.ok = fun;
 	return d;
 };
-Deferred.next = Deferred.next_faster_way_readystatechange ||
-                Deferred.next_faster_way_Image ||
-                Deferred.next_tick ||
-                Deferred.next_default;
+Deferred.next = 
+	Deferred.next_faster_way_readystatechange ||
+	Deferred.next_faster_way_Image ||
+	Deferred.next_tick ||
+	Deferred.next_default;
 
 /**
  * Construct Deferred chain with array and return its Deferred.

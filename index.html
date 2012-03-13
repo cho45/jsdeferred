@@ -37,8 +37,8 @@
 
 			<div id="content">
 				<div id="content-inner">
-					<div id="overview" class="line">
-						<section class="grid-6">
+					<div class="line">
+						<section class="grid-6" id="overview">
 							<h1>Overview</h1>
 							<p>
 								JSDeferred is standalone and compact asynchronous library.
@@ -57,7 +57,7 @@ next(<span class="Identifier">function</span> (r) {
 </pre>
 
 							<p>"Standalone and Compact" means JSDeferred is very portable so works in many environment.</p>
-						</section>
+						</section><!-- Overview -->
 
 						<section class="grid-6" id="download">
 							<h1>Download</h1>
@@ -99,7 +99,7 @@ next(<span class="Identifier">function</span> (r) {
 									</a>
 								</li>
 							</ul>
-						</section>
+						</section><!-- Download -->
 
 						<section class="grid-12" id="supported">
 							<h1>Supported Environment</h1>
@@ -146,10 +146,8 @@ next(<span class="Identifier">function</span> (r) {
 								</li>
 							</ul>
 							<p>In fact, JSDeferred only depends on setTimeout() function, so if setTimeout is provided, JSDeferred will work.</p>
-						</section>
-					</div>
+						</section><!-- Supported -->
 
-					<div class="line">
 						<section class="grid-12" id="tutorial">
 							<h1>Tutorial</h1>
 
@@ -180,7 +178,7 @@ next(<span class="Identifier">function</span> () {
     alert(<span class="Constant">&quot;World!&quot;</span>);
 });
 </pre>
-								<p>This is a process that alerts <sample>Hello!</sample>, then alerts <sample>World!</sample> after 5 seconds of delay.</p>
+								<p>This is a process that alerts <code>Hello!</code>, then alerts <code>World!</code> after 5 seconds of delay.</p>
 								<p>The above code is exactly the same as the following. It can be used even if you don't choose to export the functions using Deferred.define().
 								</p>
 								<pre>
@@ -431,7 +429,7 @@ loop(<span class="Constant">1000</span>, <span class="Identifier">function</span
 								<p>This is a loop that is automatically divided up every 20 msec.
 								Unlike the ordinary loop(), it cannot wait even if a Deferred instance is returned in a loop.</p>
 							</section>
-						</section>
+						</section><!-- Tutorial -->
 
 						<section class="grid-12" id="cookbook">
 							<h1>Cookbook</h1>
@@ -705,6 +703,7 @@ next(<span class="Identifier">function</span> () {
     console.log(<span class="Constant">&quot;completed&quot;</span>);
 });
 </pre>
+							</section>
 
 							<section>
 								<h1>Brainfuck interpreter</h1>
@@ -979,11 +978,10 @@ error(<span class="Identifier">function</span> (e) {
 });
 </pre>
 
-						</section>
-					</div>
+							</section>
+						</section><!-- Cookbook -->
 
-					<div id="behavior" class="line">
-						<section class="grid-12">
+						<section class="grid-12" id="behavior">
 							<h1>Behavior</h1>
 							<aside class="note" style="float: none; margin: 20px 0">
 								<p>This sections use some words as following meanings.</p>
@@ -1078,7 +1076,6 @@ next(<span class="Identifier">function</span> () {
 
 								<p>After the process, above code is same as following:</p>
 
-								
 								<pre>
 next(<span class="Identifier">function</span> () {
     alert(<span class="Constant">&quot;1&quot;</span>);
@@ -1130,12 +1127,9 @@ error(<span class="Identifier">function</span> (e) {
 								<p>JSDeferred can be used in inter-environment which is independent respectively like browser extension
 								because JSDeferred determines a self-class identity by instance id.</p>
 							</section>
+						</section><!-- Behavior -->
 
-						</section>
-					</div>
-
-					<div id="development" class="line">
-						<section class="grid-12">
+						<section class="grid-12" id="development">
 							<h1>Development</h1>
 
 							<div class="line">
@@ -1192,28 +1186,10 @@ or
 										</div>
 									</script>
 								</section>
-							</section>
-						</section>
-					</div>
+							</div>
+						</section><!-- Development -->
 
-					<!-- div id="media" class="line">
-						<section class="grid-12">
-							<h1>Media</h1>
-
-							<section>
-								<figure><a href="http://www.amazon.co.jp/gp/product/4873114977/ref=as_li_ss_il?ie=UTF8&tag=nuso-22&linkCode=as2&camp=247&creative=7399&creativeASIN=4873114977"><img border="0" src="http://ws.assoc-amazon.jp/widgets/q?_encoding=UTF8&Format=_SL160_&ASIN=4873114977&MarketPlace=JP&ID=AsinImage&WS=1&tag=nuso-22&ServiceVersion=20070822" ></a><img src="http://www.assoc-amazon.jp/e/ir?t=nuso-22&l=as2&o=9&a=4873114977" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></figure>
-								<p>Firefox Hacks Rebooted: introduce JSDeferred in Add-on SDK by <a href="http://twitter.com/piro_or">@piro_or</a></p>
-							</section>
-
-							<section>
-								<figure><a href="http://gihyo.jp/dev/feature/01/jsdeferred">特集: JSDeferredで，面倒な非同期処理とサヨナラ</a></figure>
-								<p>Japanese tutorial of JSDeferred by @cho45</p>
-							</section>
-						</section>
-					</div -->
-
-					<div id="about" class="line">
-						<section class="grid-12">
+						<section class="grid-12" id="about">
 							<h1>About</h1>
 							<section>
 								<h1>Contributors</h1>
@@ -1229,7 +1205,7 @@ or
 									</div>
 								</script>
 							</section>
-						</section>
+						</section><!-- About -->
 					</div>
 				</div>
 			</div>

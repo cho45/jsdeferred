@@ -36,6 +36,41 @@ function uneval (o) {
 	return "";
 }
 
+var Navigation = {
+	init : function () {
+		var self = this;
+		self.global = $('#global-navigation ul');
+		self.offset = self.global.offset().top;
+
+		var timer = null;
+		$(window).scroll(function () {
+			clearTimeout(timer);
+			timer = setTimeout(function () {
+				self.onscroll();
+			}, 10);
+		});
+	},
+
+	onscroll : function () {
+		var self = this;
+		var current = $(window).scrollTop();
+		if (current > self.offset) {
+			self.global.addClass('fixed');
+		} else {
+			self.global.removeClass('fixed');
+		}
+
+
+//		var x = $(window).width() / 2;
+//		var y = $(window).height() / 2;
+//		var element = document.elementFromPoint(x, y);
+//
+//		$(element).parents('section').each(function () {
+//			console.log($(this).find('> h1'));
+//		});
+	}
+};
+
 
 $(function () {
 	if (!window.console) window.console = { log: function () { } };
@@ -69,4 +104,6 @@ $(function () {
 			}).
 			appendTo(pre);
 	});
+
+	Navigation.init();
 });

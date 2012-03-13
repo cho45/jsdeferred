@@ -15,6 +15,30 @@
 	box-shadow: $args;
 }
 
+@mixin transform ($args) {
+	-moz-transform: $args;
+	-webkit-transform: $args;
+	-o-transform: $args;
+	-ms-transform: $args;
+	transform: $args;
+}
+
+@mixin transition ($args) {
+	-moz-transition: $args;
+	-webkit-transition: $args;
+	-o-transition: $args;
+	-ms-transition: $args;
+	transition: $args;
+}
+
+@mixin transform-origin ($args) {
+	-moz-transform-origin: $args;
+	-webkit-transform-origin: $args;
+	-o-transform-origin: $args;
+	-ms-transform-origin: $args;
+	transform-origin: $args;
+}
+
 @mixin border-radius ($args) {
 	-moz-border-radius: $args;
 	-webkit-border-radius: $args;
@@ -318,14 +342,19 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #global-navigation {
-	font-size: 150%;
-	padding: 10px;
+	font-size: 120%;
+	padding: 0;
 	text-align: center;
+	margin: 0;
+	height: 80px;
 
 	ul {
 		display: block;
-		padding: 0;
+		width: 100%;
+		padding: 10px 0;
 		margin: 0;
+		background: #fff;
+		z-index: 230;
 
 		li {
 			display: inline-block;
@@ -345,6 +374,21 @@ h1, h2, h3, h4, h5, h6 {
 				background: #333;
 				color: #fff;
 			}
+		}
+
+		&.fixed {
+			position: fixed;
+			top: 0;
+			@include box-shadow(0px 0px 10px 0px rgba(0, 0, 0, 0.5));
+			/*
+			@include transform(scale(0.8));
+			@include transform-origin(50% 0);
+
+			-webkit-transition: -webkit-box-shadow 0.2s linear;
+			-webkit-transition: -webkit-transform 0.2s linear;
+			-moz-transition: -moz-box-shadow 0.2s linear;
+			-moz-transition: -moz-transform 0.2s linear;
+			*/
 		}
 	}
 }
