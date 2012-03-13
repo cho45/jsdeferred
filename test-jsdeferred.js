@@ -955,6 +955,21 @@ next(function () {
 				ng("$.ajax#success");
 			});
 		}).
+		next(function () {
+			return next(function() {
+				var d = $.Deferred();
+				setTimeout(function () {
+					d.resolve('ok');
+				}, 10);
+				return d;
+			}).
+			next(function (e) {
+				ok("$.Deferred " + e);
+			}).
+			error(function (e) {
+				ng("$.Deferred");
+			});
+		}).
 		error(function (e) {
 			ng("Error on jQuery Test:", "", e);
 		});
