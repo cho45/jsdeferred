@@ -24,21 +24,24 @@
 			</header>
 
 			<nav id="global-navigation">
-				<ul>
-					<li><a href="./#overview">Overview</a></li>
-					<li><a href="./#download">Download</a></li>
-					<li><a href="./#tutorial">Tutorial</a></li>
-					<li><a href="./#cookbook">Cookbook</a></li>
-					<li><a href="./#behavior">Behavior</a></li>
-					<li><a href="./doc/Deferred.html">API</a></li>
-					<li><a href="./#development">Development</a></li>
-				</ul>
+				<div id="global-navigation-inner">
+					<ul>
+						<li class="top"><a href="#top">JSDeferred <span class="sub">- asynchronous library</span></a></li>
+						<li><a href="#overview">Overview</a></li>
+						<li><a href="#download">Download</a></li>
+						<li><a href="#tutorial">Tutorial</a></li>
+						<li><a href="#cookbook">Cookbook</a></li>
+						<li><a href="#behavior">Behavior</a></li>
+						<li><a href="#development">Development</a></li>
+						<li><a href="./doc/Deferred.html">API</a></li>
+					</ul>
+				</div>
 			</nav>
 
 			<div id="content">
 				<div id="content-inner">
 					<div class="line">
-						<section class="grid-6" id="overview">
+						<section class="toplevel grid-6" id="overview">
 							<h1>Overview</h1>
 							<p>
 								JSDeferred is standalone and compact asynchronous library.
@@ -59,7 +62,7 @@ next(<span class="Identifier">function</span> (r) {
 							<p>"Standalone and Compact" means JSDeferred is very portable so works in many environment.</p>
 						</section><!-- Overview -->
 
-						<section class="grid-6" id="download">
+						<section class="toplevel grid-6" id="download">
 							<h1>Download</h1>
 							<ul class="line">
 								<li class="grid-2">
@@ -101,7 +104,7 @@ next(<span class="Identifier">function</span> (r) {
 							</ul>
 						</section><!-- Download -->
 
-						<section class="grid-12" id="supported">
+						<section class="toplevel grid-12" id="supported">
 							<h1>Supported Environment</h1>
 							<ul class="line">
 								<li class="grid-2">
@@ -148,11 +151,11 @@ next(<span class="Identifier">function</span> (r) {
 							<p>In fact, JSDeferred only depends on setTimeout() function, so if setTimeout is provided, JSDeferred will work.</p>
 						</section><!-- Supported -->
 
-						<section class="grid-12" id="tutorial">
+						<section class="toplevel grid-12" id="tutorial">
 							<h1>Tutorial</h1>
 
 							<section>
-								<h1>Loading</h1>
+								<h1>Loading Scripts</h1>
 
 								<p>To use JSDeferred, add a script element to the HTML</p>
 								<pre>
@@ -431,7 +434,7 @@ loop(<span class="Constant">1000</span>, <span class="Identifier">function</span
 							</section>
 						</section><!-- Tutorial -->
 
-						<section class="grid-12" id="cookbook">
+						<section class="toplevel grid-12" id="cookbook">
 							<h1>Cookbook</h1>
 
 							<section>
@@ -981,7 +984,7 @@ error(<span class="Identifier">function</span> (e) {
 							</section>
 						</section><!-- Cookbook -->
 
-						<section class="grid-12" id="behavior">
+						<section class="toplevel grid-12" id="behavior">
 							<h1>Behavior</h1>
 							<aside class="note" style="float: none; margin: 20px 0">
 								<p>This sections use some words as following meanings.</p>
@@ -1129,7 +1132,7 @@ error(<span class="Identifier">function</span> (e) {
 							</section>
 						</section><!-- Behavior -->
 
-						<section class="grid-12" id="development">
+						<section class="toplevel grid-12" id="development">
 							<h1>Development</h1>
 
 							<div class="line">
@@ -1187,10 +1190,7 @@ or
 									</script>
 								</section>
 							</div>
-						</section><!-- Development -->
 
-						<section class="grid-12" id="about">
-							<h1>About</h1>
 							<section>
 								<h1>Contributors</h1>
 
@@ -1205,7 +1205,7 @@ or
 									</div>
 								</script>
 							</section>
-						</section><!-- About -->
+						</section><!-- Development -->
 					</div>
 				</div>
 			</div>

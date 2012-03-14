@@ -267,7 +267,7 @@ pre {
 h1, h2, h3, h4, h5, h6 {
 	color: #333;
 	font-family: 'Buenard', serif;
-	margin: 40px 0 20px;
+	margin: 70px 0 20px;
 }
 
 .issues {
@@ -342,37 +342,70 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #global-navigation {
-	font-size: 120%;
+	font-size: 100%;
 	padding: 0;
 	text-align: center;
 	margin: 0;
-	height: 80px;
+	height: 70px;
 
-	ul {
-		display: block;
+	#global-navigation-inner {
+		padding: 5px 0;
 		width: 100%;
-		padding: 10px 0;
 		margin: 0;
 		background: #fff;
 		z-index: 230;
 
-		li {
+		a {
 			display: inline-block;
+			padding: 0;
+			margin: 5px;;
+			padding: 5px 10px;
+			text-decoration: none;
+			background: #efefef;
+		}
+
+		a:hover,
+		.active {
+			background: #333;
+			color: #fff;
+		}
+
+		ul {
+			display: block;
 			padding: 0;
 			margin: 0;
 
-			a {
+			li {
 				display: inline-block;
 				padding: 0;
-				margin: 5px;;
-				padding: 10px;
-				text-decoration: none;
-				background: #efefef;
+				margin: 0;
+
+				.submenu {
+					display: none;
+					position: absolute;
+					left: 0;
+					width: 100%;
+					padding: 0;
+					z-index: 100;
+
+					.submenu-inner {
+						width: 920px;
+						margin: 0 auto;
+						padding: 10px;
+						background: #fff;
+						@include box-shadow(0px 5px 5px 0px rgba(0, 0, 0, 0.5));
+						text-align: left;
+						font-size: 80%;
+					}
+				}
+
+				&:hover .submenu {
+					display: block;
+				}
 			}
 
-			a:hover {
-				background: #333;
-				color: #fff;
+			li.top {
+				display: none;
 			}
 		}
 
@@ -380,15 +413,33 @@ h1, h2, h3, h4, h5, h6 {
 			position: fixed;
 			top: 0;
 			@include box-shadow(0px 0px 10px 0px rgba(0, 0, 0, 0.5));
-			/*
-			@include transform(scale(0.8));
-			@include transform-origin(50% 0);
 
-			-webkit-transition: -webkit-box-shadow 0.2s linear;
-			-webkit-transition: -webkit-transform 0.2s linear;
-			-moz-transition: -moz-box-shadow 0.2s linear;
-			-moz-transition: -moz-transform 0.2s linear;
-			*/
+			ul {
+				position: relative;
+				width: 955px;
+				margin: 0 auto;
+				padding: 0 5px 0 0;
+				text-align: right;
+
+				li.top {
+					position: absolute;
+					left: -5px;
+					font-size: 120%;
+					margin-top: -3px;
+					margin-right: 50px;
+					display: inline-block;
+
+					a {
+						background: transparent;
+						color: #000;
+					}
+
+					.sub {
+						font-size: 70%;
+						color: #666;
+					}
+				}
+			}
 		}
 	}
 }
@@ -398,7 +449,7 @@ h1, h2, h3, h4, h5, h6 {
 
 	#content-inner {
 		margin: 0 auto;
-		padding: 10px 0;
+		padding: 0;
 	}
 }
 

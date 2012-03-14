@@ -39,8 +39,9 @@ function uneval (o) {
 var Navigation = {
 	init : function () {
 		var self = this;
-		self.global = $('#global-navigation ul');
+		self.global = $('#global-navigation-inner');
 		self.offset = self.global.offset().top;
+		self.subnav = $('<div class="subnav"></div>').appendTo(self.global);
 
 		var timer = null;
 		$(window).scroll(function () {
@@ -49,6 +50,48 @@ var Navigation = {
 				self.onscroll();
 			}, 10);
 		});
+
+		self.loadOutline();
+	},
+
+	loadOutline : function () {
+		var self = this;
+		var sections = $('section.toplevel').map(function () {
+			var $this = $(this);
+			var id = this.id;
+			var toplevel = {
+				element : $this,
+				nav: self.global.find('a[href="#' + this.id + '"]'),
+				id : id,
+				title : $this.find('> h1').text(),
+				top : $this.offset().top
+			};
+
+			var submenu = $('<div class="submenu"><div class="submenu-inner"></div></div>');
+
+			toplevel.sections = $this.find('section').map(function () {
+				var $this = $(this);
+				var title  = $this.find('> h1').text();
+				var id     = this.id || toplevel.id + "-" + title.toLowerCase().replace(/^\s*|\s*$/g, '').replace(/\s+/g, '-');
+				this.setAttribute('id', id);
+
+				var nav = $('<a></a>').attr('href', '#' + id).text(title).appendTo(submenu.find('.submenu-inner'));
+
+				return {
+					element : $this,
+					nav : nav,
+					id : id,
+					title :  title,
+					top : $this.offset().top
+				};
+			});
+
+			if (toplevel.sections.length) submenu.appendTo(toplevel.nav.parent());
+
+			return toplevel;
+		});
+
+		self.outline = sections;
 	},
 
 	onscroll : function () {
@@ -59,6 +102,35 @@ var Navigation = {
 		} else {
 			self.global.removeClass('fixed');
 		}
+
+		current += 60;
+
+		for (var i = 0, toplevel; (toplevel = self.outline[i]); i++) {
+			if (toplevel.top > current) break;
+		}
+		toplevel = self.outline[i-1] || { id:'top', sections: [] };
+
+		for (var i = 0, section; (section = toplevel.sections[i]); i++) {
+			if (section.top > current) break;
+		}
+		section = toplevel.sections[i-1];
+
+		if (self.active !== toplevel) {
+			if (self.active)
+			if (self.active.nav) self.active.nav.removeClass('active');
+			self.active = toplevel;
+			if (self.active.nav) self.active.nav.addClass('active');
+		}
+
+		if (self.activeSection !== section) {
+			if (self.activeSection)
+			if (self.activeSection.nav) self.activeSection.nav.removeClass('active');
+			self.activeSection = section;
+			if (self.activeSection)
+			if (self.activeSection.nav) self.activeSection.nav.addClass('active');
+		}
+
+		// console.log([toplevel.title, section ? section.title : null]);
 
 
 //		var x = $(window).width() / 2;
