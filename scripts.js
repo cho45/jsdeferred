@@ -51,7 +51,10 @@ var Navigation = {
 			}, 10);
 		});
 
-		self.loadOutline();
+		$(window).load(function () {
+			self.loadOutline();
+			$(window).scroll();
+		});
 	},
 
 	loadOutline : function () {
@@ -103,6 +106,7 @@ var Navigation = {
 			self.global.removeClass('fixed');
 		}
 
+		if (!self.outline) return;
 		current += 60;
 
 		for (var i = 0, toplevel; (toplevel = self.outline[i]); i++) {
