@@ -40,21 +40,21 @@ var Navigation = {
 	init : function () {
 		var self = this;
 		self.global = $('#global-navigation-inner');
-		self.offset = self.global.offset().top;
 		self.subnav = $('<div class="subnav"></div>').appendTo(self.global);
-
-		var timer = null;
-		$(window).scroll(function () {
-			clearTimeout(timer);
-			timer = setTimeout(function () {
-				self.onscroll();
-			}, 10);
-		});
 
 		$(window).load(function () {
 			self.offset = self.global.offset().top;
 			self.loadOutline();
+
+			var timer = null;
+			$(window).scroll(function () {
+				clearTimeout(timer);
+				timer = setTimeout(function () {
+					self.onscroll();
+				}, 10);
+			});
 			$(window).scroll();
+
 		});
 	},
 
