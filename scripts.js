@@ -52,6 +52,7 @@ var Navigation = {
 		});
 
 		$(window).load(function () {
+			self.offset = self.global.offset().top;
 			self.loadOutline();
 			$(window).scroll();
 		});
@@ -133,17 +134,6 @@ var Navigation = {
 			if (self.activeSection)
 			if (self.activeSection.nav) self.activeSection.nav.addClass('active');
 		}
-
-		// console.log([toplevel.title, section ? section.title : null]);
-
-
-//		var x = $(window).width() / 2;
-//		var y = $(window).height() / 2;
-//		var element = document.elementFromPoint(x, y);
-//
-//		$(element).parents('section').each(function () {
-//			console.log($(this).find('> h1'));
-//		});
 	}
 };
 

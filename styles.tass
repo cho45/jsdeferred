@@ -267,7 +267,7 @@ pre {
 h1, h2, h3, h4, h5, h6 {
 	color: #333;
 	font-family: 'Buenard', serif;
-	margin: 70px 0 20px;
+	padding: 70px 0 20px;
 }
 
 .issues {
