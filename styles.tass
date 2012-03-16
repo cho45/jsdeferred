@@ -108,6 +108,7 @@ aside.note {
 
 	h1 {
 		margin: 0 0 20px 0;
+		padding: 0;
 	}
 }
 
@@ -519,6 +520,11 @@ h1, h2, h3, h4, h5, h6 {
 
 	h1 {
 		margin: 10px 0;
+		padding: 20px 0 0;
+
+		a {
+			color: #000;
+		}
 	}
 }
 
