@@ -413,9 +413,9 @@ loop(<span class="Constant">1000</span>, <span class="Identifier">function</span
 
 								<h2>Automatically Divide a Long Loop</h2>
 								<p>loop() function is effective when each loop is a heavy process. However, when a single loop is not so heavy but the number of iteration is numerous, it's not efficient.
-								Here I define a function called aloop()</p>
+								Here I define a function called repeat()</p>
 								<pre>
-<span class="Identifier">function</span> aloop (n, f) {
+<span class="Identifier">function</span> repeat (n, f) {
     <span class="Type">var</span> i = <span class="Constant">0</span>, end = {}, ret = <span class="Type">null</span>;
     <span class="Statement">return</span> Deferred.next(<span class="Identifier">function</span> () {
         <span class="Type">var</span> t = (<span class="Statement">new</span> <span class="Special">Date</span>()).getTime();
@@ -585,32 +585,7 @@ loop({<span class="Statement">begin</span>: <span class="Constant">1</span>, <sp
 							<section>
 								<h1>Auto Divided Loop</h1>
 								<pre class="runnable">
-<span class="Identifier">function</span> aloop (n, f) {
-    <span class="Type">var</span> i   = <span class="Constant">0</span>;
-    <span class="Type">var</span> end = <span class="Statement">new</span> <span class="Special">Object</span>;
-    <span class="Type">var</span> ret = <span class="Type">null</span>;
-    <span class="Statement">return</span> Deferred.next(<span class="Identifier">function</span> () {
-        <span class="Type">var</span> t = (<span class="Statement">new</span> <span class="Special">Date</span>()).getTime();
-        <span class="Statement">try</span> {
-            <span class="Statement">do</span> {
-                ret = f(i)
-                i++;
-                <span class="Statement">if</span> (i &gt;= n) <span class="Statement">throw</span> end;
-            } <span class="Statement">while</span> ((<span class="Statement">new</span> <span class="Special">Date</span>()).getTime() - t &lt; <span class="Constant">50</span>);
-            console.log(<span class="Constant">&quot;Devided: &quot;</span> + ((<span class="Statement">new</span> <span class="Special">Date</span>()).getTime() - t) + <span class="Constant">&quot;msec.&quot;</span>);
-            <span class="Statement">return</span> Deferred.call(arguments.callee);
-        } <span class="Statement">catch</span> (e) {
-            <span class="Statement">if</span> (e == end) {
-                console.log(<span class="Constant">&quot;End&quot;</span>);
-                <span class="Statement">return</span> ret;
-            } <span class="Statement">else</span> {
-                <span class="Statement">throw</span> e;
-            }
-        }
-    });
-}
-
-aloop(<span class="Constant">100</span>, <span class="Identifier">function</span> (n, o) {
+Deferred.repeat(<span class="Constant">100</span>, <span class="Identifier">function</span> (n, o) {
     console.log(n);
     <span class="Statement">for</span> (<span class="Type">var</span> i = <span class="Constant">0</span>; i &lt; <span class="Special">Math</span>.pow(n, <span class="Constant">2</span>); i++) {
         <span class="Statement">for</span> (<span class="Type">var</span> j = n; j; j--);
