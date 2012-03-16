@@ -914,34 +914,34 @@ next(function () {
 			return $.ajax({
 				url : "./test.html",
 				success : function () {
-					ok("$.ajax#success");
+					ok("$.ajax#success 1");
 				},
 				error : function () {
-					ng("$.ajax#success");
+					ng("$.ajax#success 1");
 				}
 			}).
 			next(function () {
-				ok("$.ajax#success");
+				ok("$.ajax#success 2");
 			}).
 			error(function (e) {
-				ng("$.ajax#success");
+				ng("$.ajax#success 2");
 			});
 		}).
 		next(function () {
 			return $.ajax({
 				url : "error-404" + Math.random(),
 				success : function () {
-					ng("$.ajax#errro");
+					ng("$.ajax#error 1");
 				},
 				error : function () {
-					ok("$.ajax#error", "You may see error on console but it is correct.");
+					ok("$.ajax#error 1", "You may see error on console but it is correct.");
 				}
 			}).
 			next(function () {
-				ng("$.ajax#error");
+				ng("$.ajax#error 2");
 			}).
 			error(function (e) {
-				ok("$.ajax#error");
+				ok("$.ajax#error 2");
 			});
 		}).
 		next(function () {
@@ -949,10 +949,20 @@ next(function () {
 				return $.get("./test.html");
 			}).
 			next(function () {
-				ok("$.ajax#success");
+				ok("$.get#success");
 			}).
 			error(function (e) {
-				ng("$.ajax#success");
+				ng("$.get#success");
+			});
+		}).
+		next(function () {
+			return next(function() {
+				return $(document.body).fadeTo(100, 0).fadeTo(100, 1).promise().next(function () {
+					ok("promise()");
+				});
+			}).
+			error(function (e) {
+				ng("promise()");
 			});
 		}).
 		next(function () {
@@ -983,6 +993,7 @@ next(function () {
 	return next(function () {
 		return next(function () {
 			msg("Calceling... No more tests below...");
+			ok("Done");
 			this.cancel();
 		}).
 		next(function () {
