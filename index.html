@@ -483,7 +483,7 @@ $.get(<span class="Constant">&quot;README.markdown&quot;</span>).next(<span clas
 
 							<section>
 								<h1>Parallel Deferred</h1>
-								<p>DeferredList</p>
+								<p>Array of deferreds:</p>
 								<pre class="runnable">
 console.log(<span class="Constant">&quot;start. gathering data.&quot;</span>);
 
@@ -493,15 +493,16 @@ next(<span class="Identifier">function</span> (values) {
     console.log(lengths.join(<span class="Constant">&quot;, &quot;</span>));
 });
 </pre>
+								<p>Named parallel deferreds:</p>
 								<pre class="runnable">
 console.log(<span class="Constant">&quot;start. gathering data.&quot;</span>);
 
-<span class="Comment">// named parallel deferred</span>
 parallel({<span class="Statement">html</span>: $.get(<span class="Constant">&quot;README.markdown&quot;</span>), <span class="Statement">js</span>: $.get(<span class="Constant">&quot;ChangeLog&quot;</span>)}).
 next(<span class="Identifier">function</span> (values) {
     console.log([<span class="Constant">&quot;html=&quot;</span>, values.html.length, <span class="Constant">&quot; js=&quot;</span>, values.js.length].join(<span class="Constant">&quot;&quot;</span>));
 });
 </pre>
+								<p>Arbitrary number of deferreds in array:</p>
 								<pre class="runnable">
 console.log(<span class="Constant">&quot;start. wait 3 sec.&quot;</span>);
 
