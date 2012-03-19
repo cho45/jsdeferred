@@ -2,9 +2,9 @@
 <html lang="en">
 	<head>
 		<title>{+ data.alias +}</title>
-		<script src="http://github.com/cho45/jshighlight/raw/master/jshighlight.js"></script>
+		<script src="http://cdn.washer-in-the-rye.com/google-code-prettify/prettify.js"></script>
 		<meta http-equiv="content-type" content="text/html; charset={+IO.encoding+}" />
-		<link rel="stylesheet" type="text/css" href="http://github.com/cho45/jshighlight/raw/master/style.css"/>
+		<link rel="stylesheet" type="text/css" href="http://cdn.washer-in-the-rye.com/google-code-prettify/desert.css"/>
 		<link rel="stylesheet" type="text/css" href="template/doc.css"/>
 	</head>
 	<body>
@@ -53,7 +53,6 @@
 						<td class="attr">{!
 							if (member.isPrivate) output += "&lt;private&gt; ";
 							if (member.isInner) output += "&lt;inner&gt; ";
-							if (member.isStatic) output += "&lt;static&gt; ";
 						!}&nbsp;</td>
 						<td class="description">
 							{+member.memberOf+}{+ member.isStatic? '.' : '#' +}<a href="{+ href(member.alias) +}">{+ member.name.replace(/\^\d+$/, '') +}</a>{+ makeSignature(member.params) +}
@@ -81,7 +80,6 @@
 						<td class="attr">{!
 							if (member.isPrivate) output += "&lt;private&gt; ";
 							if (member.isInner) output += "&lt;inner&gt; ";
-							if (member.isStatic) output += "&lt;static&gt; ";
 							if (member.isConstant) output += "&lt;constant&gt; ";
 						!}&nbsp;</td>
 						<td class="description">
@@ -111,7 +109,6 @@
 						<td class="attr">{!
 							if (member.isPrivate) output += "&lt;private&gt; ";
 							if (member.isInner) output += "&lt;inner&gt; ";
-							if (member.isStatic) output += "&lt;static&gt; ";
 						!}&nbsp;</td>
 						<td class="description">
 							{+member.memberOf+}{+ member.isStatic? '.' : '#' +}<a href="{+ href(member.alias) +}">{+ member.name.replace(/\^\d+$/, '') +}</a>{+ makeSignature(member.params) +}
@@ -199,7 +196,7 @@
 			</section>
 
 			<if test="member.example.length"><for each="example" in="member.example">
-			<pre class="code">{+example+}</pre>
+			<pre class="code prettyprint lang-js">{+example+}</pre>
 			</for></if>
 
 			<footer>
@@ -229,7 +226,6 @@
 					{!
 						if (member.isPrivate) output += "&lt;private&gt; ";
 						if (member.isInner) output += "&lt;inner&gt; ";
-						if (member.isStatic) output += "&lt;static&gt; ";
 					!}
 					</span>
 				
@@ -303,7 +299,7 @@
 				</section>
 				
 				<if test="member.example.length"><for each="example" in="member.example">
-				<pre class="code">{+example+}</pre>
+				<pre class="code prettyprint lang-js">{+example+}</pre>
 				</for></if>
 				
 
@@ -335,7 +331,6 @@
 					{!
 						if (member.isPrivate) output += "&lt;private&gt; ";
 						if (member.isInner) output += "&lt;inner&gt; ";
-						if (member.isStatic) output += "&lt;static&gt; ";
 						if (member.isConstant) output += "&lt;constant&gt; ";
 					!}
 					</span>
@@ -411,7 +406,7 @@
 				</section>
 				
 				<if test="member.example.length"><for each="example" in="member.example">
-				<pre class="code">{+example+}</pre>
+				<pre class="code prettyprint lang-js">{+example+}</pre>
 				</for></if>
 				
 
@@ -442,7 +437,6 @@
 					{!
 						if (member.isPrivate) output += "&lt;private&gt; ";
 						if (member.isInner) output += "&lt;inner&gt; ";
-						if (member.isStatic) output += "&lt;static&gt; ";
 					!}
 					</span>
 				
@@ -516,7 +510,7 @@
 				</section>
 				
 				<if test="member.example.length"><for each="example" in="member.example">
-				<pre class="code">{+example+}</pre>
+				<pre class="code prettyprint lang-js">{+example+}</pre>
 				</for></if>
 				
 
@@ -536,6 +530,7 @@
 			</for>
 		</section>
 		</if>
+		<script type="text/javascript">prettyPrint()</script>
 	</body>
 </html>
 

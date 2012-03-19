@@ -4,7 +4,7 @@ body {
 	font-family: 'Buenard', serif;
 	line-height: 1.66;
 	padding: 1em 5em;
-	font-size: 13px;
+	font-size: 14px;
 	background: #fff;
 	color: #333;
 }
@@ -50,7 +50,8 @@ pre {
 }
 
 h1 {
-	margin: 20px 0;
+	margin: 10px 0 0;
+	padding: 0;
 }
 
 header,
@@ -81,7 +82,7 @@ table thead {
 }
 
 table td.attr {
-	width: 10em;
+	width: 8em;
 	border: none;
 	color: #888;
 	text-align: center;
@@ -167,8 +168,7 @@ section.method section.description {
 section.constructor section h1 ,
 section.value section h1 ,
 section.method section h1 {
-	margin: 0.5em 0;
-	padding: 0;
+	margin: 10px 0;
 	color: #000;
 	background: transparent;
 	font-weight: bold;
@@ -196,4 +196,17 @@ section.parameters h1 ,
 section.return h1 ,
 section.see h1 {
 	font-family: 'Buenard', serif;
+	font-size: 110% !important;
+	padding: 10px 0 0;
+}
+
+section.parameters dl dt .name {
+	color: #000;
+	font-weight: bold;
+}
+
+section.return .type {
+	font-weight: bold;
+	margin: 0 1em 0 0;
+	color: #000;
 }
