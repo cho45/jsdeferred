@@ -38,6 +38,32 @@
 				</tbody>
 			</table>
 
+			{! var ownInstanceMethods = data.methods.filter(function ($) { return $.memberOf == data.alias && !$.isNamespace && !$.isStatic}); !}
+			<table>
+				<caption>Instance Methods</caption>
+				<thead>
+					<tr>
+						<th scope="col">Method Attributes</th>
+						<th scope="col">Method Name and Description</th>
+					</tr>
+				</thead>
+				<tbody>
+				<for each="member" in="ownInstanceMethods">
+					<tr>
+						<td class="attr">{!
+							if (member.isPrivate) output += "&lt;private&gt; ";
+							if (member.isInner) output += "&lt;inner&gt; ";
+							if (member.isStatic) output += "&lt;static&gt; ";
+						!}&nbsp;</td>
+						<td class="description">
+							{+member.memberOf+}{+ member.isStatic? '.' : '#' +}<a href="{+ href(member.alias) +}">{+ member.name.replace(/\^\d+$/, '') +}</a>{+ makeSignature(member.params) +}
+							<if test="member.type"><span class="type">//=> {+ escapeHTML(member.type) +}</span></if>
+						</td>
+					</tr>
+				</for>
+				</tbody>
+			</table>
+
 		<if test="data.properties.length">
 			{! var ownProperties = data.properties.filter(function($){return $.memberOf == data.alias && !$.isNamespace}); !}
 			<if test="ownProperties.length">
@@ -69,10 +95,10 @@
 		</if>
 
 		<if test="data.methods.length">
-			{! var ownMethods = data.methods.filter(function($){return $.memberOf == data.alias  && !$.isNamespace}); !}
+			{! var ownMethods = data.methods.filter(function ($) { return $.memberOf == data.alias && !$.isNamespace && $.isStatic }); !}
 			<if test="ownMethods.length">
 			<table>
-				<caption>Method Properties</caption>
+				<caption>Function Properties</caption>
 				<thead>
 					<tr>
 						<th scope="col">Method Attributes</th>
@@ -192,6 +218,112 @@
 			</section>
 		</section>
 
+		<if test="defined(ownInstanceMethods) && ownInstanceMethods.length">
+		<section>
+			<h1>Instance Methods</h1>
+
+			<for each="member" in="ownInstanceMethods">
+			<section id="{+ idOf(member.alias) +}" class="method">
+				<h1>
+					<span class="attr">
+					{!
+						if (member.isPrivate) output += "&lt;private&gt; ";
+						if (member.isInner) output += "&lt;inner&gt; ";
+						if (member.isStatic) output += "&lt;static&gt; ";
+					!}
+					</span>
+				
+					<span class="memberOf">{+member.memberOf+}{+ (member.isStatic ? '.' : '#') +}</span
+					><span class="name">{+member.name.replace(/\^\d+$/, '')+}</span
+					><span class="signature">{+makeSignature(member.params)+}</span>
+
+					<if test="member.type"><span class="type">//=> {+ escapeHTML(member.type) +}</span></if>
+				</h1>
+
+				<header>
+					<if test="member.params.length">
+						<section class="parameters">
+							<h1>Parameters</h1>
+							<dl>
+							<for each="item" in="member.params">
+								<dt>
+								<span class="name">{+item.name+}</span>
+								<span class="type"><if test="item.type"> : {+ escapeHTML(item.type) +}</if></span>
+								<span class="option">
+									<if test="item.isOptional">(optional<if test="item.defaultValue">, default: {+item.defaultValue+}</if>)</if>
+								</span>
+								</dt>
+								<dd>{+resolveLinks(item.desc)+}</dd>
+							</for>
+							</dl>
+						</section>
+					</if>
+
+					<if test="member.deprecated">
+						<section>
+							<h1>Deprecated</h1>
+							{+ resolveLinks(member.deprecated) +}
+						</section>
+					</if>
+					<if test="member.since">
+						<section>
+							<h1>Since</h1>
+							{+ member.since +}
+						</section>
+					</if>
+
+					<if test="member.exceptions.length">
+						<section>
+							<h1>Throws</h1>
+							<dl>
+							<for each="item" in="member.exceptions">
+								<dt>
+									<span class="type"><if test="item.type">{+ escapeHTML(item.type) +}</if></span>
+									<span class="name">{+ item.name +}</span>
+								</dt>
+								<dd>{+ resolveLinks(item.desc) +}</dd>
+							</for>
+							</dl>
+						</section>
+					</if>
+
+					<if test="member.returns.length">
+						<section class="return">
+							<h1>Returns</h1>
+							<for each="item" in="member.returns">
+							<span class="type"><if test="item.type">{+ escapeHTML(item.type) +}</if></span>
+							<span class="desc">{+resolveLinks(item.desc)+}</span>
+							</for>
+						</section>
+					</if>
+				</header>
+
+				<section class="description">
+					{+resolveLinks(member.desc)+}
+				</section>
+				
+				<if test="member.example.length"><for each="example" in="member.example">
+				<pre class="code">{+example+}</pre>
+				</for></if>
+				
+
+				<footer>
+				<if test="member.see.length">
+					<section class="see">
+						<h1>See</h1>
+						<ul>
+							<for each="item" in="member.see">
+							<li><a href="#{+ encodeURIComponent(item) +}">{+ item +}</a></li>
+							</for>
+						</ul>
+					</section>
+				</if>
+				</footer>
+			</section>
+			</for>
+		</section>
+		</if>
+
 		<if test="defined(ownProperties) && ownProperties.length">
 		<section>
 			<h1>Value Properties</h1>
@@ -301,7 +433,7 @@
 
 		<if test="defined(ownMethods) && ownMethods.length">
 		<section>
-			<h1>Method Properties</h1>
+			<h1>Function Properties</h1>
 
 			<for each="member" in="ownMethods">
 			<section id="{+ idOf(member.alias) +}" class="method">

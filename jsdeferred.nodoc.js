@@ -59,7 +59,7 @@ Deferred.prototype = {
 	}
 };
 Deferred.isDeferred = function (obj) {
-	return !!(obj && obj._id == Deferred.prototype._id);
+	return !!(obj && obj._id === Deferred.prototype._id);
 };
 
 Deferred.next_default = function (fun) {
@@ -122,10 +122,11 @@ Deferred.next_tick = (typeof process === 'object' && typeof process.nextTick ===
 	if (fun) d.callback.ok = fun;
 	return d;
 };
-Deferred.next = Deferred.next_faster_way_readystatechange ||
-                Deferred.next_faster_way_Image ||
-                Deferred.next_tick ||
-                Deferred.next_default;
+Deferred.next = 
+	Deferred.next_faster_way_readystatechange ||
+	Deferred.next_faster_way_Image ||
+	Deferred.next_tick ||
+	Deferred.next_default;
 
 Deferred.chain = function () {
 	var chain = Deferred.next();
@@ -219,8 +220,8 @@ Deferred.earlier = function (dl) {
 				values.length = dl.length;
 				values = Array.prototype.slice.call(values, 0);
 			}
-			ret.canceller();
 			ret.call(values);
+			ret.canceller();
 		}).error(function (e) {
 			ret.fail(e);
 		});

@@ -59,7 +59,7 @@ Deferred.prototype = {
 	}
 };
 Deferred.isDeferred = function (obj) {
-	return !!(obj && obj._id == Deferred.prototype._id);
+	return !!(obj && obj._id === Deferred.prototype._id);
 };
 
 Deferred.next_default = function (fun) {
@@ -122,10 +122,11 @@ Deferred.next_tick = (typeof process === 'object' && typeof process.nextTick ===
 	if (fun) d.callback.ok = fun;
 	return d;
 };
-Deferred.next = Deferred.next_faster_way_readystatechange ||
-                Deferred.next_faster_way_Image ||
-                Deferred.next_tick ||
-                Deferred.next_default;
+Deferred.next = 
+	Deferred.next_faster_way_readystatechange ||
+	Deferred.next_faster_way_Image ||
+	Deferred.next_tick ||
+	Deferred.next_default;
 
 Deferred.chain = function () {
 	var chain = Deferred.next();
@@ -219,8 +220,8 @@ Deferred.earlier = function (dl) {
 				values.length = dl.length;
 				values = Array.prototype.slice.call(values, 0);
 			}
-			ret.canceller();
 			ret.call(values);
+			ret.canceller();
 		}).error(function (e) {
 			ret.fail(e);
 		});
@@ -373,6 +374,32 @@ Deferred.define = function (obj, list) {
 this.Deferred = Deferred;
 
 (function ($) {
+
+	function wrap (obj) {
+		obj.toJSDeferred = function () {
+			return Deferred.absorb(this);
+		};
+		obj.next = function (fun) {
+			return Deferred.absorb(this).next(fun);
+		};
+		obj.error = function (fun) {
+			return Deferred.absorb(this).error(fun);
+		};
+		obj.done(function (v) {
+			if (obj._next) obj._next._fire('ok', v);
+		});
+		obj.fail(function (v) {
+			if (obj._next) obj._next._fire('ok', v);
+		});
+
+		var orig_promise = obj.promise;
+		obj.promise = function () {
+			return wrap(orig_promise.apply(this, arguments));
+		};
+
+		return obj;
+	}
+	
 	Deferred.absorb = function (obj) {
 		var ret = new Deferred();
 		ret.progress = function () {};
@@ -392,32 +419,12 @@ this.Deferred = Deferred;
 
 	var orig_Deferred = $.Deferred;
 	$.Deferred = function (fun) {
-		var ret = orig_Deferred.apply(this, arguments);
-		ret.toJSDeferred = function () {
-			return Deferred.absorb(this);
-		};
-		ret.next = function (fun) {
-			return Deferred.absorb(this).next(fun);
-		};
-		ret.error = function (fun) {
-			return Deferred.absorb(this).error(fun);
-		};
-		return ret;
+		return wrap(orig_Deferred.apply(this, arguments));
 	};
 
 	var orig_ajax = $.ajax;
 	$.ajax = function () {
-		var ret = orig_ajax.apply(this, arguments);
-		ret.toJSDeferred = function () {
-			return Deferred.absorb(this);
-		};
-		ret.next = function (fun) {
-			return Deferred.absorb(this).next(fun);
-		};
-		ret.error = function (fun) {
-			return Deferred.absorb(this).error(fun);
-		};
-		return ret;
+		return orig_ajax.apply(this, arguments);
 	};
 	var orig_isDeferred = Deferred.isDeferred;
 	Deferred.isDeferred = function (obj) {
