@@ -509,8 +509,8 @@ Deferred.earlier = function (dl) {
 				values.length = dl.length;
 				values = Array.prototype.slice.call(values, 0);
 			}
-			ret.canceller();
 			ret.call(values);
+			ret.canceller();
 		}).error(function (e) {
 			ret.fail(e);
 		});
