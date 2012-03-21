@@ -284,7 +284,7 @@
   // or this is shothand of above.
   var d = Deferred();</pre>
 			
-			<pre class="code prettyprint lang-js">  $.deferred.define();
+			<pre class="code prettyprint lang-js">  Deferred.define();
 
   $.get("/hoge").next(function (data) {
       alert(data);
@@ -469,7 +469,7 @@
 							<h1>Returns</h1>
 							
 							<span class="type">Deferred</span>
-							<span class="desc">next deferred</span>
+							<span class="desc">Next Deferred object</span>
 							
 						</section>
 					
@@ -619,7 +619,7 @@ the given error is recovery and continue callback chain.
 							<h1>Returns</h1>
 							
 							<span class="type">Deferred</span>
-							<span class="desc">next deferred</span>
+							<span class="desc">Next Deferred object</span>
 							
 						</section>
 					
@@ -698,7 +698,7 @@ the given error is recovery and continue callback chain.
 				</header>
 
 				<section class="description">
-					default callback function
+					Default callback function
 				</section>
 				
 				
@@ -750,7 +750,7 @@ the given error is recovery and continue callback chain.
 				</header>
 
 				<section class="description">
-					default errorback function
+					Default errorback function
 				</section>
 				
 				
@@ -786,7 +786,7 @@ the given error is recovery and continue callback chain.
 				</header>
 
 				<section class="description">
-					default export methods
+					Default export methods
 				</section>
 				
 				
@@ -806,6 +806,7 @@ the given error is recovery and continue callback chain.
 				</footer>
 			</section>
 			
+		</section>
 		
 
 		
@@ -839,7 +840,7 @@ the given error is recovery and continue callback chain.
 									
 								</span>
 								</dt>
-								<dd>function to call</dd>
+								<dd>Function to call</dd>
 							
 								<dt>
 								<span class="name">args</span>
@@ -848,7 +849,7 @@ the given error is recovery and continue callback chain.
 									
 								</span>
 								</dt>
-								<dd>arguments passed to fun</dd>
+								<dd>Arguments passed to `fun`</dd>
 							
 							</dl>
 						</section>
@@ -924,7 +925,7 @@ the given error is recovery and continue callback chain.
 									
 								</span>
 								</dt>
-								<dd>process chains</dd>
+								<dd>Process chains</dd>
 							
 							</dl>
 						</section>
@@ -1018,7 +1019,7 @@ This is shorthand for construct Deferred chains.
 									
 								</span>
 								</dt>
-								<dd>target function or object</dd>
+								<dd>Target function or object</dd>
 							
 								<dt>
 								<span class="name">options</span>
@@ -1027,7 +1028,7 @@ This is shorthand for construct Deferred chains.
 									
 								</span>
 								</dt>
-								<dd>options or method name of object in arguments[0]</dd>
+								<dd>Options or method name of object in arguments[0]</dd>
 							
 							</dl>
 						</section>
@@ -1098,7 +1099,7 @@ that takes a callback into one that returns a Deferred object.
 									
 								</span>
 								</dt>
-								<dd></dd>
+								<dd>A object which this method should export to</dd>
 							
 								<dt>
 								<span class="name">list</span>
@@ -1107,7 +1108,7 @@ that takes a callback into one that returns a Deferred object.
 									
 								</span>
 								</dt>
-								<dd>(default Deferred.methods)</dd>
+								<dd>List of function names (default Deferred.methods)</dd>
 							
 							</dl>
 						</section>
@@ -1130,7 +1131,7 @@ that takes a callback into one that returns a Deferred object.
 				</header>
 
 				<section class="description">
-					export functions to obj.
+					Export functions to obj.
 				</section>
 				
 				
@@ -1167,7 +1168,7 @@ that takes a callback into one that returns a Deferred object.
 									
 								</span>
 								</dt>
-								<dd>Deferreds wanted to wait</dd>
+								<dd>Deferred objects wanted to wait</dd>
 							
 							</dl>
 						</section>
@@ -1237,7 +1238,7 @@ parallel ('and' processing) <=> earlier ('or' processing)
 									
 								</span>
 								</dt>
-								<dd>object to determine.</dd>
+								<dd>Object to determine</dd>
 							
 							</dl>
 						</section>
@@ -1297,7 +1298,7 @@ parallel ('and' processing) <=> earlier ('or' processing)
 									
 								</span>
 								</dt>
-								<dd>loop definition</dd>
+								<dd>Loop count or definition object</dd>
 							
 								<dt>
 								<span class="name">fun</span>
@@ -1306,7 +1307,7 @@ parallel ('and' processing) <=> earlier ('or' processing)
 									
 								</span>
 								</dt>
-								<dd>loop function</dd>
+								<dd>Loop function</dd>
 							
 							</dl>
 						</section>
@@ -1322,7 +1323,7 @@ parallel ('and' processing) <=> earlier ('or' processing)
 							<h1>Returns</h1>
 							
 							<span class="type">Deferred</span>
-							<span class="desc"></span>
+							<span class="desc">Called when all loop was completed</span>
 							
 						</section>
 					
@@ -1381,7 +1382,7 @@ This function waits a deferred returned by loop function.
 									
 								</span>
 								</dt>
-								<dd>callback</dd>
+								<dd>Callback function</dd>
 							
 							</dl>
 						</section>
@@ -1442,7 +1443,7 @@ is called after current queue.
 									
 								</span>
 								</dt>
-								<dd>Deferreds wanted to wait</dd>
+								<dd>Deferred objects wanted to wait</dd>
 							
 							</dl>
 						</section>
@@ -1532,7 +1533,7 @@ an Array.
 									
 								</span>
 								</dt>
-								<dd>name of method</dd>
+								<dd>Name of method</dd>
 							
 								<dt>
 								<span class="name">fun</span>
@@ -1541,7 +1542,7 @@ an Array.
 									
 								</span>
 								</dt>
-								<dd>actual function of method</dd>
+								<dd>Actual function of method</dd>
 							
 							</dl>
 						</section>
@@ -1604,7 +1605,7 @@ an Array.
 									
 								</span>
 								</dt>
-								<dd>loop count</dd>
+								<dd>Loop count</dd>
 							
 								<dt>
 								<span class="name">fun</span>
@@ -1613,7 +1614,7 @@ an Array.
 									
 								</span>
 								</dt>
-								<dd>loop function</dd>
+								<dd>Loop function</dd>
 							
 							</dl>
 						</section>
@@ -1629,7 +1630,7 @@ an Array.
 							<h1>Returns</h1>
 							
 							<span class="type">Deferred</span>
-							<span class="desc"></span>
+							<span class="desc">Called when all loop was completed</span>
 							
 						</section>
 					
@@ -1680,7 +1681,7 @@ This function can't wait a deferred returned by loop function, compared with Def
 									
 								</span>
 								</dt>
-								<dd></dd>
+								<dd>Count number to retry</dd>
 							
 								<dt>
 								<span class="name">funcDeferred</span>
@@ -1689,7 +1690,7 @@ This function can't wait a deferred returned by loop function, compared with Def
 									
 								</span>
 								</dt>
-								<dd></dd>
+								<dd>A function returns Deferred</dd>
 							
 								<dt>
 								<span class="name">options</span>
@@ -1698,7 +1699,7 @@ This function can't wait a deferred returned by loop function, compared with Def
 									
 								</span>
 								</dt>
-								<dd></dd>
+								<dd>Options</dd>
 							
 							</dl>
 						</section>
@@ -1768,7 +1769,7 @@ This function can't wait a deferred returned by loop function, compared with Def
 									
 								</span>
 								</dt>
-								<dd>second to wait</dd>
+								<dd>Second to wait</dd>
 							
 							</dl>
 						</section>

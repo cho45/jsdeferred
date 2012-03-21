@@ -41,7 +41,7 @@
  *   var d = Deferred();
  *
  * @example
- *   $.deferred.define();
+ *   Deferred.define();
  *
  *   $.get("/hoge").next(function (data) {
  *       alert(data);
@@ -63,13 +63,13 @@
  */
 function Deferred () { return (this instanceof Deferred) ? this.init() : new Deferred() }
 /** 
- * default callback function
+ * Default callback function
  * @type {function(this:Deferred, ...[*]):*} 
  * @field
  */
 Deferred.ok = function (x) { return x };
 /** 
- * default errorback function
+ * Default errorback function
  * @type {function(this:Deferred, ...[*]):*} 
  * @field
  */
@@ -113,7 +113,7 @@ Deferred.prototype = {
 	 *   d.call();
 	 *
 	 * @param {function(this:Deferred, ...[*]):*} fun Callback of continuation.
-	 * @return {Deferred} next deferred
+	 * @return {Deferred} Next Deferred object
 	 */
 	next  : function (fun) { return this._post("ok", fun) },
 
@@ -141,7 +141,7 @@ Deferred.prototype = {
 	 *   d.call();
 	 *
 	 * @param {function(this:Deferred, ...[*]):*} fun Errorback of continuation.
-	 * @return {Deferred} next deferred
+	 * @return {Deferred} Next Deferred object
 	 */
 	error : function (fun) { return this._post("ng", fun) },
 
@@ -219,7 +219,7 @@ Deferred.prototype = {
  * Returns true if an argument is Deferred.
  *
  * @function
- * @param {*} obj object to determine.
+ * @param {*} obj Object to determine
  * @return {boolean}
  */
 Deferred.isDeferred = function (obj) {
@@ -232,7 +232,7 @@ Deferred.isDeferred = function (obj) {
  *
  * @function
  * @name Deferred.next
- * @param {function():*} fun callback
+ * @param {function():*} fun Callback function
  * @return {Deferred}
  */
 Deferred.next_default = function (fun) {
@@ -341,7 +341,7 @@ Deferred.next =
  *      }
  *  );
  *
- * @param {...[(Array.<function(*):*>|Object.<string,function(*):*>|function(*):*)]} arguments process chains
+ * @param {...[(Array.<function(*):*>|Object.<string,function(*):*>|function(*):*)]} arguments Process chains
  * @return {Deferred}
  */
 Deferred.chain = function () {
@@ -378,7 +378,7 @@ Deferred.chain = function () {
  *       log(elapsed); //=> may be 990-1100
  *   });
  *
- * @param {number} sec second to wait
+ * @param {number} sec Second to wait
  * @return {Deferred}
  */
 Deferred.wait = function (n) {
@@ -410,8 +410,8 @@ Deferred.wait = function (n) {
  *       print([r, "end"]);
  *   });
  *
- * @param {function(...[*]):*} fun function to call
- * @param {...*} args arguments passed to fun
+ * @param {function(...[*]):*} fun Function to call
+ * @param {...*} args Arguments passed to `fun`
  * @return {Deferred}
  */
 Deferred.call = function (fun) {
@@ -446,7 +446,7 @@ Deferred.call = function (fun) {
  *       values.bar //=> bar.html data
  *   });
  *
- * @param {(Array.<Deferred>|Object.<string,Deferred>)} dl Deferreds wanted to wait
+ * @param {(Array.<Deferred>|Object.<string,Deferred>)} dl Deferred objects wanted to wait
  * @return {Deferred}
  * @see Deferred.earlier
  */
@@ -489,7 +489,7 @@ Deferred.parallel = function (dl) {
  * Continue process when one deferred in `deferredlist` has completed. Others will be canceled.
  * parallel ('and' processing) <=> earlier ('or' processing)
  *
- * @param {(Array.<Deferred>|Object.<string,Deferred>)} dl Deferreds wanted to wait
+ * @param {(Array.<Deferred>|Object.<string,Deferred>)} dl Deferred objects wanted to wait
  * @return {Deferred}
  * @see Deferred.parallel
  */
@@ -547,9 +547,9 @@ Deferred.earlier = function (dl) {
  *       return wait(1);
  *   });
  *
- * @param {(number|{begin:number, end:number, step:number})} n loop definition
- * @param {function(number):*} fun loop function
- * @return {Deferred}
+ * @param {(number|{begin:number, end:number, step:number})} n Loop count or definition object
+ * @param {function(number):*} fun Loop function
+ * @return {Deferred} Called when all loop was completed
  */
 Deferred.loop = function (n, fun) {
 	var o = {
@@ -597,9 +597,9 @@ Deferred.loop = function (n, fun) {
  *       i //=> 0,1,2,3,4,5,6,7,8,9
  *   });
  *
- * @param {number} n loop count
- * @param {function(number)} fun loop function
- * @return {Deferred}
+ * @param {number} n Loop count
+ * @param {function(number)} fun Loop function
+ * @return {Deferred} Called when all loop was completed
  */
 Deferred.repeat = function (n, fun) {
 	var i = 0, end = {}, ret = null;
@@ -628,8 +628,8 @@ Deferred.repeat = function (n, fun) {
  *       print(n);
  *   });
  *
- * @param {string} name name of method
- * @param {function(*):Deferred} fun actual function of method
+ * @param {string} name Name of method
+ * @param {function(*):Deferred} fun Actual function of method
  */
 Deferred.register = function (name, fun) {
 	this.prototype[name] = function () {
@@ -658,8 +658,8 @@ Deferred.register("wait", Deferred.wait);
  *       alert('after 1 sec');
  *   });
  *
- * @param {(function(...[*]):*|*)} funo target function or object
- * @param {({ok:number, ng:number, target:*}|string)} options options or method name of object in arguments[0]
+ * @param {(function(...[*]):*|*)} funo Target function or object
+ * @param {({ok:number, ng:number, target:*}|string)} options Options or method name of object in arguments[0]
  * @return {function(...[*]):Deferred}
  */
 Deferred.connect = function (funo, options) {
@@ -724,9 +724,9 @@ Deferred.Arguments = function (args) { this.args = Array.prototype.slice.call(ar
  *       e //=> error if all try failed
  *   });
  *
- * @param {number} retryCount
- * @param {function(number):Deferred} funcDeferred
- * @param {{wait:number}} options
+ * @param {number} retryCount Count number to retry
+ * @param {function(number):Deferred} funcDeferred A function returns Deferred
+ * @param {{wait:number}} options Options
  * @return {Deferred}
  */
 Deferred.retry = function (retryCount, funcDeferred, options) {
@@ -753,15 +753,15 @@ Deferred.retry = function (retryCount, funcDeferred, options) {
 };
 
 /**
- * default export methods
+ * Default export methods
  *
  * @see Deferred.define
  */
 Deferred.methods = ["parallel", "wait", "next", "call", "loop", "repeat", "chain"];
 /**
- * export functions to obj.
- * @param {Object} obj
- * @param {Array.<string>=} list (default Deferred.methods)
+ * Export functions to obj.
+ * @param {Object} obj A object which this method should export to
+ * @param {Array.<string>=} list List of function names (default Deferred.methods)
  * @return {function():Deferred} The Deferred constructor function
  */
 Deferred.define = function (obj, list) {

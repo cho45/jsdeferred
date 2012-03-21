@@ -5,8 +5,10 @@ body {
 	line-height: 1.66;
 	padding: 1em 5em;
 	font-size: 14px;
-	background: #fff;
+	background: #efefef;
 	color: #333;
+	width: 940px;
+	margin: 0 auto;
 }
 
 a:link {
@@ -50,7 +52,7 @@ pre {
 }
 
 h1 {
-	margin: 10px 0 0;
+	margin: 20px 0 10px;
 	padding: 0;
 }
 
@@ -61,7 +63,6 @@ section {
 }
 
 table {
-	background: #fff;
 	color: #222;
 	width: 100%;
 	margin: 1em 0;
@@ -106,14 +107,8 @@ table td.description .type {
 section.constructor ,
 section.value ,
 section.method {
-	margin: 10px 0 20px ;
-	padding: 10px 20px;
-	background: #efefef;
-	-moz-border-radius: 10px;
-	-webkit-border-radius: 10px;
-	-o-border-radius: 10px;
-	-ms-border-radius: 10px;
-	border-radius: 10px;
+	margin: 20px 0 20px ;
+	padding: 50px 0;
 }
 
 section.constructor h1 ,
@@ -122,8 +117,6 @@ section.method h1 {
 	font-size: 100%;
 	font-family: "Monaco", "Lucida Console", monospace;
 	padding: 0;
-	background: #efefef;
-	color: #000;
 }
 
 section.method h1 .attr {
@@ -169,7 +162,7 @@ section.constructor section h1 ,
 section.value section h1 ,
 section.method section h1 {
 	margin: 10px 0;
-	color: #000;
+	padding: 0;
 	background: transparent;
 	font-weight: bold;
 	font-size: 100%;
@@ -182,18 +175,36 @@ section.method section dl {
 
 section.method section dl dt {
 	font-family: "Monaco", "Lucida Console", monospace;
+	font-size: 90%;
 }
 
 section.method section.return .type {
 	font-family: "Monaco", "Lucida Console", monospace;
+	font-size: 90%;
 }
 
 section.method section.return .name {
 	font-family: "Monaco", "Lucida Console", monospace;
+	font-size: 90%;
 }
 
-section.parameters h1 ,
-section.return h1 ,
+section.value section.parameters ,
+section.value section.return ,
+section.method section.parameters ,
+section.method section.return {
+	padding: 0 0 0 10px;
+}
+
+section.value section.parameters h1 ,
+section.value section.return h1 ,
+section.method section.parameters h1 ,
+section.method section.return h1 {
+	font-family: 'Buenard', serif;
+	font-size: 110%;
+	padding: 10px 0 0;
+	margin: 0 0 10px -10px;
+}
+
 section.see h1 {
 	font-family: 'Buenard', serif;
 	font-size: 110% !important;
@@ -201,12 +212,10 @@ section.see h1 {
 }
 
 section.parameters dl dt .name {
-	color: #000;
 	font-weight: bold;
 }
 
 section.return .type {
 	font-weight: bold;
 	margin: 0 1em 0 0;
-	color: #000;
 }
