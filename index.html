@@ -7,7 +7,6 @@
 		<link href='http://fonts.googleapis.com/css?family=Buenard' rel='stylesheet' type='text/css'/>
 		<link rel="stylesheet" type="text/css" href="doc/styles.css"/>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-		<script type="text/javascript" src="http://cdn.washer-in-the-rye.com/jsdeferred.js"></script>
 		<script type="text/javascript" src="http://cdn.washer-in-the-rye.com/jsdeferred.jquery.js"></script>
 		<script type="text/javascript" src="http://cdn.washer-in-the-rye.com/mockxhr/mockxhr.js"></script>
 		<script type="text/javascript" src="doc/scripts.js"></script>
@@ -817,6 +816,82 @@ next(<span class="Identifier">function</span> () {
 +.--------.+++.------.--------.<+.
 </textarea>
 								<input id="bfi-run" type="button" onclick="bfrun();" value="Run" class="button"/>
+							</section>
+
+							<section>
+								<h1>Slideshow</h1>
+
+								<ul>
+									<li>Load external resources</li>
+									<li>Preload next image</li>
+									<li>Infinite loop</li>
+								</ul>
+
+								<img id="slideshow-image"/>
+
+								<pre class="runnable">
+<span class="Type">var</span> img = $(<span class="Constant">'img#slideshow-image'</span>);
+
+<span class="Identifier">function</span> loadImage (url) {
+    console.log(<span class="Constant">"loadImage: "</span> + url);
+    <span class="Type">var</span> d = <span class="Statement">new</span> Deferred();
+    <span class="Type">var</span> img = <span class="Statement">new</span> Image();
+    img.src = url;
+    img.onload = <span class="Identifier">function</span> () {
+        d.call();
+    };
+    <span class="Statement">return</span> d;
+}
+
+<span class="Identifier">function</span> showImage (url) {
+    <span class="Type">var</span> d = <span class="Statement">new</span> Deferred();
+    img.one(<span class="Constant">'load'</span>, <span class="Identifier">function</span> () {
+        d.call();
+    });
+    img.attr(<span class="Constant">'src'</span>, url);
+    <span class="Statement">return</span> d;
+}
+
+console.log(<span class="Constant">"Loading photo list..."</span>);
+$.ajax({
+    <span class="Statement">url</span> : <span class="Constant">'<a href="http://picasaweb.google.com/data/feed/base/user/cho101101?alt=json&amp;kind=photo&amp;hl=ja&amp;access=public&amp;callback=?">http://picasaweb.google.com/data/feed/base/user/cho101101?alt=json&amp;kind=photo&amp;hl=ja&amp;access=public&amp;callback=?</a>'</span>,
+    <span class="Statement">dataType</span>: <span class="Constant">'jsonp'</span>,
+    <span class="Statement">data</span> : {
+        <span class="Constant">'fields'</span>      : <span class="Constant">'entry(title,link,content,media:group)'</span>,
+        <span class="Constant">'start-index'</span> : <span class="Constant">1</span>,
+        <span class="Constant">'max-results'</span> : <span class="Constant">3</span>,
+        <span class="Constant">'thumbsize'</span>   : <span class="Constant">'144c'</span>
+    }
+}).
+next(<span class="Identifier">function</span> (data) {
+    console.log(<span class="Constant">"Loading photo list... done"</span>);
+    <span class="Type">var</span> n = <span class="Constant">0</span>;
+    img.attr(<span class="Constant">'src'</span>, data.feed.entry[<span class="Constant">0</span>].media$group.media$thumbnail[<span class="Constant">0</span>].url);
+    <span class="Statement">return</span> next(<span class="Identifier">function</span> () {
+        n = (n + <span class="Constant">1</span>) % data.feed.entry.length;
+
+        <span class="Type">var</span> entry = data.feed.entry[n];
+        <span class="Type">var</span> url   = entry.media$group.media$thumbnail[<span class="Constant">0</span>].url;
+        <span class="Statement">return</span> parallel([
+                wait(<span class="Constant">3</span>),
+                loadImage(url) <span class="Comment">// preload</span>
+            ]).
+            next(<span class="Identifier">function</span> () {
+                <span class="Statement">return</span> img.fadeTo(<span class="Constant">250</span>, <span class="Constant">0</span>).promise();
+            }).
+            next(<span class="Identifier">function</span> () {
+                <span class="Statement">return</span> showImage(url);
+            }).
+            next(<span class="Identifier">function</span> () {
+                <span class="Statement">return</span> img.fadeTo(<span class="Constant">250</span>, <span class="Constant">1</span>).promise();
+            }).
+            next(arguments.callee);
+    });
+}).
+error(<span class="Identifier">function</span> (e) {
+    alert(e);
+});
+</pre>
 							</section>
 
 							<section>
