@@ -62,15 +62,15 @@
  * @constructor
  */
 function Deferred () { return (this instanceof Deferred) ? this.init() : new Deferred() }
-/** 
+/**
  * default callback function
- * @type {function(this:Deferred, ...[*]):*} 
+ * @type {function(this:Deferred, ...[*]):*}
  * @field
  */
 Deferred.ok = function (x) { return x };
-/** 
+/**
  * default errorback function
- * @type {function(this:Deferred, ...[*]):*} 
+ * @type {function(this:Deferred, ...[*]):*}
  * @field
  */
 Deferred.ng = function (x) { throw  x };
@@ -119,7 +119,7 @@ Deferred.prototype = {
 
 	/**
 	 * Create new Deferred and sets `fun` as its errorback.
-	 * 
+	 *
 	 * If `fun` not throws error but returns normal value, Deferred treats
 	 * the given error is recovery and continue callback chain.
 	 *
@@ -164,7 +164,7 @@ Deferred.prototype = {
 
 	/**
 	 * Invokes self errorback chain. You can use this method for explicit errors (eg. HTTP request failed)
-	 * 
+	 *
 	 * @example
 	 *   function http (url) {
 	 *     var d = new Deferred();
@@ -214,96 +214,101 @@ Deferred.prototype = {
 		}
 		return this;
 	},
+
   /*
-   * Pause and save a running deferred. Then we can resume it.
-   * 
+   * Pause and save a running deferred which can be resumed later.
+   *
    * @example
-   *   Deferred.next(function() {
-   *     throw 'error!';
-   *   }).error(function(e) {
+   *   Deferred.next(function () {
+   *     throw "error!";
+   *   }).
+   *   error(function (e) {
    *     AskUserHowToHandleThisError(e);
-   *     return this.pause('example');
+   *     return this.pause("example");
    *   }).
-   *   next(function(e) {
-   *     alert(e + ' is handled!');
-   *     return 'everything is okay!';
+   *   next(function (e) {
+   *     alert(e + " is handled!");
+   *     return "everything is okay!";
    *   }).
-   *   pause('wait').
-   *   next(function(v) {
+   *   pause("wait").
+   *   next(function (v) {
    *     alert(v);
    *   });
-   *   
-   *   setInterval(function() {
-   *     Deferred.paused['wait'].resume();
+   *
+   *   setInterval(function () {
+   *     Deferred.paused["wait"].resume();
    *   }, 2000);
-   *   
-   *   function AskUserHowToHandleThisError(e) {
-   *     alert('An Error Occurs:\n' + e);
-   *     Deferred.paused['example'].resume('ok');
+   *
+   *   function AskUserHowToHandleThisError (e) {
+   *     alert("An Error Occurs:\n" + e);
+   *     Deferred.paused["example"].resume("ok");
    *     // or
-   *     // Deferred.paused['example'].call();
+   *     // Deferred.paused["example"].call();
    *   }
-   *   
+   *
    * @param {(String)} name The name of the paused deferred
+   * @param {(Function)} handler A function which will be called as soon as resumer is ready
    * @return {Deferred}
    * @see Deferred.paused
    */
-  pause : function(name) {
-    var paused = new Deferred;
-    var _value, _okng;
-    
+  pause : function(name, handler) {
+    var paused = new Deferred();
     if (typeof name == "undefined") {
       return paused;
     }
     
-    function _setResumer() {
+    if (typeof handler == "function") {
+      Deferred.next(function () {
+        Deferred.paused[name].call(function (v) {
+          handler(v);
+          return this.pause();
+        });
+      });
+    }
+    
+    var _setResumer = function (_okng, _value) {
       Deferred.paused[name] = {
-        call: function(fun) {
-          this.resume('ok', fun);
+        call  : function (fun) {
+          return this.resume("ok", fun);
         },
-        fail: function(fun) {
-          this.resume('ng', fun);
+        fail  : function (fun) {
+          return this.resume("ng", fun);
         },
-        resume: function(next, fun) {
-          var args = arguments;
+        resume: function () {
+          var args = arguments, next, fun;
           if (args.length) {
-            if (typeof args[0] == 'function') {
-              fun = args[0];
+            if (typeof args[0] == "function") {
+              fun  = args[0];
               next = args[1];
+            } else {
+              fun  = args[1];
+              next = args[0];
             }
-            if (typeof fun == 'function') {
+            if (typeof fun == "function") {
               _value = fun(_value);
             }
           }
-          paused._fire(next || _okng || 'ok', _value);
+          return paused._fire(next || _okng, _value);
         }
       };
-    }
-    
+      return paused;
+    };
+
     var callback = this.callback;
     var caller = arguments.callee.caller;
     if (callback.ok === caller || callback.ng === caller) {
-      _setResumer();
-      return paused;
+      return _setResumer("ok", caller.arguments[0]);
     }
-    
-    var catcher = new Deferred;
-    this._next = catcher;
-    catcher.callback = {
-      ok: function(v) {
-        _value = v;
-        _okng = 'ok';
-      },
-      ng: function(v) {
-        _value = v;
-        _okng = 'ng';
-      }
+
+    var catcher = this._next = new Deferred();
+    var _callback = function (x) {
+      return _setResumer(_callback.caller.arguments[0], x);
     };
-    catcher.next(function() {
-      _setResumer();
-      return paused;
-    });
-    return catcher._next;
+    catcher.callback = {
+      ok: _callback,
+      ng: _callback
+    };
+    return catcher;
   }
 };
 /**
@@ -382,13 +387,13 @@ Deferred.next_faster_way_Image = ((typeof window === 'object') && (typeof(Image)
 	if (fun) d.callback.ok = fun;
 	return d;
 };
-Deferred.next_tick = (typeof process === 'object' && typeof process.nextTick === 'function') && function (fun) {
+Deferred.next_tick = (typeof process === 'object' && typeof process.nextTick === "function") && function (fun) {
 	var d = new Deferred();
 	process.nextTick(function() { d.call() });
 	if (fun) d.callback.ok = fun;
 	return d;
 };
-Deferred.next = 
+Deferred.next =
 	Deferred.next_faster_way_readystatechange ||
 	Deferred.next_faster_way_Image ||
 	Deferred.next_tick ||
@@ -845,18 +850,18 @@ Deferred.retry = function (retryCount, funcDeferred, options) {
 /**
  * Used for pause method to save paused deferreds which can be
  * resumed later.
- * 
+ *
  * @example
  *   Deferred.paused['example'].resume();
- * 
+ *
  *   Deferred.paused['example'].fail();
- * 
+ *
  *   Deferred.paused['example'].call(function(v) {
  *     // do something here with value returned by the
  *     // latest-called callback before paused.
  *     return v * 2;
  *   });
- * 
+ *
  *   Deferred.paused['example'].resume('ok', function(v) {
  *     return next(function(v) {
  *       throw 'error';
@@ -865,17 +870,16 @@ Deferred.retry = function (retryCount, funcDeferred, options) {
  *     error(function() {
  *       return 'ok';
  *     }).
- *     pause(); 
+ *     pause();
  *     // Deferreds after the paused won't be called.
  *     // In fact, the paused deferred is continued with deferreds
  *     // we specified above.
  *   });
- * 
+ *
  * @see Deferred.prototype.pause
- * 
+ *
  */
 Deferred.paused = {};
-
 
 /**
  * default export methods
