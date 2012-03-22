@@ -252,6 +252,10 @@ Deferred.prototype = {
     var paused = new Deferred;
     var _value, _okng;
     
+    if (typeof name == "undefined") {
+      return paused;
+    }
+    
     function _setResumer() {
       Deferred.paused[name] = {
         call: function(fun) {
@@ -300,24 +304,6 @@ Deferred.prototype = {
       return paused;
     });
     return catcher._next;
-  },  
-  /*
-   * Stop a running deferred.
-   * 
-   * @example
-   *   Deferred.next(function() {
-   *     throw 'error!';
-   *   }).error(function(e) {
-   *     return this.end();
-   *   }).
-   *   next(function(e) {
-   *     alert("won't be shown");
-   *   });
-   *   
-   * @return {Deferred}
-   */
-  end : function() {
-    return new Deferred;
   }
 };
 /**
