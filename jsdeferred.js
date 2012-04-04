@@ -176,7 +176,7 @@ Deferred.prototype = {
 	 * @param {function(this:Deferred, ...[*]):*} fun Callback of continuation.
 	 * @return {Deferred} Next Deferred object
 	 */
-	always: function (fun) { return this.next(Deferred.ok).next(fun) },
+	always: function (fun) { return this.error(Deferred.ok).next(fun) },
 
 	/**
 	 * Invokes self callback chain.
