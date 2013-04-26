@@ -189,7 +189,7 @@ Deferred.prototype = {
 	 * @return {Deferred} this
 	 */
 	cancel : function () {
-		(this.canceller || function () {})();
+		(this.canceller || function () {}).apply(this);
 		return this.init();
 	},
 
