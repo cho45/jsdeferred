@@ -147,6 +147,39 @@ Deferred.prototype = {
 	error : function (fun) { return this._post("ng", fun) },
 
 	/**
+	 * Regardless of errors, continue callback chain with new Deferred with `fun` as its callback.
+	 * 
+	 * @example
+	 *   var d =  new Deferred();
+	 *
+	 *   d.
+	 *   next(function () {
+	 *     throw "foo";
+	 *   }).
+	 *   next(function () {
+	 *     alert('not shown');
+	 *   }).
+	 *   always(function (e) {
+	 *     alert(e); //=> "foo"
+	 *   }).
+	 *   error(function (e) {
+	 *     alert('not shown');
+	 *   }).
+	 *   next(function () {
+	 *     return "bar";
+	 *   }).
+	 *   always(function (v) {
+	 *     alert(v); //=> "bar"
+	 *   });
+	 *
+	 *   d.call();
+	 *
+	 * @param {function(this:Deferred, ...[*]):*} fun Callback of continuation.
+	 * @return {Deferred} Next Deferred object
+	 */
+	always: function (fun) { return this.error(Deferred.ok).next(fun) },
+
+	/**
 	 * Invokes self callback chain.
 	 *
 	 * @example
@@ -162,7 +195,7 @@ Deferred.prototype = {
 	 * @return {Deferred} this
 	 */
 	call  : function (val) { return this._fire("ok", val) },
-
+	
 	/**
 	 * Invokes self errorback chain. You can use this method for explicit errors (eg. HTTP request failed)
 	 * 
