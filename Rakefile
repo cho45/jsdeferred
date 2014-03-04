@@ -13,7 +13,6 @@ RELEASES = %w(
 	jsdeferred.nodoc.js
 	jsdeferred.jquery.js
 	jsdeferred.userscript.js
-	jsdeferred.jetpack.js
 	doc/index.html
 )
 CONTENT = File.read("jsdeferred.js")
@@ -180,12 +179,6 @@ file "jsdeferred.userscript.js" => ["jsdeferred.js", "binding/userscript.js"] do
 		f.puts "// Usage:: with (D()) { your code }"
 		f << mini(File.read("binding/userscript.js").sub("/*include JSDeferred*/", File.read("jsdeferred.js")))
 		f.puts "// End of JSDeferred"
-	}
-end
-
-file "jsdeferred.jetpack.js" => ["jsdeferred.js", "binding/jetpack.js"] do |t|
-	File.open(t.name, "w") {|f|
-		f << mini(File.read("binding/jetpack.js").sub("/*include JSDeferred*/", File.read("jsdeferred.js")))
 	}
 end
 
